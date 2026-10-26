@@ -17,7 +17,7 @@ from app.core.crypto import compute_blind_index
 from app.core.jwt import create_access_token, create_refresh_token
 from app.core.password import hash_password
 from app.core.signing import sign_credential
-from app.models.base import Base
+from app.models.base import Base, async_engine
 from app.models.credential import (
     Alert,
     ConsentRequest,
@@ -221,17 +221,31 @@ async def reset_demo_data(
     """
     start_time = time.time()
 
+    # 0. Ensure all domain tables exist in database (e.g. SQLite local dev or fresh instance)
+    try:
+        async with async_engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    except Exception:
+        pass
+
     # 1. Truncate dynamic transactional tables in safe dependency order
-    await db.execute(delete(ValidationIssue))
-    await db.execute(delete(Alert))
-    await db.execute(delete(IssuedRecord))
-    await db.execute(delete(ConsentRequest))
-    await db.execute(delete(VerificationLog))
-    await db.execute(delete(GeneratedReport))
-    await db.execute(delete(InstitutionRiskScore))
-    await db.execute(delete(EnrolmentHistory))
-    await db.execute(delete(Enrolment))
-    await db.execute(delete(UploadBatch))
+    tables_to_clear = [
+        ValidationIssue,
+        Alert,
+        IssuedRecord,
+        ConsentRequest,
+        VerificationLog,
+        GeneratedReport,
+        InstitutionRiskScore,
+        EnrolmentHistory,
+        Enrolment,
+        UploadBatch,
+    ]
+    for model in tables_to_clear:
+        try:
+            await db.execute(delete(model))
+        except Exception:
+            pass
     await db.commit()
 
     # 2. Ensure States exist
