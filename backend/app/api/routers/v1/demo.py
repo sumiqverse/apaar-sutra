@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional
 import uuid
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
-from sqlalchemy import delete, select
+from sqlalchemy import delete, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -165,6 +165,12 @@ async def quick_login(
     user = res.scalar_one_or_none()
 
     if not user:
+        # Auto-seed baseline demo data on-demand if database is fresh or unseeded
+        await reset_demo_data(db)
+        res = await db.execute(stmt)
+        user = res.scalar_one_or_none()
+
+    if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Demo account {email} not found. Please click 'Reset Demo Data' first.",
@@ -221,10 +227,38 @@ async def reset_demo_data(
     """
     start_time = time.time()
 
-    # 0. Ensure all domain tables exist in database (e.g. SQLite local dev or fresh instance)
+    # 0. Ensure all domain tables exist in database and schema is migrated
+    def _sync_ensure_schema(sync_conn):
+        # Drop stale transactional tables if columns are missing (e.g. token in issued_records)
+        try:
+            res = sync_conn.execute(text("PRAGMA table_info(issued_records)")).fetchall()
+            col_names = [r[1] for r in res]
+            if col_names and "token" not in col_names:
+                sync_conn.execute(text("DROP TABLE issued_records"))
+        except Exception:
+            pass
+
+        try:
+            res = sync_conn.execute(text("PRAGMA table_info(consent_requests)")).fetchall()
+            col_names = [r[1] for r in res]
+            if col_names and "token" not in col_names:
+                sync_conn.execute(text("DROP TABLE consent_requests"))
+        except Exception:
+            pass
+
+        try:
+            res = sync_conn.execute(text("PRAGMA table_info(institution_risk_scores)")).fetchall()
+            col_names = [r[1] for r in res]
+            if col_names and "ghost_student_flags" not in col_names:
+                sync_conn.execute(text("DROP TABLE institution_risk_scores"))
+        except Exception:
+            pass
+
+        Base.metadata.create_all(sync_conn)
+
     try:
         async with async_engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
+            await conn.run_sync(_sync_ensure_schema)
     except Exception:
         pass
 

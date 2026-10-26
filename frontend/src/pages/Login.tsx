@@ -210,7 +210,14 @@ export const Login: React.FC = () => {
             </form>
           )}
 
-          <div className="mt-8 pt-4 border-t border-slate-100 text-center">
+          <div className="mt-8 pt-4 border-t border-slate-100 flex flex-col items-center gap-2 text-center">
+            <button
+              type="button"
+              onClick={() => navigate("/demo-guide")}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 transition-colors cursor-pointer"
+            >
+              <span>⚡ SIH Finals Demo: Open 1-Click Role Switcher & Guide</span>
+            </button>
             <span className="text-[11px] text-slate-400">
               Protected by Argon2id, RFC 6238 TOTP & Rate Limiting
             </span>
