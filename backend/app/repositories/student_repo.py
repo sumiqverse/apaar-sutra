@@ -18,15 +18,16 @@ class StudentRepository(BaseRepository[Student]):
     ) -> Optional[Student]:
         query = (
             select(Student)
-            .options(selectinload(Student.academic_records), selectinload(Student.institution))
+            .options(selectinload(Student.enrolments))
             .where(Student.apaar_id == apaar_id)
         )
-        if tenant_id:
-            query = query.where(Student.institution_id == tenant_id)
         result = await self.session.execute(query)
         return result.scalar_one_or_none()
 
-    async def get_by_aadhaar_hash(self, aadhaar_hash: str) -> Optional[Student]:
-        query = select(Student).where(Student.aadhaar_hash == aadhaar_hash)
+    async def get_by_blind_index(self, name_bidx: str, dob_bidx: str) -> Optional[Student]:
+        query = select(Student).where(
+            Student.name_bidx == name_bidx,
+            Student.dob_bidx == dob_bidx,
+        )
         result = await self.session.execute(query)
         return result.scalar_one_or_none()

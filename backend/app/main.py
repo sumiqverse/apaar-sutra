@@ -9,8 +9,10 @@ from app.api.middleware import RequestIDMiddleware, SecurityHeadersMiddleware, S
 from app.api.routers import health_router, api_v1_router
 from app.core.config import settings
 from app.core.exceptions import register_exception_handlers
-from app.core.logging import setup_logging
-from app.mock_apaar.server import mock_apaar_app
+try:
+    from mock_apaar.server import mock_apaar_app
+except ImportError:
+    from app.mock_apaar.server import mock_apaar_app
 
 
 @asynccontextmanager

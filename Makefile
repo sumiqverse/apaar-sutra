@@ -27,7 +27,12 @@ migrate:
 	docker compose exec backend alembic upgrade head
 
 seed:
-	docker compose exec backend python -m scripts.seed_db
+	docker compose exec backend python -m scripts.generate_data || py -3.14 scripts/generate_data.py
+
+reset-db:
+	docker compose exec backend alembic downgrade base || true
+	docker compose exec backend alembic upgrade head
+	docker compose exec backend python -m scripts.generate_data
 
 test: test-backend test-frontend
 

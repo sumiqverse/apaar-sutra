@@ -1,6 +1,6 @@
 """Application configuration using Pydantic Settings v2."""
 
-from typing import List, Union
+from typing import Dict, List, Union
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -23,6 +23,33 @@ class Settings(BaseSettings):
     PORT: int = 8000
     API_V1_PREFIX: str = "/api/v1"
     SECRET_KEY: str = "change-me-super-secret-key-32-chars-minimum-in-production"
+
+    # Field-Level Cryptography
+    CURRENT_KEY_ID: str = "v1"
+    FIELD_ENCRYPTION_KEYS: Union[Dict[str, str], str] = {
+        "v1": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "v2": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210",
+    }
+    BLIND_INDEX_KEY: str = "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789"
+
+    # Demo Accounts
+    DEMO_SUPERADMIN_PASSWORD: str = "SuperAdmin@AICTE2026!"
+    DEMO_INSTITUTION_PASSWORD: str = "InstAdmin@AICTE2026!"
+    DEMO_STUDENT_PASSWORD: str = "Student@AICTE2026!"
+    DEMO_VERIFIER_PASSWORD: str = "Verifier@TCS2026!"
+
+    @field_validator("FIELD_ENCRYPTION_KEYS", mode="before")
+    @classmethod
+    def assemble_encryption_keys(cls, v: Union[str, Dict[str, str]]) -> Dict[str, str]:
+        import json
+        if isinstance(v, str):
+            try:
+                return json.loads(v)
+            except Exception:
+                pass
+        if isinstance(v, dict):
+            return v
+        return {"v1": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"}
 
     # CORS & Security
     CORS_ORIGINS: Union[List[str], str] = [

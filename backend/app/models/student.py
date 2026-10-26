@@ -1,57 +1,49 @@
-"""Student and AcademicRecord models keyed by APAAR ID."""
+"""Student entity with field-level encryption, blind indexes, and APAAR verification status."""
 
-import uuid
 from datetime import date
-from typing import List, Optional
-from sqlalchemy import Date, Float, ForeignKey, Integer, String
+from typing import Any, Dict, List, Optional
+import uuid
+from sqlalchemy import CheckConstraint, Date, Index, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.base import Base, TimestampMixin
+from app.core.crypto import EncryptedDate, EncryptedJSON, EncryptedString
+from app.models.base import Base, SoftDeleteMixin, TimestampMixin
 
 
-class Student(Base, TimestampMixin):
+class Student(Base, TimestampMixin, SoftDeleteMixin):
     __tablename__ = "students"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    apaar_id: Mapped[str] = mapped_column(String(12), unique=True, index=True, nullable=False)
-    institution_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=False, index=True
+    # Stored plaintext-indexable since it is the unique identifier, but masked on API serialization
+    apaar_id: Mapped[Optional[str]] = mapped_column(
+        String(12), nullable=True, index=True
     )
-    first_name: Mapped[str] = mapped_column(String(100), nullable=False)
-    last_name: Mapped[str] = mapped_column(String(100), nullable=False)
-    dob: Mapped[date] = mapped_column(Date, nullable=False)
-    gender: Mapped[str] = mapped_column(String(10), nullable=False)
-    aadhaar_hash: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
-    enrollment_number: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
-    program_name: Mapped[str] = mapped_column(String(150), nullable=False)
-    admission_year: Mapped[int] = mapped_column(Integer, nullable=False)
-    status: Mapped[str] = mapped_column(String(30), default="ACTIVE", nullable=False)
-    verification_status: Mapped[str] = mapped_column(String(30), default="PENDING", nullable=False, index=True)
+    apaar_status: Mapped[str] = mapped_column(
+        String(30), nullable=False, default="UNVERIFIED", index=True
+    )  # UNVERIFIED, VERIFIED, NOT_FOUND, MISMATCH, PENDING
+
+    # Encrypted PII Fields (AES-256-GCM)
+    name_enc: Mapped[str] = mapped_column(EncryptedString, nullable=False)
+    dob_enc: Mapped[date] = mapped_column(EncryptedDate, nullable=False)
+    parent_name_enc: Mapped[Optional[str]] = mapped_column(EncryptedString, nullable=True)
+    contact_enc: Mapped[Optional[Dict[str, Any]]] = mapped_column(EncryptedJSON, nullable=True)
+    gender: Mapped[str] = mapped_column(String(10), nullable=False)  # MALE, FEMALE, OTHER
+
+    # Deterministic Blind Indexes (HMAC-SHA256) for equality lookups
+    name_bidx: Mapped[Optional[str]] = mapped_column(String(64), nullable=True, index=True)
+    dob_bidx: Mapped[Optional[str]] = mapped_column(String(64), nullable=True, index=True)
+    parent_bidx: Mapped[Optional[str]] = mapped_column(String(64), nullable=True, index=True)
 
     # Relationships
-    institution = relationship("Institution", back_populates="students")
-    academic_records: Mapped[List["AcademicRecord"]] = relationship(
-        "AcademicRecord", back_populates="student", cascade="all, delete-orphan"
+    enrolments = relationship("Enrolment", back_populates="student", cascade="all, delete-orphan")
+    consent_requests = relationship("ConsentRequest", back_populates="student", cascade="all, delete-orphan")
+
+    __table_args__ = (
+        CheckConstraint(
+            "apaar_id ~ '^[0-9]{12}$' OR apaar_id IS NULL",
+            name="ck_students_apaar_id_format"
+        ),
     )
-
-
-class AcademicRecord(Base, TimestampMixin):
-    __tablename__ = "academic_records"
-
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
-    )
-    student_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("students.id", ondelete="CASCADE"), nullable=False, index=True
-    )
-    semester: Mapped[int] = mapped_column(Integer, nullable=False)
-    course_code: Mapped[str] = mapped_column(String(32), nullable=False)
-    course_name: Mapped[str] = mapped_column(String(150), nullable=False)
-    credits: Mapped[float] = mapped_column(Float, nullable=False)
-    grade_point: Mapped[float] = mapped_column(Float, nullable=False)
-    result_status: Mapped[str] = mapped_column(String(20), default="PASS", nullable=False)
-
-    student: Mapped["Student"] = relationship("Student", back_populates="academic_records")

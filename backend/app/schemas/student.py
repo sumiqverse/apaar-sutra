@@ -41,19 +41,13 @@ class StudentCreate(StudentBase):
 
 class StudentResponse(BaseModel):
     id: uuid.UUID
-    apaar_id: str
-    masked_apaar_id: str
-    institution_id: uuid.UUID
-    first_name: str
-    last_name: str
-    dob: date
+    apaar_id: Optional[str] = None
+    masked_apaar_id: Optional[str] = None
+    apaar_status: str
+    name_enc: str
+    dob_enc: date
+    parent_name_enc: Optional[str] = None
     gender: str
-    enrollment_number: str
-    program_name: str
-    admission_year: int
-    status: str
-    verification_status: str
-    academic_records: List[AcademicRecordResponse] = []
     created_at: datetime
     updated_at: datetime
 
