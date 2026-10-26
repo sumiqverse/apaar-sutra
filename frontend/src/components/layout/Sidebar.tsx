@@ -11,6 +11,8 @@ import {
   Shield,
   UploadCloud,
   Building,
+  ShieldCheck,
+  FileCheck2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { apiClient, clearAuthTokens } from "@/lib/api";
@@ -47,9 +49,10 @@ export const Sidebar: React.FC = () => {
   const navItems = [
     { to: "/", label: "AICTE Dashboard", icon: LayoutDashboard, requiredPerm: null },
     { to: "/institution-dashboard", label: "Institution Portal", icon: Building, requiredPerm: null },
+    { to: "/verifier", label: "Verifier Portal (DPDP)", icon: CheckCircle2, requiredPerm: null },
+    { to: "/student/consent", label: "Student Privacy (DPDP)", icon: ShieldCheck, requiredPerm: null },
+    { to: "/tamper-demo", label: "Tamper Proof Demo", icon: FileCheck2, requiredPerm: null },
     { to: "/ingestion", label: t("nav.ingestion") || "Student Ingestion", icon: UploadCloud, requiredPerm: null },
-    { to: "/students", label: t("nav.students") || "Students", icon: Users, requiredPerm: "students:read" },
-    { to: "/verification", label: t("nav.verification") || "Verification", icon: CheckCircle2, requiredPerm: null },
     { to: "/audit", label: "Audit Trail", icon: History, requiredPerm: "audit:read" },
     { to: "/health", label: t("nav.health") || "System Health", icon: Activity, requiredPerm: null },
   ];

@@ -294,3 +294,87 @@ def retrain_and_score_institutions(academic_year: str = "2025-26", session: Opti
     logger.info(f"Executing scheduled nightly ML retraining and scoring for academic year {academic_year}...")
     return asyncio.run(async_retrain_and_score_institutions(academic_year=academic_year, session=session))
 
+
+async def async_generate_bulk_certificates(
+    program_id: Optional[str] = None,
+    academic_year: Optional[str] = None,
+    institution_id: Optional[str] = None,
+    template_id: str = "aicte_classic",
+    session: Optional[AsyncSession] = None,
+) -> Dict[str, Any]:
+    """Generates a ZIP archive containing verifiable PDF certificates for an entire cohort."""
+    import zipfile
+    import os
+    from app.models.enrolment import Enrolment
+    from app.services.credential_service import CredentialService
+    from sqlalchemy.orm import selectinload
+
+    own_session = session is None
+    s = session if session is not None else AsyncSessionLocal()
+    try:
+        stmt = (
+            select(Enrolment)
+            .options(
+                selectinload(Enrolment.student),
+                selectinload(Enrolment.institution),
+                selectinload(Enrolment.program),
+            )
+            .limit(100)
+        )
+        if institution_id:
+            stmt = stmt.where(Enrolment.institution_id == uuid.UUID(institution_id))
+        if program_id:
+            stmt = stmt.where(Enrolment.program_id == uuid.UUID(program_id))
+        if academic_year:
+            stmt = stmt.where(Enrolment.academic_year == academic_year)
+
+        res = await s.execute(stmt)
+        enrolments = res.scalars().all()
+
+        cred_service = CredentialService(s)
+        out_dir = os.path.join(os.getcwd(), "backend", "scratch")
+        os.makedirs(out_dir, exist_ok=True)
+        zip_filename = f"certificates_{uuid.uuid4().hex[:8]}.zip"
+        zip_path = os.path.join(out_dir, zip_filename)
+
+        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+            for enr in enrolments:
+                rec, pdf_bytes = await cred_service.issue_degree_certificate(
+                    enrolment_id=enr.id,
+                    template_id=template_id,
+                    mark_completed=False,
+                )
+                safe_roll = "".join(c for c in enr.student_ref_id if c.isalnum() or c in "-_")
+                zf.writestr(f"certificate_{safe_roll}_{rec.token[:8]}.pdf", pdf_bytes)
+
+        return {
+            "status": "SUCCESS",
+            "total_certificates": len(enrolments),
+            "zip_filename": zip_filename,
+            "zip_path": zip_path,
+        }
+    finally:
+        if own_session:
+            await s.close()
+
+
+@celery_app.task(bind=True, name="app.workers.tasks.generate_bulk_certificates_task")
+def generate_bulk_certificates_task(
+    self,
+    program_id: Optional[str] = None,
+    academic_year: Optional[str] = None,
+    institution_id: Optional[str] = None,
+    template_id: str = "aicte_classic",
+) -> Dict[str, Any]:
+    """Celery task executing asynchronous bulk PDF certificate rendering and ZIP export."""
+    logger.info(f"Starting bulk certificate generation task for template {template_id}...")
+    return asyncio.run(
+        async_generate_bulk_certificates(
+            program_id=program_id,
+            academic_year=academic_year,
+            institution_id=institution_id,
+            template_id=template_id,
+        )
+    )
+
+

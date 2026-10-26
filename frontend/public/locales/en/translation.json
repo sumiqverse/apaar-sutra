@@ -10,6 +10,9 @@
     "ingestion": "Student Ingestion",
     "students": "Student Registry",
     "verification": "Instant Verification",
+    "verifier": "Verifier Portal (DPDP)",
+    "student_consent": "Student Privacy & Consent",
+    "tamper_demo": "Cryptographic Tamper Demo",
     "health": "System Health",
     "analytics": "AICTE Analytics",
     "docs": "API Docs"

@@ -7,12 +7,24 @@ import { Health } from "@/pages/Health";
 import { Login } from "@/pages/Login";
 import { MfaEnroll } from "@/pages/MfaEnroll";
 import { Ingestion } from "@/pages/Ingestion";
+import { VerifierPortal } from "@/pages/VerifierPortal";
+import { StudentConsentPortal } from "@/pages/StudentConsentPortal";
+import { TamperDemo } from "@/pages/TamperDemo";
+import { PublicVerification } from "@/pages/PublicVerification";
 import { NotFound } from "@/pages/NotFound";
 
 export const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/verify/:token",
+    element: <PublicVerification />,
+  },
+  {
+    path: "/demo/tamper",
+    element: <TamperDemo />,
   },
   {
     path: "/mfa-enroll",
@@ -37,6 +49,18 @@ export const router = createBrowserRouter([
       {
         path: "institution-dashboard",
         element: <InstitutionDashboard />,
+      },
+      {
+        path: "verifier",
+        element: <VerifierPortal />,
+      },
+      {
+        path: "student/consent",
+        element: <StudentConsentPortal />,
+      },
+      {
+        path: "tamper-demo",
+        element: <TamperDemo />,
       },
       {
         path: "ingestion",

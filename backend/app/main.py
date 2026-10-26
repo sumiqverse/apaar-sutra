@@ -70,6 +70,10 @@ def create_application() -> FastAPI:
     # 4. Mount Versioned Functional API Router (/api/v1)
     app.include_router(api_v1_router, prefix=settings.API_V1_PREFIX)
 
+    # 4.1 Mount /.well-known/apaar-sutra-keys.json at root level
+    from app.api.routers.v1.well_known import router as well_known_router
+    app.include_router(well_known_router)
+
     # 5. Mount Mock National APAAR Gateway for Dev/Test
     app.mount(f"{settings.API_V1_PREFIX}/mock-apaar", mock_apaar_app)
 
