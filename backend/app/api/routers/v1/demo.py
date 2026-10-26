@@ -229,32 +229,47 @@ async def reset_demo_data(
 
     # 0. Ensure all domain tables exist in database and schema is migrated
     def _sync_ensure_schema(sync_conn):
-        # Drop stale transactional tables if columns are missing (e.g. token in issued_records)
         try:
-            res = sync_conn.execute(text("PRAGMA table_info(issued_records)")).fetchall()
-            col_names = [r[1] for r in res]
-            if col_names and "token" not in col_names:
-                sync_conn.execute(text("DROP TABLE issued_records"))
+            sync_conn.execute(text("PRAGMA foreign_keys = OFF"))
         except Exception:
             pass
 
-        try:
-            res = sync_conn.execute(text("PRAGMA table_info(consent_requests)")).fetchall()
-            col_names = [r[1] for r in res]
-            if col_names and "token" not in col_names:
-                sync_conn.execute(text("DROP TABLE consent_requests"))
-        except Exception:
-            pass
+        transactional_tables = {
+            "consent_requests",
+            "issued_records",
+            "verification_logs",
+            "verifier_orgs",
+            "institution_risk_scores",
+            "generated_reports",
+            "alerts",
+            "validation_issues",
+            "upload_batches",
+        }
 
-        try:
-            res = sync_conn.execute(text("PRAGMA table_info(institution_risk_scores)")).fetchall()
-            col_names = [r[1] for r in res]
-            if col_names and "ghost_student_flags" not in col_names:
-                sync_conn.execute(text("DROP TABLE institution_risk_scores"))
-        except Exception:
-            pass
+        for table_name, table in Base.metadata.tables.items():
+            try:
+                res = sync_conn.execute(text(f"PRAGMA table_info('{table_name}')")).fetchall()
+                if not res:
+                    continue
+                existing_cols = {r[1] for r in res}
+                for col in table.columns:
+                    if col.name not in existing_cols:
+                        if table_name in transactional_tables:
+                            sync_conn.execute(text(f"DROP TABLE IF EXISTS '{table_name}'"))
+                            break
+                        else:
+                            try:
+                                sync_conn.execute(text(f"ALTER TABLE '{table_name}' ADD COLUMN {col.name} TEXT"))
+                            except Exception:
+                                pass
+            except Exception:
+                pass
 
         Base.metadata.create_all(sync_conn)
+        try:
+            sync_conn.execute(text("PRAGMA foreign_keys = ON"))
+        except Exception:
+            pass
 
     try:
         async with async_engine.begin() as conn:
