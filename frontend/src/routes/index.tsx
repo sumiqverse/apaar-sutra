@@ -11,6 +11,9 @@ import { VerifierPortal } from "@/pages/VerifierPortal";
 import { StudentConsentPortal } from "@/pages/StudentConsentPortal";
 import { TamperDemo } from "@/pages/TamperDemo";
 import { PublicVerification } from "@/pages/PublicVerification";
+import { ReportsConsole } from "@/pages/ReportsConsole";
+import { AdminConsole } from "@/pages/AdminConsole";
+import { DeveloperDocs } from "@/pages/DeveloperDocs";
 import { NotFound } from "@/pages/NotFound";
 
 export const router = createBrowserRouter([
@@ -49,6 +52,18 @@ export const router = createBrowserRouter([
       {
         path: "institution-dashboard",
         element: <InstitutionDashboard />,
+      },
+      {
+        path: "reports",
+        element: <ReportsConsole />,
+      },
+      {
+        path: "admin",
+        element: <AdminConsole />,
+      },
+      {
+        path: "developers",
+        element: <DeveloperDocs />,
       },
       {
         path: "verifier",

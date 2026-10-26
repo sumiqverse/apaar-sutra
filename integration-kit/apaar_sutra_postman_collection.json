@@ -1,0 +1,143 @@
+{
+  "info": {
+    "_postman_id": "c1f72d4e-9b23-4e89-b1d5-8123456789ab",
+    "name": "APAAR-Sutra ERP Integration Kit",
+    "description": "Collection for institutional ERP / SIS integration with APAAR-Sutra platform via HMAC-SHA256 authenticated API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Ingest Student Records (Batch Push)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Compute HMAC-SHA256 signature for APAAR-Sutra System-to-System API",
+              "const clientId = pm.environment.get('client_id');",
+              "const clientSecret = pm.environment.get('client_secret');",
+              "const timestamp = Math.floor(Date.now() / 1000).toString();",
+              "const nonce = 'n_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);",
+              "const idempotencyKey = 'idemp_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);",
+              "",
+              "pm.environment.set('timestamp', timestamp);",
+              "pm.environment.set('nonce', nonce);",
+              "pm.environment.set('idempotency_key', idempotencyKey);",
+              "",
+              "const method = pm.request.method.toUpperCase();",
+              "const path = pm.request.url.getPath();",
+              "const requestBody = pm.request.body.raw || '';",
+              "const bodyHash = CryptoJS.SHA256(requestBody).toString(CryptoJS.enc.Hex);",
+              "",
+              "// Canonical String: {METHOD}\\n{PATH}\\n{TIMESTAMP}\\n{NONCE}\\n{BODY_HASH}",
+              "const canonicalString = method + '\\n' + path + '\\n' + timestamp + '\\n' + nonce + '\\n' + bodyHash;",
+              "const signature = CryptoJS.HmacSHA256(canonicalString, clientSecret).toString(CryptoJS.enc.Hex);",
+              "",
+              "pm.environment.set('signature', signature);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Client-ID",
+            "value": "{{client_id}}",
+            "type": "text"
+          },
+          {
+            "key": "X-Timestamp",
+            "value": "{{timestamp}}",
+            "type": "text"
+          },
+          {
+            "key": "X-Nonce",
+            "value": "{{nonce}}",
+            "type": "text"
+          },
+          {
+            "key": "X-Signature",
+            "value": "{{signature}}",
+            "type": "text"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_key}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"student_ref_id\": \"ERP-2025-001\",\n    \"apaar_id\": \"123456789012\",\n    \"name\": \"Aarav Sharma\",\n    \"dob\": \"2004-05-14\",\n    \"gender\": \"MALE\",\n    \"parent_name\": \"Rajesh Sharma\",\n    \"contact\": {\n      \"email\": \"aarav.sharma@example.edu.in\",\n      \"phone\": \"9876543210\"\n    },\n    \"program_name\": \"B.Tech Computer Science\",\n    \"branch\": \"CSE\",\n    \"academic_year\": \"2025-26\",\n    \"admission_category\": \"GEN\",\n    \"quota_type\": \"REGULAR\",\n    \"is_nri\": false,\n    \"admission_date\": \"2025-07-15\",\n    \"status\": \"ACTIVE\"\n  },\n  {\n    \"student_ref_id\": \"ERP-2025-002\",\n    \"apaar_id\": \"234567890123\",\n    \"name\": \"Ananya Patel\",\n    \"dob\": \"2004-09-21\",\n    \"gender\": \"FEMALE\",\n    \"parent_name\": \"Mukesh Patel\",\n    \"contact\": {\n      \"email\": \"ananya.patel@example.edu.in\",\n      \"phone\": \"9876543211\"\n    },\n    \"program_name\": \"B.Tech Information Technology\",\n    \"branch\": \"IT\",\n    \"academic_year\": \"2025-26\",\n    \"admission_category\": \"OBC\",\n    \"quota_type\": \"REGULAR\",\n    \"is_nri\": false,\n    \"admission_date\": \"2025-07-16\",\n    \"status\": \"ACTIVE\"\n  }\n]"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/integration/students",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "integration", "students"]
+        },
+        "description": "Submits a batch of student records from campus ERP with HMAC signature authentication."
+      },
+      "response": []
+    },
+    {
+      "name": "2. Get Batch Ingestion Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Client-ID",
+            "value": "{{client_id}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/integration/batches/{{batch_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "integration", "batches", "{{batch_id}}"]
+        },
+        "description": "Polls the status and row metrics for an ingested ERP batch."
+      },
+      "response": []
+    },
+    {
+      "name": "3. Verify Statutory Report Hash",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/reports/verify?hash={{report_hash}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "reports", "verify"],
+          "query": [
+            {
+              "key": "hash",
+              "value": "{{report_hash}}"
+            }
+          ]
+        },
+        "description": "Verifies the tamper-proof authenticity and origin of an exported statutory report."
+      },
+      "response": []
+    },
+    {
+      "name": "4. Get Well-Known Verification Keys",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/.well-known/apaar-sutra-keys.json",
+          "host": ["{{base_url}}"],
+          "path": [".well-known", "apaar-sutra-keys.json"]
+        },
+        "description": "Public key set for offline Ed25519 cryptographic credential verification."
+      },
+      "response": []
+    }
+  ]
+}

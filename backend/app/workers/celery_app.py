@@ -36,6 +36,10 @@ celery_app.conf.beat_schedule = {
         "task": "app.workers.tasks.retry_pending_apaar_verifications",
         "schedule": crontab(minute="*/15"),  # Every 15 minutes
     },
+    "weekly-statutory-reports-generation": {
+        "task": "app.workers.tasks.generate_scheduled_statutory_reports",
+        "schedule": crontab(day_of_week="monday", hour="4", minute="0"),  # 04:00 UTC Monday
+    },
 }
 
 celery_app.autodiscover_tasks(["app.workers"])

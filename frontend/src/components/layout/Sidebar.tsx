@@ -13,6 +13,9 @@ import {
   Building,
   ShieldCheck,
   FileCheck2,
+  FileText,
+  Sliders,
+  Code,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { apiClient, clearAuthTokens } from "@/lib/api";
@@ -47,18 +50,22 @@ export const Sidebar: React.FC = () => {
   };
 
   const navItems = [
-    { to: "/", label: "AICTE Dashboard", icon: LayoutDashboard, requiredPerm: null },
-    { to: "/institution-dashboard", label: "Institution Portal", icon: Building, requiredPerm: null },
-    { to: "/verifier", label: "Verifier Portal (DPDP)", icon: CheckCircle2, requiredPerm: null },
-    { to: "/student/consent", label: "Student Privacy (DPDP)", icon: ShieldCheck, requiredPerm: null },
-    { to: "/tamper-demo", label: "Tamper Proof Demo", icon: FileCheck2, requiredPerm: null },
-    { to: "/ingestion", label: t("nav.ingestion") || "Student Ingestion", icon: UploadCloud, requiredPerm: null },
-    { to: "/audit", label: "Audit Trail", icon: History, requiredPerm: "audit:read" },
-    { to: "/health", label: t("nav.health") || "System Health", icon: Activity, requiredPerm: null },
+    { to: "/", label: "AICTE Dashboard", icon: LayoutDashboard, requiredPerm: null, requiredRole: null },
+    { to: "/institution-dashboard", label: "Institution Portal", icon: Building, requiredPerm: null, requiredRole: null },
+    { to: "/reports", label: "Statutory Reports", icon: FileText, requiredPerm: null, requiredRole: null },
+    { to: "/admin", label: "Admin Console", icon: Sliders, requiredPerm: null, requiredRole: "SUPER_ADMIN" },
+    { to: "/developers", label: "Developer Docs", icon: Code, requiredPerm: null, requiredRole: null },
+    { to: "/verifier", label: "Verifier Portal (DPDP)", icon: CheckCircle2, requiredPerm: null, requiredRole: null },
+    { to: "/student/consent", label: "Student Privacy (DPDP)", icon: ShieldCheck, requiredPerm: null, requiredRole: null },
+    { to: "/tamper-demo", label: "Tamper Proof Demo", icon: FileCheck2, requiredPerm: null, requiredRole: null },
+    { to: "/ingestion", label: t("nav.ingestion") || "Student Ingestion", icon: UploadCloud, requiredPerm: null, requiredRole: null },
+    { to: "/audit", label: "Audit Trail", icon: History, requiredPerm: "audit:read", requiredRole: null },
+    { to: "/health", label: t("nav.health") || "System Health", icon: Activity, requiredPerm: null, requiredRole: null },
   ];
 
   // Filter items based on permissions
   const visibleNav = navItems.filter((item) => {
+    if (item.requiredRole && (!user || !user.roles.includes(item.requiredRole))) return false;
     if (!item.requiredPerm) return true;
     if (!user) return false;
     return user.permissions.includes(item.requiredPerm) || user.roles.includes("SUPER_ADMIN");

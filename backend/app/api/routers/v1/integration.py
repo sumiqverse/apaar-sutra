@@ -7,7 +7,7 @@ import logging
 from typing import Any, Dict, List, Optional
 import uuid
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Body, Depends, Header, HTTPException, Query, status
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -25,9 +25,12 @@ from app.models.student import Student
 from app.models.validation import ValidationIssue
 from app.schemas.ingestion import BatchDetailResponse, SingleStudentEnrolRequest
 from app.services.bulk_ingestion_service import BulkIngestionService
+from app.services.webhook_service import WebhookService
 from app.validation.apaar_validator import validate_apaar
 
 logger = logging.getLogger("erp_integration")
+
+_idempotency_cache: Dict[str, Dict[str, Any]] = {}
 
 router = APIRouter(prefix="/integration", tags=["ERP System Integration (HMAC Authenticated)"])
 
@@ -69,6 +72,7 @@ async def ingest_erp_students(
         },
     ),
     client: ApiClient = Depends(get_api_client),
+    idempotency_key: Optional[str] = Header(None, alias="Idempotency-Key"),
     db: AsyncSession = Depends(get_db),
 ) -> Dict[str, Any]:
     """Secure endpoint for College Management Systems / ERPs to ingest student records via signed HMAC requests."""
@@ -78,6 +82,14 @@ async def ingest_erp_students(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="API client lacks required scope 'students:write' or 'batches:upload'.",
         )
+
+    # Idempotency cache lookup (prevents duplicate batches on network retries)
+    if idempotency_key:
+        cache_key = f"{client.client_id}:{idempotency_key}"
+        if cache_key in _idempotency_cache:
+            replayed = dict(_idempotency_cache[cache_key])
+            replayed["idempotency_replayed"] = True
+            return replayed
 
     institution_id = client.institution_id
     batch_id = uuid.uuid4()
@@ -269,7 +281,7 @@ async def ingest_erp_students(
     batch.finished_at = datetime.now(timezone.utc)
     await db.commit()
 
-    return {
+    response_payload = {
         "batch_id": str(batch_id),
         "status": "COMPLETED",
         "total_records": len(records),
@@ -279,6 +291,31 @@ async def ingest_erp_students(
         "rejected": rejected,
         "results": item_results,
     }
+
+    if idempotency_key:
+        cache_key = f"{client.client_id}:{idempotency_key}"
+        _idempotency_cache[cache_key] = response_payload
+
+    # Dispatch batch.completed webhook event
+    try:
+        webhook_svc = WebhookService(db)
+        await webhook_svc.dispatch_event(
+            event_type="batch.completed",
+            payload={
+                "batch_id": str(batch_id),
+                "institution_id": str(institution_id),
+                "total_records": len(records),
+                "accepted": accepted,
+                "warnings": warnings,
+                "rejected": rejected,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            },
+            institution_id=institution_id,
+        )
+    except Exception as e:
+        logger.warning(f"Failed to dispatch batch.completed webhook: {e}")
+
+    return response_payload
 
 
 @router.get(

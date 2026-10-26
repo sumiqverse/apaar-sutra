@@ -200,10 +200,10 @@ async def get_api_client(
     db: AsyncSession = Depends(get_db),
 ) -> ApiClient:
     """Authenticate system-to-system requests via signed HMAC-SHA256 headers."""
-    key_id = x_api_key_id or request.headers.get("X-Key-Id") or request.headers.get("x-key-id")
+    key_id = x_api_key_id or request.headers.get("X-Client-ID") or request.headers.get("X-Key-Id") or request.headers.get("x-key-id")
     if not all([key_id, x_timestamp, x_nonce, x_signature]):
         raise UnauthorizedException(
-            message="Missing required HMAC headers: X-Api-Key-Id, X-Timestamp, X-Nonce, X-Signature."
+            message="Missing required HMAC headers: X-Api-Key-Id (or X-Client-ID), X-Timestamp, X-Nonce, X-Signature."
         )
 
     # Lookup API Client by key_id
@@ -230,7 +230,7 @@ async def get_api_client(
 
     # Verify HMAC signature and anti-replay
     verify_hmac_request(
-        key_id=x_api_key_id,
+        key_id=key_id,
         timestamp=x_timestamp,
         nonce=x_nonce,
         signature=x_signature,

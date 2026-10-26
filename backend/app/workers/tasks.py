@@ -378,3 +378,34 @@ def generate_bulk_certificates_task(
     )
 
 
+async def async_generate_scheduled_statutory_reports(session: Optional[AsyncSession] = None) -> Dict[str, Any]:
+    """Celery beat worker generating weekly statutory capacity reports."""
+    from app.services.report_service import ReportService
+    from app.schemas.reports import ReportGenerateRequest
+
+    own_session = session is None
+    s = session if session is not None else AsyncSessionLocal()
+    try:
+        service = ReportService(s)
+        reports = ["state_wise_intake", "overshoot_institutions", "institution_risk_ranking"]
+        generated = []
+        for r_type in reports:
+            rep = await service.generate_and_persist_report(
+                req=ReportGenerateRequest(report_type=r_type, format="PDF", academic_year="2025-26"),
+                actor_id="CELERY_BEAT_SCHEDULER",
+            )
+            generated.append(rep.report_type)
+        return {"status": "SUCCESS", "generated_reports": generated}
+    finally:
+        if own_session:
+            await s.close()
+
+
+@celery_app.task(name="app.workers.tasks.generate_scheduled_statutory_reports")
+def generate_scheduled_statutory_reports() -> Dict[str, Any]:
+    """Scheduled task generating weekly statutory AICTE reports."""
+    logger.info("Executing scheduled statutory reports generation...")
+    return asyncio.run(async_generate_scheduled_statutory_reports())
+
+
+

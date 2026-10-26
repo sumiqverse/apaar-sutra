@@ -182,3 +182,64 @@ class WebhookSubscription(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
     )
+
+
+class WebhookDeliveryLog(Base):
+    __tablename__ = "webhook_delivery_logs"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
+    subscription_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("webhook_subscriptions.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    event_type: Mapped[str] = mapped_column(String(50), nullable=False, index=True)
+    payload: Mapped[Dict[str, Any]] = mapped_column(JSONB, nullable=False)
+    status: Mapped[str] = mapped_column(
+        String(30), nullable=False, default="SUCCESS", index=True
+    )  # SUCCESS, RETRYING, DEAD_LETTER
+    status_code: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    response_body: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    attempt_count: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
+    next_retry_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False, index=True
+    )
+
+
+class GeneratedReport(Base):
+    __tablename__ = "generated_reports"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
+    report_type: Mapped[str] = mapped_column(String(50), nullable=False, index=True)
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    format: Mapped[str] = mapped_column(String(10), nullable=False)  # PDF, XLSX, CSV
+    institution_id: Mapped[Optional[uuid.UUID]] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=True, index=True
+    )
+    filters: Mapped[Dict[str, Any]] = mapped_column(JSONB, default=dict, nullable=False)
+    generated_by: Mapped[str] = mapped_column(String(100), nullable=False)
+    row_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    verification_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True, nullable=False)
+    file_path: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    status: Mapped[str] = mapped_column(
+        String(30), nullable=False, default="COMPLETED", index=True
+    )  # PENDING, COMPLETED, FAILED
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False, index=True
+    )
+
+
+class SystemPolicy(Base):
+    __tablename__ = "system_policies"
+
+    id: Mapped[str] = mapped_column(String(100), primary_key=True)  # e.g., "quota_intake_rules", "admission_deadline"
+    value: Mapped[Dict[str, Any]] = mapped_column(JSONB, nullable=False)
+    description: Mapped[str] = mapped_column(String(255), nullable=False)
+    updated_by: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc), nullable=False
+    )
+

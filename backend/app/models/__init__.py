@@ -39,6 +39,9 @@ from app.models.credential import (
     CertificateTemplate,
     Alert,
     WebhookSubscription,
+    WebhookDeliveryLog,
+    GeneratedReport,
+    SystemPolicy,
 )
 from app.models.ml import InstitutionRiskScore
 
@@ -79,5 +82,8 @@ __all__ = [
     "CertificateTemplate",
     "Alert",
     "WebhookSubscription",
+    "WebhookDeliveryLog",
+    "GeneratedReport",
+    "SystemPolicy",
     "InstitutionRiskScore",
 ]
