@@ -16,6 +16,7 @@ import {
   FileText,
   Sliders,
   Code,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { apiClient, clearAuthTokens } from "@/lib/api";
@@ -50,6 +51,7 @@ export const Sidebar: React.FC = () => {
   };
 
   const navItems = [
+    { to: "/demo-guide", label: "Demo Guide & Script", icon: Sparkles, requiredPerm: null, requiredRole: null },
     { to: "/", label: "AICTE Dashboard", icon: LayoutDashboard, requiredPerm: null, requiredRole: null },
     { to: "/institution-dashboard", label: "Institution Portal", icon: Building, requiredPerm: null, requiredRole: null },
     { to: "/reports", label: "Statutory Reports", icon: FileText, requiredPerm: null, requiredRole: null },

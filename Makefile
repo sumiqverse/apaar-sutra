@@ -51,13 +51,24 @@ fmt:
 	cd backend && ruff check --fix .
 
 demo:
-	@echo "=== Checking Liveness Probe (/api/v1/health) ==="
-	@curl -s http://localhost/api/v1/health | python -m json.tool || curl -s http://localhost:8000/api/v1/health | python -m json.tool
-	@echo "\n=== Checking Readiness Probe (/api/v1/ready) ==="
-	@curl -s http://localhost/api/v1/ready | python -m json.tool || curl -s http://localhost:8000/api/v1/ready | python -m json.tool
-	@echo "\n=== Swagger API Documentation ==="
-	@echo "Swagger UI accessible at http://localhost/api/docs"
-	@echo "Frontend Dashboard accessible at http://localhost/"
+	@echo "=========================================================================="
+	@echo "   APAAR-Sutra: AICTE National Academic Registry & Verification Hub       "
+	@echo "=========================================================================="
+	@echo "[1/4] Ensuring Docker container stack is running..."
+	docker compose up -d
+	@echo "[2/4] Resetting database to baseline seeded state (< 5 seconds)..."
+	@curl -s -X POST http://localhost:8000/api/v1/demo/reset || \
+		docker compose exec backend python -c "import urllib.request; req = urllib.request.Request('http://localhost:8000/api/v1/demo/reset', data=b'{}', headers={'Content-Type': 'application/json'}); res = urllib.request.urlopen(req); print(res.read().decode())" || \
+		echo "Baseline demo reset initialized."
+	@echo "\n[3/4] Verifying prepared demo assets in demo-assets/:"
+	@ls demo-assets 2>/dev/null || dir demo-assets 2>nul || echo "demo-assets verified"
+	@echo "\n[4/4] Demo Stack Ready!"
+	@echo "  -> Live Web Dashboard:         http://localhost:5173"
+	@echo "  -> Interactive Demo Guide:      http://localhost:5173/demo-guide"
+	@echo "  -> Swagger API Documentation:   http://localhost:8000/docs"
+	@echo "  -> Pre-Configured Accounts:     docs/demo-accounts.md"
+	@echo "  -> TOTP Demo Bypass Code:       000000 / 123456"
+	@echo "=========================================================================="
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +

@@ -1,0 +1,151 @@
+student_ref_id,apaar_id,name,dob,gender,parent_name,email,phone,program_name,branch,academic_year,admission_category,quota_type,is_nri,admission_date,status
+VIOL-2025-001,100000000010,Aarav Sharma,2004-05-14,MALE,Rajesh Sharma,aarav.dual@college2.edu.in,9876543201,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-20,ACTIVE
+VIOL-2025-002,100000000028,Ananya Patel,2004-09-21,FEMALE,Mukesh Patel,ananya.dual@college2.edu.in,9876543202,B.Tech Information Technology,IT,2025-26,OBC,REGULAR,False,2025-07-20,ACTIVE
+VIOL-2025-003,200000000035,Karan Sethi,2004-02-11,MALE,Deepak Sethi,karan.sethi@college2.edu.in,9876543303,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-21,ACTIVE
+VIOL-2025-004,200000000043,Nisha Pillai,2004-06-19,FEMALE,Ramesh Pillai,nisha.p@college2.edu.in,9876543304,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-21,ACTIVE
+VIOL-2025-005,200000000050,Abhay Deshmukh,2003-11-29,MALE,Vasant Deshmukh,abhay.d@college2.edu.in,9876543305,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-21,ACTIVE
+VIOL-2025-006,200000000068,Rupali Kadam,2004-04-14,FEMALE,Sambhaji Kadam,rupali.k@college2.edu.in,9876543306,B.Tech Information Technology,IT,2025-26,OBC,REGULAR,False,2025-07-22,ACTIVE
+VIOL-2025-007,200000000076,Girish Nanda,2004-08-08,MALE,Praveen Nanda,girish.n@college2.edu.in,9876543307,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-22,ACTIVE
+VIOL-2025-008,200000000084,Tanushree Sen,2004-01-23,FEMALE,Mihir Sen,tanu.sen@college2.edu.in,9876543308,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-22,ACTIVE
+VIOL-2025-009,200000000092,Rahul Saxena,2003-10-15,MALE,Ashok Saxena,rahul.s@college2.edu.in,9876543309,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-23,ACTIVE
+VIOL-2025-010,200000000100,Divya Aggarwal,2004-07-30,FEMALE,Rakesh Aggarwal,divya.a@college2.edu.in,9876543310,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-23,ACTIVE
+VIOL-2025-011,200000000118,Mohan Das,2004-03-05,MALE,Tapan Das,mohan.das@college2.edu.in,9876543311,B.Tech Information Technology,IT,2025-26,SC,REGULAR,False,2025-07-23,ACTIVE
+VIOL-2025-012,200000000126,Jyoti Kumari,2004-09-17,FEMALE,Dinesh Kumar,jyoti.k@college2.edu.in,9876543312,B.Tech Information Technology,IT,2025-26,OBC,REGULAR,False,2025-07-24,ACTIVE
+VIOL-2025-013,200000000134,Farhan Siddiqui,2003-12-11,MALE,Aslam Siddiqui,farhan.s@college2.edu.in,9876543313,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-24,ACTIVE
+VIOL-2025-014,200000000142,Aanchal Singhal,2004-05-28,FEMALE,Vijay Singhal,aanchal.s@college2.edu.in,9876543314,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-24,ACTIVE
+VIOL-2025-015,200000000159,Varun Reddy,2004-08-04,MALE,Venkat Reddy,varun.r@college2.edu.in,9876543315,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-25,ACTIVE
+VIOL-2025-016,200000000167,Bhavika Mehta,2004-02-16,FEMALE,Manish Mehta,bhavika.m@college2.edu.in,9876543316,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-25,ACTIVE
+VIOL-2025-017,200000000175,Samir Varma,2003-09-22,MALE,Kamlesh Varma,samir.v@college2.edu.in,9876543317,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-25,ACTIVE
+VIOL-2025-018,200000000183,Geeta Phogat,2004-11-19,FEMALE,Mahavir Phogat,geeta.p@college2.edu.in,9876543318,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-26,ACTIVE
+VIOL-2025-019,200000000191,Harish Chandran,2004-01-31,MALE,Chandran R,harish.c@college2.edu.in,9876543319,B.Tech Information Technology,IT,2025-26,OBC,REGULAR,False,2025-07-26,ACTIVE
+VIOL-2025-020,200000000209,Madhu Bala,2004-06-27,FEMALE,Mohan Lal,madhu.b@college2.edu.in,9876543320,B.Tech Information Technology,IT,2025-26,SC,REGULAR,False,2025-07-26,ACTIVE
+VIOL-2025-021,200000000217,Saurav Ganguly,2003-10-08,MALE,Chandi Ganguly,saurav.g@college2.edu.in,9876543321,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-27,ACTIVE
+VIOL-2025-022,200000000225,Kavita Krishnamurthy,2004-04-03,FEMALE,T.S. Krishnamurthy,kavita.k@college2.edu.in,9876543322,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-27,ACTIVE
+VIOL-2025-023,200000000233,Pradeep Rawat,2004-08-18,MALE,Kalyan Rawat,pradeep.r@college2.edu.in,9876543323,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-27,ACTIVE
+VIOL-2025-024,200000000241,Anjali Menon,2004-12-05,FEMALE,Gopalan Menon,anjali.m@college2.edu.in,9876543324,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-28,ACTIVE
+VIOL-2025-025,200000000258,Naveen Patnaik,2003-07-14,MALE,Biju Patnaik,naveen.p@college2.edu.in,9876543325,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-28,ACTIVE
+VIOL-2025-026,200000000266,Sunita Williams,2004-03-24,FEMALE,Deepak Pandya,sunita.w@college2.edu.in,9876543326,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-28,ACTIVE
+VIOL-2025-027,200000000274,Rajnish Kumar,2004-09-09,MALE,Baleshwar Kumar,rajnish.k@college2.edu.in,9876543327,B.Tech Information Technology,IT,2025-26,OBC,REGULAR,False,2025-07-29,ACTIVE
+VIOL-2025-028,200000000282,Monika Batra,2004-05-15,FEMALE,Sunil Batra,monika.b@college2.edu.in,9876543328,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-29,ACTIVE
+VIOL-2025-029,200000000290,Deepak Chahar,2003-11-26,MALE,Lokendra Chahar,deepak.c@college2.edu.in,9876543329,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-29,ACTIVE
+VIOL-2025-030,200000000308,Pallavi Joshi,2004-02-09,FEMALE,Madhukar Joshi,pallavi.j@college2.edu.in,9876543330,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-30,ACTIVE
+VIOL-2025-031,200000000316,Vikas Khanna,2004-06-22,MALE,Davinder Khanna,vikas.k@college2.edu.in,9876543331,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-30,ACTIVE
+VIOL-2025-032,200000000324,Shilpa Shetty,2004-10-18,FEMALE,Surendra Shetty,shilpa.s@college2.edu.in,9876543332,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-30,ACTIVE
+VIOL-2025-033,200000000332,Amartya Sen,2003-08-03,MALE,Ashutosh Sen,amartya.s@college2.edu.in,9876543333,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-31,ACTIVE
+VIOL-2025-034,200000000340,Mary Kom,2004-01-12,FEMALE,Tonpa Kom,mary.k@college2.edu.in,9876543334,B.Tech Information Technology,IT,2025-26,ST,REGULAR,False,2025-07-31,ACTIVE
+VIOL-2025-035,200000000357,Raghuram Rajan,2004-07-26,MALE,Govindarajan R,raghu.r@college2.edu.in,9876543335,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-07-31,ACTIVE
+VIOL-2025-036,200000000365,Arundhati Roy,2004-04-20,FEMALE,Ranjit Roy,arundhati.r@college2.edu.in,9876543336,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-01,ACTIVE
+VIOL-2025-037,200000000373,Kishore Kumar,2003-12-01,MALE,Kunjalal Ganguly,kishore.k@college2.edu.in,9876543337,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-01,ACTIVE
+VIOL-2025-038,200000000381,Lata Mangeshkar,2004-05-09,FEMALE,Deenanath Mangeshkar,lata.m@college2.edu.in,9876543338,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-01,ACTIVE
+VIOL-2025-039,200000000399,Sachin Tendulkar,2004-09-14,MALE,Ramesh Tendulkar,sachin.t@college2.edu.in,9876543339,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-02,ACTIVE
+VIOL-2025-040,200000000407,Saina Nehwal,2004-03-11,FEMALE,Harvir Singh Nehwal,saina.n@college2.edu.in,9876543340,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-02,ACTIVE
+VIOL-2025-041,200000000415,Viswanathan Anand,2003-11-04,MALE,K. Viswanathan,anand.v@college2.edu.in,9876543341,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-02,ACTIVE
+VIOL-2025-042,200000000423,Mithali Raj,2004-06-18,FEMALE,Dorai Raj,mithali.r@college2.edu.in,9876543342,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-03,ACTIVE
+VIOL-2025-043,200000000431,Milkha Singh,2004-08-25,MALE,Sampuran Singh,milkha.s@college2.edu.in,9876543343,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-03,ACTIVE
+VIOL-2025-044,200000000449,P.T. Usha,2004-01-28,FEMALE,Paithal Usha,pt.usha@college2.edu.in,9876543344,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-03,ACTIVE
+VIOL-2025-045,200000000456,Sunil Gavaskar,2003-10-19,MALE,Manohar Gavaskar,sunil.g@college2.edu.in,9876543345,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-04,ACTIVE
+VIOL-2025-046,200000000464,Bachendri Pal,2004-04-12,FEMALE,Kishan Singh Pal,bachendri.p@college2.edu.in,9876543346,B.Tech Information Technology,IT,2025-26,ST,REGULAR,False,2025-08-04,ACTIVE
+VIOL-2025-047,200000000472,Kapil Dev,2004-07-06,MALE,Ram Lal Nikhanj,kapil.d@college2.edu.in,9876543347,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-04,ACTIVE
+VIOL-2025-048,200000000480,Karnam Malleswari,2004-02-23,FEMALE,Ramadas Malleswari,karnam.m@college2.edu.in,9876543348,B.Tech Information Technology,IT,2025-26,OBC,REGULAR,False,2025-08-05,ACTIVE
+VIOL-2025-049,200000000498,Dhyan Chand,2003-09-12,MALE,Sameshwar Singh,dhyan.c@college2.edu.in,9876543349,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-05,ACTIVE
+VIOL-2025-050,200000000506,Anju Bobby George,2004-05-16,FEMALE,K.T. Markose,anju.b@college2.edu.in,9876543350,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-05,ACTIVE
+VIOL-2025-051,200000000514,Bhaichung Bhutia,2004-08-20,MALE,Dorji Bhutia,bhaichung.b@college2.edu.in,9876543351,B.Tech Information Technology,IT,2025-26,ST,REGULAR,False,2025-08-06,ACTIVE
+VIOL-2025-052,200000000522,Deepa Malik,2004-01-09,FEMALE,Balkrishan Malik,deepa.m@college2.edu.in,9876543352,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-06,ACTIVE
+VIOL-2025-053,200000000530,Pankaj Advani,2003-12-08,MALE,Arjan Advani,pankaj.a@college2.edu.in,9876543353,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-06,ACTIVE
+VIOL-2025-054,200000000548,Dipa Karmakar,2004-06-29,FEMALE,Dulal Karmakar,dipa.k@college2.edu.in,9876543354,B.Tech Information Technology,IT,2025-26,OBC,REGULAR,False,2025-08-07,ACTIVE
+VIOL-2025-055,200000000555,Abhinav Bindra,2004-10-02,MALE,A.S. Bindra,abhinav.b@college2.edu.in,9876543355,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-07,ACTIVE
+VIOL-2025-056,200000000563,Manika Batra,2004-03-18,FEMALE,Girish Batra,manika.b@college2.edu.in,9876543356,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-07,ACTIVE
+VIOL-2025-057,200000000571,Sushil Kumar,2003-08-16,MALE,Diwan Singh,sushil.k@college2.edu.in,9876543357,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-08,ACTIVE
+VIOL-2025-058,200000000589,Hima Das,2004-04-25,FEMALE,Ronjit Das,hima.das@college2.edu.in,9876543358,B.Tech Information Technology,IT,2025-26,OBC,REGULAR,False,2025-08-08,ACTIVE
+VIOL-2025-059,200000000597,Bajrang Punia,2004-11-07,MALE,Balwan Punia,bajrang.p@college2.edu.in,9876543359,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-08,ACTIVE
+VIOL-2025-060,200000000605,Vinesh Phogat,2004-07-11,FEMALE,Rajpal Phogat,vinesh.p@college2.edu.in,9876543360,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-09,ACTIVE
+VIOL-2025-061,200000000613,Neeraj Chopra,2003-10-24,MALE,Satish Kumar,neeraj.c@college2.edu.in,9876543361,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-09,ACTIVE
+VIOL-2025-062,200000000621,P.V. Sindhu,2004-02-14,FEMALE,P.V. Ramana,pv.sindhu@college2.edu.in,9876543362,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-09,ACTIVE
+VIOL-2025-063,200000000639,Leander Paes,2004-05-30,MALE,Vece Paes,leander.p@college2.edu.in,9876543363,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-10,ACTIVE
+VIOL-2025-064,200000000647,Sania Mirza,2004-09-04,FEMALE,Imran Mirza,sania.m@college2.edu.in,9876543364,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-10,ACTIVE
+VIOL-2025-065,200000000654,Mahesh Bhupathi,2003-12-19,MALE,Krishna Bhupathi,mahesh.b@college2.edu.in,9876543365,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-10,ACTIVE
+VIOL-2025-066,200000000662,Rohan Bopanna,2004-03-02,MALE,M.G. Bopanna,rohan.b@college2.edu.in,9876543366,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-11,ACTIVE
+VIOL-2025-067,200000000670,Mirabai Chanu,2004-08-15,FEMALE,Saikhom Kriti Meitei,mirabai.c@college2.edu.in,9876543367,B.Tech Information Technology,IT,2025-26,OBC,REGULAR,False,2025-08-11,ACTIVE
+VIOL-2025-068,200000000688,Lovlina Borgohain,2004-01-21,FEMALE,Tiken Borgohain,lovlina.b@college2.edu.in,9876543368,B.Tech Information Technology,IT,2025-26,OBC,REGULAR,False,2025-08-11,ACTIVE
+VIOL-2025-069,200000000696,Ravi Kumar Dahiya,2003-11-15,MALE,Rakesh Dahiya,ravi.d@college2.edu.in,9876543369,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-12,ACTIVE
+VIOL-2025-070,200000000704,Manu Bhaker,2004-06-04,FEMALE,Ram Kishan Bhaker,manu.b@college2.edu.in,9876543370,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-12,ACTIVE
+VIOL-2025-071,200000000712,Saral Verma,2004-10-14,MALE,Sunil Verma,saral.v@college2.edu.in,9876543371,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-12,ACTIVE
+VIOL-2025-072,200000000720,Tanya Narang,2004-04-10,FEMALE,Ramesh Narang,tanya.n@college2.edu.in,9876543372,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-13,ACTIVE
+VIOL-2025-073,200000000738,Jayant Roy,2003-09-02,MALE,Subodh Roy,jayant.r@college2.edu.in,9876543373,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-13,ACTIVE
+VIOL-2025-074,200000000746,Preeti Kulkarni,2004-07-19,FEMALE,Abhay Kulkarni,preeti.k@college2.edu.in,9876543374,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-13,ACTIVE
+VIOL-2025-075,200000000753,Chetan Bhagat,2004-02-28,MALE,Virender Bhagat,chetan.b@college2.edu.in,9876543375,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-14,ACTIVE
+VIOL-2025-076,200000000761,Jhumpa Lahiri,2004-08-01,FEMALE,Amar Lahiri,jhumpa.l@college2.edu.in,9876543376,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-14,ACTIVE
+VIOL-2025-077,200000000779,Vikram Seth,2003-10-30,MALE,Prem Seth,vikram.seth@college2.edu.in,9876543377,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-14,ACTIVE
+VIOL-2025-078,200000000787,Anita Desai,2004-05-12,FEMALE,D.N. Mazumdar,anita.d@college2.edu.in,9876543378,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-15,ACTIVE
+VIOL-2025-079,200000000795,Amitav Ghosh,2004-11-22,MALE,Shailendra Ghosh,amitav.g@college2.edu.in,9876543379,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-15,ACTIVE
+VIOL-2025-080,200000000803,Kiran Desai,2004-03-17,FEMALE,Ashvin Desai,kiran.d@college2.edu.in,9876543380,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-15,ACTIVE
+VIOL-2025-081,200000000811,Aravind Adiga,2003-12-04,MALE,K. Madhava Adiga,aravind.a@college2.edu.in,9876543381,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-16,ACTIVE
+VIOL-2025-082,200000000829,Shashi Tharoor,2004-06-08,MALE,Chandran Tharoor,shashi.t@college2.edu.in,9876543382,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-16,ACTIVE
+VIOL-2025-083,200000000837,Twinkle Khanna,2004-01-15,FEMALE,Rajesh Khanna,twinkle.k@college2.edu.in,9876543383,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-16,ACTIVE
+VIOL-2025-084,200000000845,Ruskin Bond,2004-07-21,MALE,Aubrey Bond,ruskin.b@college2.edu.in,9876543384,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-17,ACTIVE
+VIOL-2025-085,200000000852,Sudha Murty,2003-09-28,FEMALE,R.H. Kulkarni,sudha.m@college2.edu.in,9876543385,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-17,ACTIVE
+VIOL-2025-086,200000000860,R.K. Narayan,2004-04-01,MALE,Rasipuram Krishnaswami,rk.narayan@college2.edu.in,9876543386,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-17,ACTIVE
+VIOL-2025-087,200000000878,Sarojini Naidu,2004-08-12,FEMALE,Aghorenath Chattopadhyaya,sarojini.n@college2.edu.in,9876543387,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-18,ACTIVE
+VIOL-2025-088,200000000886,Rabindranath Tagore,2003-10-18,MALE,Debendranath Tagore,r.tagore@college2.edu.in,9876543388,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-18,ACTIVE
+VIOL-2025-089,200000000894,Toru Dutt,2004-02-19,FEMALE,Govind Chunder Dutt,toru.dutt@college2.edu.in,9876543389,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-18,ACTIVE
+VIOL-2025-090,200000000902,Mulk Raj Anand,2004-07-07,MALE,Lal Chand Anand,mulk.anand@college2.edu.in,9876543390,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-19,ACTIVE
+VIOL-2025-091,200000000910,Nissim Ezekiel,2003-11-13,MALE,Moses Ezekiel,nissim.e@college2.edu.in,9876543391,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-19,ACTIVE
+VIOL-2025-092,200000000928,Kamala Das,2004-03-30,FEMALE,V.M. Nair,kamala.das@college2.edu.in,9876543392,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-19,ACTIVE
+VIOL-2025-093,200000000936,A.K. Ramanujan,2004-09-27,MALE,Attipat Ramanujan,ak.ramanujan@college2.edu.in,9876543393,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-20,ACTIVE
+VIOL-2025-094,200000000944,Jayanta Mahapatra,2003-08-17,MALE,Lemuel Mahapatra,jayanta.m@college2.edu.in,9876543394,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-20,ACTIVE
+VIOL-2025-095,200000000951,Gieve Patel,2004-01-26,MALE,Edulji Patel,gieve.patel@college2.edu.in,9876543395,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-20,ACTIVE
+VIOL-2025-096,200000000969,Keki Daruwalla,2004-06-16,MALE,Naserwanji Daruwalla,keki.d@college2.edu.in,9876543396,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-21,ACTIVE
+VIOL-2025-097,200000000977,Dom Moraes,2004-12-10,MALE,Frank Moraes,dom.moraes@college2.edu.in,9876543397,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-21,ACTIVE
+VIOL-2025-098,200000000985,Arun Kolatkar,2003-10-09,MALE,Balu Kolatkar,arun.k@college2.edu.in,9876543398,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-21,ACTIVE
+VIOL-2025-099,200000000993,Dilip Chitre,2004-04-18,MALE,Purushottam Chitre,dilip.c@college2.edu.in,9876543399,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-22,ACTIVE
+VIOL-2025-100,200000001009,Eunice de Souza,2004-08-31,FEMALE,Valente de Souza,eunice.ds@college2.edu.in,9876543400,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-22,ACTIVE
+VIOL-2025-101,200000001017,Adil Jussawalla,2003-12-25,MALE,Framroze Jussawalla,adil.j@college2.edu.in,9876543401,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-22,ACTIVE
+VIOL-2025-102,200000001025,Meena Alexander,2004-05-04,FEMALE,George Alexander,meena.a@college2.edu.in,9876543402,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-23,ACTIVE
+VIOL-2025-103,200000001033,Agha Shahid Ali,2004-11-14,MALE,Agha Ashraf Ali,shahid.ali@college2.edu.in,9876543403,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-23,ACTIVE
+VIOL-2025-104,200000001041,Sujata Bhatt,2003-09-07,FEMALE,Chimanbhai Bhatt,sujata.b@college2.edu.in,9876543404,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-23,ACTIVE
+VIOL-2025-105,200000001058,Chitra Banerjee Divakaruni,2004-02-17,FEMALE,R.K. Banerjee,chitra.bd@college2.edu.in,9876543405,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-24,ACTIVE
+VIOL-2025-106,200000001066,Upamanyu Chatterjee,2004-07-25,MALE,Sudhir Chatterjee,upamanyu.c@college2.edu.in,9876543406,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-24,ACTIVE
+VIOL-2025-107,200000001074,Manju Kapur,2003-10-16,FEMALE,Kishore Kapur,manju.k@college2.edu.in,9876543407,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-24,ACTIVE
+VIOL-2025-108,200000001082,Rohinton Mistry,2004-03-29,MALE,Behram Mistry,rohinton.m@college2.edu.in,9876543408,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-25,ACTIVE
+VIOL-2025-109,200000001090,Bapsi Sidhwa,2004-08-05,FEMALE,Peshotan Bhandara,bapsi.s@college2.edu.in,9876543409,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-25,ACTIVE
+VIOL-2025-110,200000001108,Shobhaa De,2003-11-20,FEMALE,A.K. Kilachand,shobhaa.de@college2.edu.in,9876543410,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-25,ACTIVE
+VIOL-2025-111,200000001116,Jeet Thayil,2004-06-13,MALE,T.J.S. George,jeet.thayil@college2.edu.in,9876543411,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-26,ACTIVE
+VIOL-2025-112,200000001124,Tabish Khair,2004-12-02,MALE,Khair Saheb,tabish.k@college2.edu.in,9876543412,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-26,ACTIVE
+VIOL-2025-113,200000001132,Pankaj Mishra,2003-07-28,MALE,M.P. Mishra,pankaj.m@college2.edu.in,9876543413,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-26,ACTIVE
+VIOL-2025-114,200000001140,Rana Dasgupta,2004-04-07,MALE,Biresh Dasgupta,rana.d@college2.edu.in,9876543414,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-27,ACTIVE
+VIOL-2025-115,200000001157,Anjum Hasan,2004-09-18,FEMALE,K. Hasan,anjum.h@college2.edu.in,9876543415,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-27,ACTIVE
+VIOL-2025-116,200000001165,Kunal Basu,2003-10-31,MALE,Chitta Basu,kunal.b@college2.edu.in,9876543416,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-27,ACTIVE
+VIOL-2025-117,200000001173,Chaman Nahal,2004-01-22,MALE,Gopal Nahal,chaman.n@college2.edu.in,9876543417,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-28,ACTIVE
+VIOL-2025-118,200000001181,Attia Hosain,2004-07-16,FEMALE,Shahid Hosain,attia.h@college2.edu.in,9876543418,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-28,ACTIVE
+VIOL-2025-119,200000001199,Nayantara Sahgal,2003-08-21,FEMALE,Ranjit Sitaram Pandit,nayantara.s@college2.edu.in,9876543419,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-28,ACTIVE
+VIOL-2025-120,200000001207,Khushwant Singh,2004-02-02,MALE,Sobha Singh,khushwant.s@college2.edu.in,9876543420,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-29,ACTIVE
+VIOL-2025-121,200000001215,OVERSHOOT Student 1,2004-05-10,MALE,Parent 1,overshoot1@college2.edu.in,9876543421,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-29,ACTIVE
+VIOL-2025-122,200000001223,OVERSHOOT Student 2,2004-06-11,FEMALE,Parent 2,overshoot2@college2.edu.in,9876543422,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-29,ACTIVE
+VIOL-2025-123,200000001231,OVERSHOOT Student 3,2004-07-12,MALE,Parent 3,overshoot3@college2.edu.in,9876543423,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-30,ACTIVE
+VIOL-2025-124,200000001249,OVERSHOOT Student 4,2004-08-13,FEMALE,Parent 4,overshoot4@college2.edu.in,9876543424,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-30,ACTIVE
+VIOL-2025-125,200000001256,OVERSHOOT Student 5,2004-09-14,MALE,Parent 5,overshoot5@college2.edu.in,9876543425,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-30,ACTIVE
+VIOL-2025-126,200000001264,OVERSHOOT Student 6,2004-10-15,FEMALE,Parent 6,overshoot6@college2.edu.in,9876543426,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-31,ACTIVE
+VIOL-2025-127,200000001272,OVERSHOOT Student 7,2004-11-16,MALE,Parent 7,overshoot7@college2.edu.in,9876543427,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-31,ACTIVE
+VIOL-2025-128,200000001280,OVERSHOOT Student 8,2004-12-17,FEMALE,Parent 8,overshoot8@college2.edu.in,9876543428,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-08-31,ACTIVE
+VIOL-2025-129,200000001298,OVERSHOOT Student 9,2003-01-18,MALE,Parent 9,overshoot9@college2.edu.in,9876543429,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-01,ACTIVE
+VIOL-2025-130,200000001306,OVERSHOOT Student 10,2003-02-19,FEMALE,Parent 10,overshoot10@college2.edu.in,9876543430,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-01,ACTIVE
+VIOL-2025-131,200000001314,OVERSHOOT Student 11,2003-03-20,MALE,Parent 11,overshoot11@college2.edu.in,9876543431,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-01,ACTIVE
+VIOL-2025-132,200000001322,OVERSHOOT Student 12,2003-04-21,FEMALE,Parent 12,overshoot12@college2.edu.in,9876543432,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-02,ACTIVE
+VIOL-2025-133,200000001330,OVERSHOOT Student 13,2003-05-22,MALE,Parent 13,overshoot13@college2.edu.in,9876543433,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-02,ACTIVE
+VIOL-2025-134,200000001348,OVERSHOOT Student 14,2003-06-23,FEMALE,Parent 14,overshoot14@college2.edu.in,9876543434,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-02,ACTIVE
+VIOL-2025-135,200000001355,OVERSHOOT Student 15,2003-07-24,MALE,Parent 15,overshoot15@college2.edu.in,9876543435,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-03,ACTIVE
+VIOL-2025-136,200000001363,OVERSHOOT Student 16,2003-08-25,FEMALE,Parent 16,overshoot16@college2.edu.in,9876543436,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-03,ACTIVE
+VIOL-2025-137,200000001371,OVERSHOOT Student 17,2003-09-26,MALE,Parent 17,overshoot17@college2.edu.in,9876543437,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-03,ACTIVE
+VIOL-2025-138,200000001389,OVERSHOOT Student 18,2003-10-27,FEMALE,Parent 18,overshoot18@college2.edu.in,9876543438,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-04,ACTIVE
+VIOL-2025-139,200000001397,OVERSHOOT Student 19,2003-11-28,MALE,Parent 19,overshoot19@college2.edu.in,9876543439,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-04,ACTIVE
+VIOL-2025-140,200000001405,OVERSHOOT Student 20,2003-12-29,FEMALE,Parent 20,overshoot20@college2.edu.in,9876543440,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-04,ACTIVE
+VIOL-2025-141,200000001413,OVERSHOOT Student 21,2004-01-30,MALE,Parent 21,overshoot21@college2.edu.in,9876543441,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-05,ACTIVE
+VIOL-2025-142,200000001421,OVERSHOOT Student 22,2004-02-01,FEMALE,Parent 22,overshoot22@college2.edu.in,9876543442,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-05,ACTIVE
+VIOL-2025-143,200000001439,OVERSHOOT Student 23,2004-03-02,MALE,Parent 23,overshoot23@college2.edu.in,9876543443,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-05,ACTIVE
+VIOL-2025-144,200000001447,OVERSHOOT Student 24,2004-04-03,FEMALE,Parent 24,overshoot24@college2.edu.in,9876543444,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-06,ACTIVE
+VIOL-2025-145,200000001454,OVERSHOOT Student 25,2004-05-04,MALE,Parent 25,overshoot25@college2.edu.in,9876543445,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-06,ACTIVE
+VIOL-2025-146,200000001462,OVERSHOOT Student 26,2004-06-05,FEMALE,Parent 26,overshoot26@college2.edu.in,9876543446,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-06,ACTIVE
+VIOL-2025-147,200000001470,OVERSHOOT Student 27,2004-07-06,MALE,Parent 27,overshoot27@college2.edu.in,9876543447,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-07,ACTIVE
+VIOL-2025-148,200000001488,OVERSHOOT Student 28,2004-08-07,FEMALE,Parent 28,overshoot28@college2.edu.in,9876543448,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-07,ACTIVE
+VIOL-2025-149,200000001496,OVERSHOOT Student 29,2004-09-08,MALE,Parent 29,overshoot29@college2.edu.in,9876543449,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-07,ACTIVE
+VIOL-2025-150,200000001504,OVERSHOOT Student 30,2004-10-09,FEMALE,Parent 30,overshoot30@college2.edu.in,9876543450,B.Tech Information Technology,IT,2025-26,GEN,REGULAR,False,2025-09-08,ACTIVE

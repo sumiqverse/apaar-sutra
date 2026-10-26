@@ -1,0 +1,20 @@
+{
+  "record_id": "rec_demo_88291410-4f9e-4a67-8822-123456789abc",
+  "apaar_ref": "hmac_apaar_5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+  "student_ref_id": "CLN-2025-001",
+  "student_name": "Aarav Sharma",
+  "institution_aicte_id": "1-100234901",
+  "institution_name": "Indian Institute of Technology & Management (IITM Mumbai)",
+  "program": "B.Tech Computer Science & Engineering",
+  "academic_year": "2025-26",
+  "enrolment_start": "2025-07-15",
+  "expected_end": "2029-06-30",
+  "status": "ACTIVE",
+  "issued_at": "2026-10-27T00:00:00Z",
+  "kid": "sutra-ed25519-v1",
+  "signature": "c5f51950d4d5e9b81cf2671b56da456ef40ecab89312217c46234b3e34b9d07f7b3dfd3c50965c4ecfb25f0a1c1d6fb8c8bcf625bb41f9d6db2132d73286bf09",
+  "_tamper_instructions": {
+    "authentic_action": "Verify against /.well-known/apaar-sutra-keys.json -> Returns VALID",
+    "tamper_simulation": "Change 'status' from 'ACTIVE' to 'GRADUATED' or alter single character in 'student_name' -> Re-running Ed25519 verification immediately returns SIGNATURE_INVALID"
+  }
+}

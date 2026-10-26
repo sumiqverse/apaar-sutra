@@ -14,12 +14,17 @@ import { PublicVerification } from "@/pages/PublicVerification";
 import { ReportsConsole } from "@/pages/ReportsConsole";
 import { AdminConsole } from "@/pages/AdminConsole";
 import { DeveloperDocs } from "@/pages/DeveloperDocs";
+import { DemoGuide } from "@/pages/DemoGuide";
 import { NotFound } from "@/pages/NotFound";
 
 export const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/demo-guide",
+    element: <DemoGuide />,
   },
   {
     path: "/verify/:token",
@@ -84,6 +89,10 @@ export const router = createBrowserRouter([
       {
         path: "health",
         element: <Health />,
+      },
+      {
+        path: "demo-guide",
+        element: <DemoGuide />,
       },
       {
         path: "*",

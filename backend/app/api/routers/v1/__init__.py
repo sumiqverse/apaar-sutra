@@ -16,6 +16,7 @@ from app.api.routers.v1.consent import router as consent_router
 from app.api.routers.v1.well_known import router as well_known_router
 from app.api.routers.v1.reports import router as reports_router
 from app.api.routers.v1.admin import router as admin_router
+from app.api.routers.v1.demo import router as demo_router
 
 api_v1_router = APIRouter()
 api_v1_router.include_router(auth_router)
@@ -26,6 +27,7 @@ api_v1_router.include_router(consent_router)
 api_v1_router.include_router(well_known_router)
 api_v1_router.include_router(reports_router)
 api_v1_router.include_router(admin_router)
+api_v1_router.include_router(demo_router)
 api_v1_router.include_router(batches_router)
 api_v1_router.include_router(programs_router)
 api_v1_router.include_router(integration_router)
