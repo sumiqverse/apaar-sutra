@@ -39,8 +39,9 @@ from app.models.rbac import (
     UserInstitution,
     UserRole,
 )
+from app.core.crypto import compute_blind_index
 from app.models.state import State
-from app.models.student import AcademicRecord, Student
+from app.models.student import Student
 from app.models.batch import UploadBatch
 from app.models.validation import ValidationIssue
 
@@ -493,28 +494,24 @@ async def reset_demo_data(
         stmt = select(Student).where(Student.apaar_id == apaar)
         res = await db.execute(stmt)
         s = res.scalar_one_or_none()
+        full_name = f"{fn} {ln}"
         if not s:
             s = Student(
                 id=uuid.uuid4(),
                 apaar_id=apaar,
-                institution_id=dtu_inst.id,
-                first_name=fn,
-                last_name=ln,
-                dob=date(2004, 3, 10),
+                apaar_status="VERIFIED",
+                name_enc=full_name,
+                dob_enc=date(2004, 3, 10),
                 gender=gdr,
-                aadhaar_hash=hashlib.sha256(f"aadhaar_{apaar}".encode()).hexdigest(),
-                enrollment_number=en_num,
-                program_name=dtu_prog.name,
-                admission_year=2025,
-                status="ACTIVE",
-                verification_status="VERIFIED",
+                name_bidx=compute_blind_index(full_name),
+                dob_bidx=compute_blind_index(date(2004, 3, 10)),
             )
             db.add(s)
             await db.flush()
 
         # Seed Enrolment in DTU Delhi
         stmt_enr = select(Enrolment).where(
-            (Enrolment.apaar_id == apaar) & (Enrolment.academic_year == "2025-26")
+            (Enrolment.student_id == s.id) & (Enrolment.academic_year == "2025-26")
         )
         enr = (await db.execute(stmt_enr)).scalar_one_or_none()
         if not enr:
@@ -523,13 +520,13 @@ async def reset_demo_data(
                 student_id=s.id,
                 institution_id=dtu_inst.id,
                 program_id=dtu_prog.id,
-                apaar_id=apaar,
                 academic_year="2025-26",
-                enrolment_number=en_num,
+                student_ref_id=en_num,
+                admission_category="GEN",
+                quota_type="REGULAR",
                 admission_date=date(2025, 8, 1),
-                category="GEN",
                 status="ACTIVE",
-                verification_status="VERIFIED",
+                validation_status="CLEAN",
             )
             db.add(enr)
 
@@ -542,20 +539,16 @@ async def reset_demo_data(
     stmt = select(Student).where(Student.apaar_id == rohan_apaar)
     rohan_s = (await db.execute(stmt)).scalar_one_or_none()
     if not rohan_s:
+        rohan_name = "Rohan Mehta"
         rohan_s = Student(
             id=uuid.uuid4(),
             apaar_id=rohan_apaar,
-            institution_id=iitm_inst.id,
-            first_name="Rohan",
-            last_name="Mehta",
-            dob=date(2003, 7, 21),
+            apaar_status="VERIFIED",
+            name_enc=rohan_name,
+            dob_enc=date(2003, 7, 21),
             gender="MALE",
-            aadhaar_hash=hashlib.sha256("aadhaar_rohan_9876".encode()).hexdigest(),
-            enrollment_number="IITM-2022-CSE-042",
-            program_name=iitm_prog.name,
-            admission_year=2022,
-            status="ACTIVE",
-            verification_status="VERIFIED",
+            name_bidx=compute_blind_index(rohan_name),
+            dob_bidx=compute_blind_index(date(2003, 7, 21)),
         )
         db.add(rohan_s)
         await db.flush()
@@ -566,13 +559,13 @@ async def reset_demo_data(
         student_id=rohan_s.id,
         institution_id=iitm_inst.id,
         program_id=iitm_prog.id,
-        apaar_id=rohan_apaar,
         academic_year="2024-25",
-        enrolment_number="IITM-2022-CSE-042",
+        student_ref_id="IITM-2022-CSE-042",
+        admission_category="GEN",
+        quota_type="REGULAR",
         admission_date=date(2022, 8, 10),
-        category="GEN",
         status="ACTIVE",
-        verification_status="VERIFIED",
+        validation_status="CLEAN",
     )
     db.add(rohan_enr)
     await db.flush()
