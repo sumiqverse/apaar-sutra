@@ -162,7 +162,21 @@ def require_any_permission(permissions: List[str]) -> Callable:
             )
         return current_user
 
-    return permission_checker
+def require_role(roles: List[str]) -> Callable:
+    """Dependency factory checking if current user possesses at least one of the listed roles."""
+    async def role_checker(current_user: CurrentUser = Depends(get_current_user)) -> CurrentUser:
+        if "SUPER_ADMIN" in current_user.roles:
+            return current_user
+        if not any(r in current_user.roles for r in roles):
+            raise ForbiddenException(
+                message=f"Access denied: Requires at least one of the roles: {', '.join(roles)}."
+            )
+        return current_user
+
+    return role_checker
+
+
+TokenPayload = CurrentUser
 
 
 def get_tenant_context(current_user: CurrentUser = Depends(get_current_user)) -> TenantContext:

@@ -43,6 +43,16 @@ from app.schemas.validation import (
     ValidationIssueStatusUpdateRequest,
     ValidationExplainResponse,
 )
+from app.schemas.ml import (
+    InstitutionRiskItem,
+    InstitutionRiskListResponse,
+    InstitutionExplainResponse,
+    FuzzyDedupRequest,
+    FuzzyDedupResponse,
+    FuzzyDedupMatch,
+    GhostStudentResponse,
+    RetrainResponse,
+)
 
 __all__ = [
     "ErrorDetail",
@@ -76,4 +86,12 @@ __all__ = [
     "ValidationIssueResponse",
     "ValidationIssueStatusUpdateRequest",
     "ValidationExplainResponse",
+    "InstitutionRiskItem",
+    "InstitutionRiskListResponse",
+    "InstitutionExplainResponse",
+    "FuzzyDedupRequest",
+    "FuzzyDedupResponse",
+    "FuzzyDedupMatch",
+    "GhostStudentResponse",
+    "RetrainResponse",
 ]

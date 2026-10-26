@@ -445,7 +445,73 @@ def generate_synthetic_dataset(dry_run: bool = False) -> None:
 
     # Anomaly 7: 2 institutions with suspicious spikes (>200% YoY, clustered timestamps)
     spike_institutions = institutions_data[6:8]
+    burst_timestamp_base = datetime(2025, 8, 15, 10, 0, 0, tzinfo=timezone.utc)
+
     for inst in spike_institutions:
+        inst_programs_2025 = [p for p in program_by_inst[inst.id] if p.academic_year == "2025-26"]
+        if not inst_programs_2025:
+            inst_programs_2025 = programs_2025[:2]
+
+        inst_2024_count = sum(1 for e in enrolments_data if e.institution_id == inst.id and e.academic_year == "2024-25")
+        inst_2025_count = sum(1 for e in enrolments_data if e.institution_id == inst.id and e.academic_year == "2025-26")
+
+        target_2025 = max(100, int(max(inst_2024_count, 40) * 3.40))  # 240% YoY growth!
+        needed_spike_students = max(80, target_2025 - inst_2025_count)
+
+        for s_idx in range(needed_spike_students):
+            st_id = uuid.uuid4()
+            p = random.choice(inst_programs_2025)
+            gender = "MALE" if s_idx % 2 == 0 else "FEMALE"
+            f_name = fake.first_name_male() if gender == "MALE" else fake.first_name_female()
+            l_name = fake.last_name()
+            full_name = f"{f_name} {l_name}"
+            p_name = f"{fake.first_name_male()} {l_name}"
+            dob = date(2005, (s_idx % 12) + 1, (s_idx % 28) + 1)
+            apaar_id = make_valid_apaar_id(apaar_counter)
+            apaar_counter += 1
+
+            st = Student(
+                id=st_id,
+                apaar_id=apaar_id,
+                apaar_status="VERIFIED",
+                name_enc=full_name,
+                dob_enc=dob,
+                parent_name_enc=p_name,
+                contact_enc={"email": f"spike.{f_name.lower()}.{s_idx}@example.com", "phone": fake.phone_number()[:15]},
+                gender=gender,
+                name_bidx=compute_blind_index(full_name),
+                dob_bidx=compute_blind_index(dob),
+                parent_bidx=compute_blind_index(p_name),
+            )
+            # Burst admission: all admitted on same date, timestamps within 180 seconds!
+            burst_dt = burst_timestamp_base + timedelta(seconds=(s_idx % 170))
+            en = Enrolment(
+                id=uuid.uuid4(),
+                student_id=st.id,
+                program_id=p.id,
+                institution_id=inst.id,
+                academic_year="2025-26",
+                student_ref_id=f"SPIKE-{p.branch}-{s_idx:04d}",
+                admission_category="GEN",
+                quota_type="REGULAR",
+                is_nri=False,
+                nationality="INDIAN",
+                admission_date=date(2025, 8, 15),
+                status="ACTIVE",
+                validation_status="CLEAN",
+                risk_score=95.0,
+                created_at=burst_dt,
+            )
+            students_data.append(st)
+            enrolments_data.append(en)
+            apaar_registry[apaar_id] = {
+                "apaar_id": apaar_id,
+                "full_name": full_name,
+                "dob": dob.isoformat(),
+                "gender": gender,
+                "registry_status": "ACTIVE",
+            }
+
         injected_issues["suspicious_spike_institutions"].append({
             "type": "SUSPICIOUS_ENROLMENT_SPIKE",
             "entity_ids": [str(inst.id)],
@@ -454,6 +520,7 @@ def generate_synthetic_dataset(dry_run: bool = False) -> None:
                 "institution_aicte_id": inst.aicte_id,
                 "growth_percentage": 240,
                 "admission_timestamp_cluster_seconds": 180,
+                "spike_students_injected": needed_spike_students,
             },
         })
 

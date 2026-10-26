@@ -26,6 +26,10 @@ celery_app.conf.update(
 celery_app.conf.beat_schedule = {
     "nightly-cross-institution-scan": {
         "task": "app.workers.tasks.run_nightly_cross_institution_scan",
+        "schedule": crontab(hour="2", minute="0"),  # 02:00 UTC daily
+    },
+    "nightly-ml-retrain-and-score": {
+        "task": "app.workers.tasks.retrain_and_score_institutions",
         "schedule": crontab(hour="3", minute="0"),  # 03:00 UTC daily
     },
     "retry-pending-apaar-verifications": {

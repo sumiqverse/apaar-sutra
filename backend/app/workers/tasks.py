@@ -163,3 +163,134 @@ def run_nightly_cross_institution_scan(session: Optional[Any] = None) -> Dict[st
 def run_nightly_anomaly_checks() -> Dict[str, Any]:
     """Backwards-compatible alias for nightly cross-institution scan."""
     return run_nightly_cross_institution_scan()
+
+
+async def async_retrain_and_score_institutions(
+    academic_year: str = "2025-26",
+    session: Optional[AsyncSession] = None,
+    version: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Async execution logic for retraining Isolation Forest and updating institutional risk scores."""
+    from datetime import datetime, timezone
+    from app.models.institution import Institution
+    from app.models.ml import InstitutionRiskScore
+    from app.models.credential import Alert
+    from app.ml.features import InstitutionFeatureExtractor
+    from app.ml.peer_comparison import PeerGroupComparator
+    from app.ml.anomaly_detector import InstitutionRiskDetector
+    from app.ml.model_store import ModelStore
+
+    own_session = session is None
+    s = session if session is not None else AsyncSessionLocal()
+    try:
+        # 1. Extract features for all institutions
+        features_by_id = await InstitutionFeatureExtractor.extract_for_all_institutions_async(
+            session=s,
+            academic_year=academic_year,
+        )
+        if not features_by_id:
+            return {"status": "SKIPPED", "message": "No institutional records found for scoring."}
+
+        # 2. Fetch institution metadata for peer grouping
+        inst_res = await s.execute(select(Institution))
+        institutions = list(inst_res.scalars().all())
+        metadata_list = [
+            {
+                "id": str(i.id),
+                "aicte_id": i.aicte_id,
+                "name": i.name,
+                "institution_type": i.institution_type,
+                "state_id": str(i.state_id),
+                "approved_total_intake": i.approved_total_intake,
+            }
+            for i in institutions
+        ]
+
+        # 3. Fit detector
+        string_features = {str(k): v for k, v in features_by_id.items()}
+        detector = InstitutionRiskDetector()
+        detector.fit(string_features)
+
+        # 4. Save model artifact
+        model_ver = version or f"v{int(datetime.now(timezone.utc).timestamp())}"
+        store = ModelStore()
+        store.save_model(detector, version=model_ver, metadata={"academic_year": academic_year, "institutions_count": len(string_features)})
+
+        # 5. Score institutions
+        comparator = PeerGroupComparator(metadata_list, string_features)
+        scored_institutions = detector.score_all(string_features, peer_comparator=comparator)
+
+        # 6. Upsert risk scores in database
+        high_risk_count = 0
+        for item in scored_institutions:
+            inst_uuid = uuid.UUID(item["institution_id"])
+            score_val = item["risk_score"]
+            level_val = item["risk_level"]
+
+            if score_val >= 80.0:
+                high_risk_count += 1
+                # Auto-generate alert for critical risk institutions
+                alert = Alert(
+                    id=uuid.uuid4(),
+                    type="CRITICAL_INSTITUTION_RISK",
+                    severity="CRITICAL",
+                    institution_id=inst_uuid,
+                    message=f"Institution flagged as CRITICAL risk (Risk Score: {score_val}/100). Top factor: {item['contributing_factors'][0]['plain_english'] if item['contributing_factors'] else 'Multiple anomalous signals'}",
+                    status="NEW",
+                )
+                s.add(alert)
+
+            # Query existing score for this year
+            existing_res = await s.execute(
+                select(InstitutionRiskScore).where(
+                    InstitutionRiskScore.institution_id == inst_uuid,
+                    InstitutionRiskScore.academic_year == academic_year,
+                    InstitutionRiskScore.model_version == model_ver,
+                )
+            )
+            existing_record = existing_res.scalars().first()
+
+            if existing_record:
+                existing_record.risk_score = score_val
+                existing_record.risk_level = level_val
+                existing_record.anomaly_score = item["anomaly_score"]
+                existing_record.contributing_factors = item["contributing_factors"]
+                existing_record.metrics = item["metrics"]
+                existing_record.peer_comparison = item["peer_comparison"]
+                existing_record.ghost_student_flags = {}
+            else:
+                new_record = InstitutionRiskScore(
+                    id=uuid.uuid4(),
+                    institution_id=inst_uuid,
+                    academic_year=academic_year,
+                    risk_score=score_val,
+                    risk_level=level_val,
+                    anomaly_score=item["anomaly_score"],
+                    contributing_factors=item["contributing_factors"],
+                    metrics=item["metrics"],
+                    peer_comparison=item["peer_comparison"],
+                    ghost_student_flags={},
+                    model_version=model_ver,
+                )
+                s.add(new_record)
+
+        await s.commit()
+
+        return {
+            "status": "SUCCESS",
+            "model_version": model_ver,
+            "institutions_scored": len(scored_institutions),
+            "high_risk_count": high_risk_count,
+            "message": f"Nightly ML retraining and scoring completed. {len(scored_institutions)} institutions assessed ({high_risk_count} critical).",
+        }
+    finally:
+        if own_session:
+            await s.close()
+
+
+@celery_app.task(name="app.workers.tasks.retrain_and_score_institutions")
+def retrain_and_score_institutions(academic_year: str = "2025-26", session: Optional[Any] = None) -> Dict[str, Any]:
+    """Scheduled task executing nightly retraining of Isolation Forest and institutional risk scoring."""
+    logger.info(f"Executing scheduled nightly ML retraining and scoring for academic year {academic_year}...")
+    return asyncio.run(async_retrain_and_score_institutions(academic_year=academic_year, session=session))
+
