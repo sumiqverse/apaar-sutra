@@ -39,6 +39,11 @@ class UnauthorizedException(AppException):
         super().__init__(code="UNAUTHORIZED", message=message, status_code=status.HTTP_401_UNAUTHORIZED, details=details)
 
 
+class AuthorizationException(AppException):
+    def __init__(self, message: str = "Authorization failed", details: Optional[Dict[str, Any]] = None):
+        super().__init__(code="UNAUTHORIZED", message=message, status_code=status.HTTP_401_UNAUTHORIZED, details=details)
+
+
 class ForbiddenException(AppException):
     def __init__(self, message: str = "Access forbidden", details: Optional[Dict[str, Any]] = None):
         super().__init__(code="FORBIDDEN", message=message, status_code=status.HTTP_403_FORBIDDEN, details=details)
