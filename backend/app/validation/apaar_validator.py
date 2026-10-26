@@ -75,6 +75,9 @@ def validate_verhoeff(numeric_str: str) -> bool:
     return c == 0
 
 
+validate_verhoeff_checksum = validate_verhoeff
+
+
 def generate_verhoeff_check_digit(number_str: str) -> str:
     """Generate the Verhoeff check digit for an 11-digit string."""
     c = 0

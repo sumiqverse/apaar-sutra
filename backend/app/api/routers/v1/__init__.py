@@ -9,6 +9,7 @@ from app.api.routers.v1.verifications import router as verifications_router
 from app.api.routers.v1.batches import router as batches_router
 from app.api.routers.v1.programs import router as programs_router
 from app.api.routers.v1.integration import router as integration_router
+from app.api.routers.v1.validation import router as validation_router
 
 api_v1_router = APIRouter()
 api_v1_router.include_router(auth_router)
@@ -18,5 +19,6 @@ api_v1_router.include_router(verifications_router)
 api_v1_router.include_router(batches_router)
 api_v1_router.include_router(programs_router)
 api_v1_router.include_router(integration_router)
+api_v1_router.include_router(validation_router)
 
 __all__ = ["api_v1_router"]

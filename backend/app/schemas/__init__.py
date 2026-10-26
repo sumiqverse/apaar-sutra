@@ -36,6 +36,13 @@ from app.schemas.ingestion import (
     BatchDetailResponse,
     BatchErrorRow,
 )
+from app.schemas.validation import (
+    ValidationRuleResponse,
+    ValidationRuleUpdateRequest,
+    ValidationIssueResponse,
+    ValidationIssueStatusUpdateRequest,
+    ValidationExplainResponse,
+)
 
 __all__ = [
     "ErrorDetail",
@@ -64,4 +71,9 @@ __all__ = [
     "UserMeResponse",
     "AuditLogResponse",
     "AuditVerifyResponse",
+    "ValidationRuleResponse",
+    "ValidationRuleUpdateRequest",
+    "ValidationIssueResponse",
+    "ValidationIssueStatusUpdateRequest",
+    "ValidationExplainResponse",
 ]

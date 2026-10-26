@@ -35,13 +35,20 @@ def process_bulk_student_upload(
 
     async def _run():
         async with AsyncSessionLocal() as session:
-            return await BulkIngestionService.process_batch(
+            res = await BulkIngestionService.process_batch(
                 batch_id=uuid.UUID(batch_id),
                 file_path=file_path,
                 institution_id=uuid.UUID(institution_id),
                 session=session,
                 redis_client=redis_conn,
             )
+            # Automatically trigger validation engine post-upload
+            await async_run_batch_validation(
+                batch_id=batch_id,
+                institution_id=institution_id,
+                session=session,
+            )
+            return res
 
     return asyncio.run(_run())
 
@@ -84,13 +91,75 @@ def retry_pending_apaar_verifications(session: Optional[Any] = None) -> Dict[str
     return {"reconciled": count}
 
 
+async def async_run_batch_validation(
+    batch_id: str,
+    institution_id: Optional[str] = None,
+    session: Optional[AsyncSession] = None,
+) -> Dict[str, Any]:
+    """Execute validation engine rules for an uploaded batch."""
+    from app.models.batch import UploadBatch
+    from app.validation.engine import RuleEngine
+
+    own_session = session is None
+    s = session if session is not None else AsyncSessionLocal()
+    try:
+        b_uuid = uuid.UUID(batch_id)
+        inst_uuid = uuid.UUID(institution_id) if institution_id else None
+        if not inst_uuid:
+            b = await s.get(UploadBatch, b_uuid)
+            if b:
+                inst_uuid = b.institution_id
+
+        if not inst_uuid:
+            return {"error": "Institution not found", "violations": 0}
+
+        engine = RuleEngine()
+        violations = await engine.evaluate_batch(
+            session=s,
+            batch_id=b_uuid,
+            institution_id=inst_uuid,
+            persist=True,
+        )
+        return {"batch_id": batch_id, "violations": len(violations)}
+    finally:
+        if own_session:
+            await s.close()
+
+
+@celery_app.task(name="app.workers.tasks.run_batch_validation")
+def run_batch_validation(batch_id: str, institution_id: Optional[str] = None) -> Dict[str, Any]:
+    """Celery task running validation engine rules for an uploaded batch."""
+    logger.info(f"Running validation rules for batch {batch_id}...")
+    return asyncio.run(async_run_batch_validation(batch_id, institution_id))
+
+
+async def async_run_cross_institution_scan(session: Optional[AsyncSession] = None) -> Dict[str, Any]:
+    """Execute nightly set-based cross-institution scan across all enrolments."""
+    from app.validation.engine import RuleEngine
+
+    own_session = session is None
+    s = session if session is not None else AsyncSessionLocal()
+    try:
+        engine = RuleEngine()
+        violations = await engine.evaluate_cross_institution(session=s, persist=True)
+        return {
+            "status": "SUCCESS",
+            "violations_detected": len(violations),
+            "message": f"Nightly cross-institution scan completed. {len(violations)} issues flagged/updated.",
+        }
+    finally:
+        if own_session:
+            await s.close()
+
+
+@celery_app.task(name="app.workers.tasks.run_nightly_cross_institution_scan")
+def run_nightly_cross_institution_scan(session: Optional[Any] = None) -> Dict[str, Any]:
+    """Scheduled task executing nightly set-based cross-institution compliance and capacity scan."""
+    logger.info("Executing scheduled nightly cross-institution scan across AICTE database...")
+    return asyncio.run(async_run_cross_institution_scan(session=session))
+
 
 @celery_app.task(name="app.workers.tasks.run_nightly_anomaly_checks")
 def run_nightly_anomaly_checks() -> Dict[str, Any]:
-    """Scheduled task executing national cross-institutional anomaly detection."""
-    logger.info("Executing scheduled nightly anomaly detection sweep across AICTE database...")
-    return {
-        "status": "SUCCESS",
-        "anomalies_detected": 0,
-        "message": "Nightly sweep completed without new high-severity violations.",
-    }
+    """Backwards-compatible alias for nightly cross-institution scan."""
+    return run_nightly_cross_institution_scan()

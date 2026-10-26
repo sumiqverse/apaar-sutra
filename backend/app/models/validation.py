@@ -25,6 +25,8 @@ class ValidationRule(Base, TimestampMixin):
         String(50), nullable=False, default="ENROLMENT"
     )  # INSTITUTION, PROGRAM, STUDENT, ENROLMENT
     enabled: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    remediation_hint: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     params: Mapped[Dict[str, Any]] = mapped_column(JSONB, default=dict, nullable=False)
     version: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
 

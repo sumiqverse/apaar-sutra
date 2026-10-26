@@ -24,9 +24,9 @@ celery_app.conf.update(
 
 # Celery Beat Scheduled Tasks
 celery_app.conf.beat_schedule = {
-    "nightly-anomaly-sweep": {
-        "task": "app.workers.tasks.run_nightly_anomaly_checks",
-        "schedule": crontab(hour="2", minute="0"),  # 02:00 UTC daily
+    "nightly-cross-institution-scan": {
+        "task": "app.workers.tasks.run_nightly_cross_institution_scan",
+        "schedule": crontab(hour="3", minute="0"),  # 03:00 UTC daily
     },
     "retry-pending-apaar-verifications": {
         "task": "app.workers.tasks.retry_pending_apaar_verifications",
