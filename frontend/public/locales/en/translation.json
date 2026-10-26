@@ -1,0 +1,41 @@
+{
+  "app": {
+    "title": "APAAR-Sutra",
+    "subtitle": "AICTE Student Data Management and Verification Platform",
+    "tagline": "One Nation, One Student ID Academic Registry"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "students": "Student Registry",
+    "verification": "Instant Verification",
+    "health": "System Health",
+    "analytics": "AICTE Analytics",
+    "docs": "API Docs"
+  },
+  "health": {
+    "title": "System Operational Status",
+    "subtitle": "Real-time liveness, readiness, and dependency health diagnostics",
+    "backend_liveness": "Backend API Liveness",
+    "database_status": "PostgreSQL 16 Engine",
+    "redis_status": "Redis 7 Broker & Cache",
+    "status": "Operational State",
+    "healthy": "Healthy / Operational",
+    "unhealthy": "Degraded / Error",
+    "latency": "Latency",
+    "request_id": "Request Correlation ID",
+    "timestamp": "Probe Timestamp",
+    "refresh_button": "Refresh Health Checks",
+    "all_systems_go": "All microservices and database engines are operating within normal parameters."
+  },
+  "common": {
+    "refresh": "Refresh",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "active": "Active",
+    "verified": "Verified",
+    "pending": "Pending",
+    "language": "Language",
+    "loading": "Loading...",
+    "error": "Error"
+  }
+}

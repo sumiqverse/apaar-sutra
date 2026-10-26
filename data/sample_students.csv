@@ -1,0 +1,5 @@
+apaar_id,institution_aicte_id,first_name,last_name,dob,gender,aadhaar_reference,enrollment_number,program_name,admission_year
+987654321012,1-100234901,Aarav,Sharma,2003-05-15,MALE,999988887777,EN2021001,Computer Science & Engineering,2021
+876543210987,1-100234901,Ananya,Verma,2004-11-20,FEMALE,888877776666,EN2022045,Information Technology,2022
+765432109876,1-200987112,Rohan,Gupta,2002-08-10,MALE,777766665555,ME2020089,Mechanical Engineering,2020
+654321098765,1-300456221,Priya,Nair,2003-03-25,FEMALE,666655554444,EC2021112,Electronics & Communication,2021
