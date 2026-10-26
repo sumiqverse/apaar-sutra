@@ -5,10 +5,16 @@ from typing import AsyncGenerator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.middleware import RequestIDMiddleware, SecurityHeadersMiddleware, StructuredLoggingMiddleware
+from app.api.middleware import (
+    RequestBodyLimitMiddleware,
+    RequestIDMiddleware,
+    SecurityHeadersMiddleware,
+    StructuredLoggingMiddleware,
+)
 from app.api.routers import health_router, api_v1_router
 from app.core.config import settings
 from app.core.exceptions import register_exception_handlers
+from app.core.logging import setup_logging
 try:
     from mock_apaar.server import mock_apaar_app
 except ImportError:
@@ -41,6 +47,8 @@ def create_application() -> FastAPI:
     # 2. Register Cross-Cutting Middlewares (executed in reverse registration order)
     # Structured request execution logging
     app.add_middleware(StructuredLoggingMiddleware)
+    # Enforce body size limits (1 MB JSON, 20 MB file uploads)
+    app.add_middleware(RequestBodyLimitMiddleware)
     # Enforce security headers (HSTS, CSP, nosniff, etc.)
     app.add_middleware(SecurityHeadersMiddleware)
     # Request-ID propagation (X-Request-ID in & out)

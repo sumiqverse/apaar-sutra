@@ -44,7 +44,8 @@ from app.models.program import Program
 from app.models.student import Student
 from app.models.enrolment import Enrolment
 from app.models.validation import ValidationRule
-from app.models.rbac import User, Role, Permission, UserRole, UserInstitution
+from app.core.password import hash_password
+from app.models.rbac import User, Role, Permission, UserRole, RolePermission, UserInstitution
 from app.validation.apaar_rules import generate_verhoeff_check_digit
 
 # Enforce deterministic generation
@@ -524,31 +525,96 @@ def generate_synthetic_dataset(dry_run: bool = False) -> None:
         session = SessionLocal()
 
         # 6a. Default Roles & Permissions
-        super_role = session.query(Role).filter_by(name="SUPER_ADMIN").first()
-        if not super_role:
-            roles = [
-                Role(name="SUPER_ADMIN", description="AICTE National Directorate with global oversight"),
-                Role(name="INSTITUTION_ADMIN", description="Institutional Registrar/Dean"),
-                Role(name="STUDENT", description="Academic record holder"),
-                Role(name="VERIFIER", description="Third-party background verification entity"),
-            ]
-            session.add_all(roles)
-            session.flush()
-            super_role = [r for r in roles if r.name == "SUPER_ADMIN"][0]
+        role_map = {r.name: r for r in session.query(Role).all()}
+        all_roles_def = [
+            ("SUPER_ADMIN", "AICTE National Directorate with global oversight"),
+            ("AICTE_OFFICER", "AICTE Directorate Nodal Officer"),
+            ("AICTE_ANALYST", "AICTE Policy & Data Analyst"),
+            ("INSTITUTION_ADMIN", "Institutional Registrar/Dean"),
+            ("INSTITUTION_OPERATOR", "Institutional Academic Data Operator"),
+            ("VERIFIER", "Third-party background verification agency"),
+            ("AUDITOR", "Statutory Compliance & Audit Inspector"),
+            ("STUDENT", "Student academic record holder"),
+        ]
+        for r_name, r_desc in all_roles_def:
+            if r_name not in role_map:
+                r = Role(name=r_name, description=r_desc)
+                session.add(r)
+                session.flush()
+                role_map[r_name] = r
 
-        # 6b. Demo Users
-        superadmin = session.query(User).filter_by(email="superadmin@aicte.gov.in").first()
-        if not superadmin:
-            superadmin = User(
-                email="superadmin@aicte.gov.in",
-                password_hash=hash_password(settings.DEMO_SUPERADMIN_PASSWORD),
-                full_name="AICTE National Director",
-                is_active=True,
-                is_verified=True,
-            )
-            session.add(superadmin)
-            session.flush()
-            session.add(UserRole(user_id=superadmin.id, role_id=super_role.id))
+        # Permissions definitions
+        perm_map = {p.code: p for p in session.query(Permission).all()}
+        all_perms_def = [
+            ("students:read", "View student list and records (masked)"),
+            ("students:read_full", "View unmasked APAAR ID and PII"),
+            ("students:write", "Create and modify student records"),
+            ("batches:upload", "Upload bulk ingestion files"),
+            ("batches:read", "View batch ingestion telemetry"),
+            ("rules:manage", "Configure validation rules"),
+            ("rules:read", "View validation rules"),
+            ("audit:read", "View system audit logs"),
+            ("audit:verify", "Verify cryptographic hash chain"),
+            ("reports:generate", "Generate analytical reports"),
+            ("verification:request", "Submit verification requests"),
+            ("verification:verify", "Access verification credentials"),
+            ("users:manage", "Manage user accounts"),
+            ("users:read", "View user accounts"),
+        ]
+        for p_code, p_desc in all_perms_def:
+            if p_code not in perm_map:
+                p = Permission(code=p_code, description=p_desc)
+                session.add(p)
+                session.flush()
+                perm_map[p_code] = p
+
+        # Role-permission associations
+        role_perm_defs = {
+            "SUPER_ADMIN": list(perm_map.keys()),
+            "AICTE_OFFICER": ["students:read", "students:read_full", "students:write", "batches:read", "rules:manage", "rules:read", "reports:generate", "verification:request", "verification:verify", "users:manage", "users:read"],
+            "AICTE_ANALYST": ["students:read", "batches:read", "rules:read", "reports:generate", "users:read"],
+            "INSTITUTION_ADMIN": ["students:read", "students:read_full", "students:write", "batches:upload", "batches:read", "rules:read", "reports:generate", "users:manage", "users:read"],
+            "INSTITUTION_OPERATOR": ["students:read", "students:write", "batches:upload", "batches:read", "rules:read"],
+            "VERIFIER": ["verification:request", "verification:verify"],
+            "AUDITOR": ["audit:read", "audit:verify", "rules:read", "reports:generate", "users:read"],
+            "STUDENT": ["students:read"],
+        }
+        for r_name, p_codes in role_perm_defs.items():
+            r = role_map[r_name]
+            existing_p_ids = {p.id for p in r.permissions}
+            for p_code in p_codes:
+                p = perm_map[p_code]
+                if p.id not in existing_p_ids:
+                    session.add(RolePermission(role_id=r.id, permission_id=p.id))
+        session.flush()
+
+        # 6b. Demo Users per Role with Argon2id passwords
+        demo_accounts = [
+            ("superadmin@aicte.gov.in", "SuperAdmin@2026", "AICTE National Director", "SUPER_ADMIN", None),
+            ("officer@aicte.gov.in", "Officer@2026!", "AICTE Regional Officer", "AICTE_OFFICER", None),
+            ("analyst@aicte.gov.in", "Analyst@2026!", "National Policy Analyst", "AICTE_ANALYST", None),
+            ("admin@iitb.ac.in", "InstAdmin@2026", "IIT Bombay Registrar", "INSTITUTION_ADMIN", 0),
+            ("operator@iitb.ac.in", "InstOperator@2026", "IIT Bombay Operator", "INSTITUTION_OPERATOR", 0),
+            ("verifier@tcs.com", "Verifier@2026!", "TCS Corporate Verifier", "VERIFIER", None),
+            ("auditor@cag.gov.in", "Auditor@2026!", "CAG Senior Auditor", "AUDITOR", None),
+            ("student@aicte.ac.in", "Student@2026!", "Student Demo Account", "STUDENT", None),
+        ]
+        for email, pwd, name, role_name, inst_idx in demo_accounts:
+            existing_u = session.query(User).filter_by(email=email).first()
+            if not existing_u:
+                u = User(
+                    email=email,
+                    password_hash=hash_password(pwd),
+                    full_name=name,
+                    is_active=True,
+                    is_verified=True,
+                )
+                session.add(u)
+                session.flush()
+                session.add(UserRole(user_id=u.id, role_id=role_map[role_name].id))
+                if inst_idx is not None and len(institutions_data) > inst_idx:
+                    session.add(UserInstitution(user_id=u.id, institution_id=institutions_data[inst_idx].id))
+        session.flush()
 
         # 6c. Insert States, Institutions, Programs
         existing_states = session.query(State).count()

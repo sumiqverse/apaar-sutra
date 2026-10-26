@@ -12,6 +12,21 @@ from app.schemas.common import (
 from app.schemas.student import StudentBase, StudentCreate, StudentResponse, AcademicRecordBase, AcademicRecordResponse
 from app.schemas.verification import VerificationRequest, VerificationResult
 
+from app.schemas.auth import (
+    LoginRequest,
+    LoginResponse,
+    MfaVerifyRequest,
+    MfaEnrollResponse,
+    MfaConfirmRequest,
+    RefreshTokenRequest,
+    TokenResponse,
+    LogoutRequest,
+    ChangePasswordRequest,
+    UserMeResponse,
+    AuditLogResponse,
+    AuditVerifyResponse,
+)
+
 __all__ = [
     "ErrorDetail",
     "ErrorEnvelope",
@@ -27,4 +42,16 @@ __all__ = [
     "AcademicRecordResponse",
     "VerificationRequest",
     "VerificationResult",
+    "LoginRequest",
+    "LoginResponse",
+    "MfaVerifyRequest",
+    "MfaEnrollResponse",
+    "MfaConfirmRequest",
+    "RefreshTokenRequest",
+    "TokenResponse",
+    "LogoutRequest",
+    "ChangePasswordRequest",
+    "UserMeResponse",
+    "AuditLogResponse",
+    "AuditVerifyResponse",
 ]

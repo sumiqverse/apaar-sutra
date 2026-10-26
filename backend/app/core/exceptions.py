@@ -54,6 +54,11 @@ class ValidationException(AppException):
         super().__init__(code="VALIDATION_ERROR", message=message, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, details=details)
 
 
+class TooManyRequestsException(AppException):
+    def __init__(self, message: str = "Rate limit exceeded", details: Optional[Dict[str, Any]] = None):
+        super().__init__(code="TOO_MANY_REQUESTS", message=message, status_code=status.HTTP_429_TOO_MANY_REQUESTS, details=details)
+
+
 def _format_error_response(
     code: str,
     message: str,

@@ -22,12 +22,15 @@ class User(Base, TimestampMixin):
     phone: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    failed_login_attempts: Mapped[int] = mapped_column(default=0, nullable=False)
+    locked_until: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
 
     # Relationships
     roles = relationship("Role", secondary="user_roles", back_populates="users")
     institutions = relationship("Institution", secondary="user_institutions", back_populates="users", overlaps="user_associations")
     refresh_tokens = relationship("RefreshToken", back_populates="user", cascade="all, delete-orphan")
     mfa_secret = relationship("MfaSecret", back_populates="user", uselist=False, cascade="all, delete-orphan")
+    password_history = relationship("PasswordHistory", back_populates="user", cascade="all, delete-orphan")
 
 
 class Role(Base, TimestampMixin):
@@ -90,6 +93,23 @@ class UserInstitution(Base):
     institution = relationship("Institution", back_populates="user_associations", overlaps="institutions,users")
 
 
+class PasswordHistory(Base):
+    __tablename__ = "password_histories"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
+    )
+
+    user = relationship("User", back_populates="password_history")
+
+
 class RefreshToken(Base):
     __tablename__ = "refresh_tokens"
 
@@ -98,6 +118,9 @@ class RefreshToken(Base):
     )
     user_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    family_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), default=uuid.uuid4, nullable=False, index=True
     )
     token_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True, nullable=False)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
@@ -119,12 +142,14 @@ class MfaSecret(Base):
         UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), unique=True, nullable=False
     )
     secret_enc: Mapped[str] = mapped_column(Text, nullable=False)
+    backup_codes: Mapped[List[str]] = mapped_column(JSONB, default=list, nullable=False)
     is_enabled: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
     )
 
     user = relationship("User", back_populates="mfa_secret")
+
 
 
 class ApiClient(Base, TimestampMixin):

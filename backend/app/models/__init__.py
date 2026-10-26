@@ -27,6 +27,7 @@ from app.models.rbac import (
     RefreshToken,
     MfaSecret,
     ApiClient,
+    PasswordHistory,
 )
 from app.models.audit import AuditLog
 from app.models.credential import (
@@ -64,6 +65,7 @@ __all__ = [
     "RefreshToken",
     "MfaSecret",
     "ApiClient",
+    "PasswordHistory",
     "AuditLog",
     "ConsentRequest",
     "VerificationLog",

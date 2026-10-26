@@ -39,13 +39,18 @@ class StudentCreate(StudentBase):
     aadhaar_reference: str = Field(..., min_length=12, max_length=12, description="Raw Aadhaar to be hashed immediately")
 
 
+from typing import List, Optional, Union
+
+
 class StudentResponse(BaseModel):
     id: uuid.UUID
     apaar_id: Optional[str] = None
     masked_apaar_id: Optional[str] = None
     apaar_status: str
-    name_enc: str
-    dob_enc: date
+    name: Optional[str] = None
+    name_enc: Optional[str] = None
+    dob: Optional[str] = None
+    dob_enc: Optional[Union[date, str]] = None
     parent_name_enc: Optional[str] = None
     gender: str
     created_at: datetime

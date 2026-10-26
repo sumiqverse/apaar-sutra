@@ -1,7 +1,8 @@
-"""Structured JSON logging with request context propagation."""
+"""Structured JSON logging with request context propagation and PII redaction."""
 
 import json
 import logging
+import re
 import sys
 from contextvars import ContextVar
 from datetime import datetime, timezone
@@ -21,6 +22,40 @@ def set_current_request_id(req_id: str) -> None:
     request_id_ctx.set(req_id)
 
 
+class PIIRedactionFilter(logging.Filter):
+    """Filter that sanitizes sensitive data, secrets, tokens, and PII from log output."""
+
+    # Patterns for secrets and national IDs
+    PATTERNS = [
+        (re.compile(r"Bearer\s+[A-Za-z0-9\-_\.=]+", re.IGNORECASE), "Bearer [REDACTED_TOKEN]"),
+        (re.compile(r"(['\"]?password['\"]?\s*[:=]\s*['\"])[^'\"]+(['\"])", re.IGNORECASE), r"\1[REDACTED_PASSWORD]\2"),
+        (re.compile(r"(['\"]?secret['\"]?\s*[:=]\s*['\"])[^'\"]+(['\"])", re.IGNORECASE), r"\1[REDACTED_SECRET]\2"),
+        (re.compile(r"(['\"]?access_token['\"]?\s*[:=]\s*['\"])[^'\"]+(['\"])", re.IGNORECASE), r"\1[REDACTED_TOKEN]\2"),
+        (re.compile(r"(['\"]?refresh_token['\"]?\s*[:=]\s*['\"])[^'\"]+(['\"])", re.IGNORECASE), r"\1[REDACTED_TOKEN]\2"),
+        # 12-digit APAAR / Aadhaar numbers: mask first 8 digits
+        (re.compile(r"\b(\d{8})(\d{4})\b"), r"XXXXXXXX\2"),
+    ]
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        if isinstance(record.msg, str):
+            record.msg = self.redact(record.msg)
+        if record.args:
+            if isinstance(record.args, dict):
+                record.args = {k: self.redact(v) if isinstance(v, str) else v for k, v in record.args.items()}
+            elif isinstance(record.args, tuple):
+                record.args = tuple(self.redact(a) if isinstance(a, str) else a for a in record.args)
+        return True
+
+    @classmethod
+    def redact(cls, text: str) -> str:
+        if not isinstance(text, str):
+            return text
+        sanitized = text
+        for pattern, replacement in cls.PATTERNS:
+            sanitized = pattern.sub(replacement, sanitized)
+        return sanitized
+
+
 class JSONFormatter(logging.Formatter):
     """Formats log records into structured JSON strings."""
 
@@ -29,7 +64,7 @@ class JSONFormatter(logging.Formatter):
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "level": record.levelname,
             "logger": record.name,
-            "message": record.getMessage(),
+            "message": PIIRedactionFilter.redact(record.getMessage()),
             "request_id": get_current_request_id(),
         }
 
@@ -66,6 +101,7 @@ def setup_logging(log_level: str = "INFO", log_format: str = "json") -> None:
         root_logger.removeHandler(handler)
 
     stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.addFilter(PIIRedactionFilter())
     if log_format.lower() == "json":
         stream_handler.setFormatter(JSONFormatter())
     else:

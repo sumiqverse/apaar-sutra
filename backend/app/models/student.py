@@ -43,7 +43,7 @@ class Student(Base, TimestampMixin, SoftDeleteMixin):
 
     __table_args__ = (
         CheckConstraint(
-            "apaar_id ~ '^[0-9]{12}$' OR apaar_id IS NULL",
+            "length(apaar_id) = 12 OR apaar_id IS NULL",
             name="ck_students_apaar_id_format"
         ),
     )
