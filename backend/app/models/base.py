@@ -62,26 +62,26 @@ class SoftDeleteMixin:
 
 
 # Synchronous engine for migrations, worker sync sessions, and sync tests
+is_sqlite_sync = "sqlite" in settings.DATABASE_URL
+sync_kwargs = {"pool_pre_ping": True} if not is_sqlite_sync else {}
+if not is_sqlite_sync:
+    sync_kwargs.update({"pool_size": 10, "max_overflow": 20})
+
 try:
-    sync_engine = create_engine(
-        settings.DATABASE_URL,
-        pool_pre_ping=True,
-        pool_size=10,
-        max_overflow=20,
-    )
+    sync_engine = create_engine(settings.DATABASE_URL, **sync_kwargs)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=sync_engine)
 except Exception:
     sync_engine = create_engine("sqlite:///apaar_local.db")
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=sync_engine)
 
 # Asynchronous engine for FastAPI async route dependencies
+is_sqlite_async = "sqlite" in settings.DATABASE_ASYNC_URL
+async_kwargs = {}
+if not is_sqlite_async:
+    async_kwargs.update({"pool_pre_ping": True, "pool_size": 10, "max_overflow": 20})
+
 try:
-    async_engine = create_async_engine(
-        settings.DATABASE_ASYNC_URL,
-        pool_pre_ping=True,
-        pool_size=10,
-        max_overflow=20,
-    )
+    async_engine = create_async_engine(settings.DATABASE_ASYNC_URL, **async_kwargs)
     AsyncSessionLocal = async_sessionmaker(
         bind=async_engine,
         class_=AsyncSession,
@@ -90,8 +90,14 @@ try:
         autoflush=False,
     )
 except Exception:
-    async_engine = None
-    AsyncSessionLocal = None
+    async_engine = create_async_engine("sqlite+aiosqlite:///apaar_local.db")
+    AsyncSessionLocal = async_sessionmaker(
+        bind=async_engine,
+        class_=AsyncSession,
+        expire_on_commit=False,
+        autocommit=False,
+        autoflush=False,
+    )
 
 
 def get_sync_db() -> Generator[Session, None, None]:

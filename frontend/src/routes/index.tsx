@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Shell } from "@/components/layout/Shell";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { Dashboard } from "@/pages/Dashboard";
+import { InstitutionDashboard } from "@/pages/InstitutionDashboard";
 import { Health } from "@/pages/Health";
 import { Login } from "@/pages/Login";
 import { MfaEnroll } from "@/pages/MfaEnroll";
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Dashboard />,
+      },
+      {
+        path: "institution-dashboard",
+        element: <InstitutionDashboard />,
       },
       {
         path: "ingestion",

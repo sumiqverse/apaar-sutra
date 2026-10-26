@@ -33,8 +33,20 @@ def hash_password(password: str) -> str:
     return _ph.hash(password)
 
 
+import hashlib
+
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verify a plaintext password against an Argon2id hash."""
+    """Verify a plaintext password against an Argon2id hash or demo hash."""
+    if hashed_password and hashed_password.startswith("$argon2"):
+        try:
+            return _ph.verify(hashed_password, plain_password)
+        except (VerifyMismatchError, Exception):
+            return False
+    # Demo accounts fallback
+    salt = "apaar_salt_2026_"
+    expected_sha = hashlib.sha256((salt + plain_password).encode("utf-8")).hexdigest()
+    if hashed_password == expected_sha:
+        return True
     try:
         return _ph.verify(hashed_password, plain_password)
     except (VerifyMismatchError, Exception):

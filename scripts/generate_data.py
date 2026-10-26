@@ -348,13 +348,19 @@ def generate_synthetic_dataset(dry_run: bool = False) -> None:
             })
 
     # Anomaly 4: 40 students actively enrolled in two institutions
-    cross_enrolment_sample = random.sample(students_data, 40)
-    for st in cross_enrolment_sample:
-        # Pick two separate institutions
-        inst_a, inst_b = random.sample(institutions_data, 2)
-        prog_b = [p for p in program_by_inst[inst_b.id] if p.academic_year == "2025-26"][0]
+    cross_enrolment_sample = random.sample(range(len(students_data)), 40)
+    for idx in cross_enrolment_sample:
+        st = students_data[idx]
+        orig_enr = enrolments_data[idx]
+        # Pick an institution strictly different from the student's existing institution
+        available_other_insts = [i for i in institutions_data if i.id != orig_enr.institution_id]
+        inst_b = random.choice(available_other_insts)
+        inst_b_progs = [p for p in program_by_inst[inst_b.id] if p.academic_year == "2025-26"]
+        if not inst_b_progs:
+            continue
+        prog_b = inst_b_progs[0]
 
-        # Add second active enrolment for the same student
+        # Add second active enrolment for the same student in the other institution
         second_enrolment = Enrolment(
             id=uuid.uuid4(),
             student_id=st.id,
@@ -375,7 +381,7 @@ def generate_synthetic_dataset(dry_run: bool = False) -> None:
 
         injected_issues["cross_institution_active_enrolments"].append({
             "type": "CROSS_INSTITUTION_ACTIVE_ENROLMENT",
-            "entity_ids": [str(st.id), str(inst_a.id), str(inst_b.id)],
+            "entity_ids": [str(st.id), str(orig_enr.institution_id), str(inst_b.id)],
             "expected_rule": "RULE_CROSS_INSTITUTION_ACTIVE_ENROLMENT",
             "metadata": {"student_apaar_id": st.apaar_id, "academic_year": "2025-26"},
         })

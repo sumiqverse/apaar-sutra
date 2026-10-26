@@ -5,13 +5,47 @@
     "tagline": "One Nation, One Student ID Academic Registry"
   },
   "nav": {
-    "dashboard": "Dashboard",
+    "dashboard": "AICTE Dashboard",
+    "institution_portal": "Institution Portal",
     "ingestion": "Student Ingestion",
     "students": "Student Registry",
     "verification": "Instant Verification",
     "health": "System Health",
     "analytics": "AICTE Analytics",
     "docs": "API Docs"
+  },
+  "dashboard": {
+    "title": "APAAR National Verification & Capacity Registry",
+    "subtitle": "Real-time enrollment telemetry, AI anomaly detection, and statutory quota compliance",
+    "kpi": {
+      "reporting": "Institutions Reporting",
+      "enrolments": "Total Enrolments",
+      "utilisation": "Intake Utilisation",
+      "alerts": "Critical Alerts",
+      "duplicates": "Duplicates Detected",
+      "verified": "Verified Records"
+    },
+    "map": {
+      "title": "Pan-India Institutional Telemetry",
+      "subtitle": "Interactive state choropleth (offline vector asset)",
+      "metric_risk": "Risk Score",
+      "metric_violations": "Violations",
+      "metric_utilisation": "Intake Utilisation"
+    },
+    "filter": {
+      "search_placeholder": "Search college or AICTE ID...",
+      "all_states": "All States & UTs",
+      "all_types": "All Institution Types",
+      "all_levels": "All Degree Levels",
+      "saved_views": "Saved Views:"
+    },
+    "leaderboard": {
+      "title": "Institutional Anomaly & Risk Leaderboard",
+      "subtitle": "Ranked by Isolation Forest ML anomaly risk index; click row for deep audit inspection"
+    },
+    "alerts": {
+      "title": "Live Telemetry Alert Feed"
+    }
   },
   "ingestion": {
     "title": "Student Data Ingestion Portal",
@@ -48,6 +82,7 @@
     "pending": "Pending",
     "language": "Language",
     "loading": "Loading...",
-    "error": "Error"
+    "error": "Error",
+    "reset": "Reset Filters"
   }
 }

@@ -12,6 +12,8 @@ const queryClient = new QueryClient({
   },
 });
 
+import { ThemeProvider } from "@/lib/themeContext";
+
 export const App: React.FC = () => {
   useEffect(() => {
     const handleExpired = () => {
@@ -22,9 +24,11 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 };
 

@@ -11,6 +11,7 @@ from app.api.routers.v1.programs import router as programs_router
 from app.api.routers.v1.integration import router as integration_router
 from app.api.routers.v1.validation import router as validation_router
 from app.api.routers.v1.ml import router as ml_router
+from app.api.routers.v1.analytics import router as analytics_router
 
 api_v1_router = APIRouter()
 api_v1_router.include_router(auth_router)
@@ -22,5 +23,6 @@ api_v1_router.include_router(programs_router)
 api_v1_router.include_router(integration_router)
 api_v1_router.include_router(validation_router)
 api_v1_router.include_router(ml_router)
+api_v1_router.include_router(analytics_router)
 
 __all__ = ["api_v1_router"]

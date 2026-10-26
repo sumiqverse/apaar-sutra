@@ -12,4 +12,11 @@ body {
   min-height: 100vh;
   background-color: #f8fafc;
   color: #0f172a;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dark body,
+html.dark body {
+  background-color: #090d16;
+  color: #f1f5f9;
 }

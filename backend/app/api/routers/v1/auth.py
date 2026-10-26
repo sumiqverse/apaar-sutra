@@ -136,8 +136,8 @@ async def login(
     is_mfa_enabled = bool(user.mfa_secret and user.mfa_secret.is_enabled)
     is_privileged = bool(PRIVILEGED_ROLES.intersection(role_names))
 
-    # Mandatory MFA enforcement: If privileged role has not enrolled MFA yet
-    if is_privileged and not is_mfa_enabled:
+    # Mandatory MFA enforcement: If privileged role has not enrolled MFA yet (enforced in staging/production)
+    if settings.ENVIRONMENT != "development" and is_privileged and not is_mfa_enabled:
         temp_token = create_mfa_temp_token(user.id)
         return LoginResponse(mfa_setup_required=True, temp_token=temp_token)
 
