@@ -13,9 +13,10 @@ from sqlalchemy.orm import selectinload
 
 from app.api.deps import get_db
 from app.core.config import settings
+from app.core.crypto import compute_blind_index
 from app.core.jwt import create_access_token, create_refresh_token
 from app.core.password import hash_password
-from app.core.signing import canonicalize_json, sign_credential
+from app.core.signing import sign_credential
 from app.models.base import Base
 from app.models.credential import (
     Alert,
@@ -25,7 +26,7 @@ from app.models.credential import (
     VerificationLog,
     VerifierOrg,
 )
-from app.models.enrolment import Enrolment
+from app.models.enrolment import Enrolment, EnrolmentHistory
 from app.models.institution import Institution
 from app.models.ml import InstitutionRiskScore
 from app.models.program import Program
@@ -39,7 +40,6 @@ from app.models.rbac import (
     UserInstitution,
     UserRole,
 )
-from app.core.crypto import compute_blind_index
 from app.models.state import State
 from app.models.student import Student
 from app.models.batch import UploadBatch
@@ -156,7 +156,7 @@ async def quick_login(
     stmt = (
         select(User)
         .options(
-            selectinload(User.roles).selectinload(User.roles.property.mapper.class_.permissions),
+            selectinload(User.roles).selectinload(Role.permissions),
             selectinload(User.institutions),
         )
         .where(User.email == email)
@@ -229,6 +229,7 @@ async def reset_demo_data(
     await db.execute(delete(VerificationLog))
     await db.execute(delete(GeneratedReport))
     await db.execute(delete(InstitutionRiskScore))
+    await db.execute(delete(EnrolmentHistory))
     await db.execute(delete(Enrolment))
     await db.execute(delete(UploadBatch))
     await db.commit()
@@ -292,28 +293,29 @@ async def reset_demo_data(
                 id=uuid.uuid4(),
                 aicte_id=idef["aicte_id"],
                 name=idef["name"],
-                state=idef["state_code"],
                 state_id=state_map[idef["state_code"]].id,
                 district=idef["district"],
                 approved_total_intake=idef["intake"],
-                is_active=True,
-                contact_email=idef["email"],
+                institution_type="AFFILIATED",
+                status="ACTIVE",
+                email=idef["email"],
             )
             db.add(inst)
             await db.flush()
         else:
             inst.approved_total_intake = idef["intake"]
             inst.name = idef["name"]
-            inst.contact_email = idef["email"]
+            inst.email = idef["email"]
+            inst.status = "ACTIVE"
         inst_map[idef["aicte_id"]] = inst
 
     # 4. Ensure Programs exist with approved intake of 120
-    # Both IITM and DTU get BTECH-CSE with intake 120
+    # Both IITM and DTU get B.Tech CSE with intake 120
     prog_map: Dict[str, Program] = {}
     for aicte_id in ["1-100234901", "1-100234902"]:
         inst = inst_map[aicte_id]
         stmt = select(Program).where(
-            (Program.institution_id == inst.id) & (Program.program_code == "BTECH-CSE")
+            (Program.institution_id == inst.id) & (Program.name == "B.Tech Computer Science & Engineering")
         )
         res = await db.execute(stmt)
         prog = res.scalar_one_or_none()
@@ -321,14 +323,13 @@ async def reset_demo_data(
             prog = Program(
                 id=uuid.uuid4(),
                 institution_id=inst.id,
-                program_code="BTECH-CSE",
                 name="B.Tech Computer Science & Engineering",
-                level="UNDERGRADUATE",
-                duration_years=4,
+                level="UG",
+                branch="Computer Science & Engineering",
+                academic_year="2025-26",
                 approved_intake=120,
-                nri_quota=10,
-                supernumerary_quota=18,
-                is_active=True,
+                supernumerary_seats=18,
+                duration_years=4,
             )
             db.add(prog)
             await db.flush()
@@ -386,14 +387,14 @@ async def reset_demo_data(
             await db.flush()
         perm_map[p_code] = p
 
-    # Assign all permissions to SUPER_ADMIN
+    # Assign all permissions to SUPER_ADMIN (no id column on RolePermission)
     super_admin_role = role_map["SUPER_ADMIN"]
     stmt = select(RolePermission).where(RolePermission.role_id == super_admin_role.id)
     existing_rps = (await db.execute(stmt)).scalars().all()
     existing_pids = {rp.permission_id for rp in existing_rps}
     for p_code, p in perm_map.items():
         if p.id not in existing_pids:
-            db.add(RolePermission(id=uuid.uuid4(), role_id=super_admin_role.id, permission_id=p.id))
+            db.add(RolePermission(role_id=super_admin_role.id, permission_id=p.id))
 
     # 6. Ensure Demo Users exist with correct passwords & roles
     demo_users_spec = [
@@ -463,21 +464,21 @@ async def reset_demo_data(
             u.failed_login_attempts = 0
             u.locked_until = None
 
-        # Ensure user role
+        # Ensure user role (no id column on UserRole)
         target_r = role_map[r_name]
         stmt_ur = select(UserRole).where((UserRole.user_id == u.id) & (UserRole.role_id == target_r.id))
         ur = (await db.execute(stmt_ur)).scalar_one_or_none()
         if not ur:
-            db.add(UserRole(id=uuid.uuid4(), user_id=u.id, role_id=target_r.id))
+            db.add(UserRole(user_id=u.id, role_id=target_r.id))
 
-        # Ensure institution linkage
+        # Ensure institution linkage (no id column on UserInstitution)
         if inst_id:
             stmt_ui = select(UserInstitution).where(
                 (UserInstitution.user_id == u.id) & (UserInstitution.institution_id == inst_id)
             )
             ui = (await db.execute(stmt_ui)).scalar_one_or_none()
             if not ui:
-                db.add(UserInstitution(id=uuid.uuid4(), user_id=u.id, institution_id=inst_id))
+                db.add(UserInstitution(user_id=u.id, institution_id=inst_id))
 
     # 7. Seed Cross-Institution Duplicate Baseline Students in DTU Delhi
     # These 2 students are actively enrolled in DTU Delhi for 2025-26.
