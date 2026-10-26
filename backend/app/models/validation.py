@@ -78,4 +78,6 @@ class ValidationIssue(Base):
 
     __table_args__ = (
         Index("ix_validation_issues_explanation_gin", "explanation", postgresql_using="gin"),
+        Index("ix_validation_issues_inst_status", "institution_id", "status"),
+        Index("ix_validation_issues_rule_status", "rule_code", "status"),
     )

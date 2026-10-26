@@ -13,6 +13,7 @@ const queryClient = new QueryClient({
 });
 
 import { ThemeProvider } from "@/lib/themeContext";
+import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 
 export const App: React.FC = () => {
   useEffect(() => {
@@ -24,11 +25,13 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 };
 

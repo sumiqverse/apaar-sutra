@@ -81,9 +81,11 @@ class Enrolment(Base, TimestampMixin, SoftDeleteMixin):
             "student_id", "institution_id", "program_id", "academic_year",
             name="uq_enrolments_student_inst_prog_ay"
         ),
-        # Composite Indexes requested in Section B:
+        # Composite Indexes for high-concurrency queries:
         Index("ix_enrolments_inst_ay", "institution_id", "academic_year"),
         Index("ix_enrolments_ay_status", "academic_year", "status"),
+        Index("ix_enrolments_inst_prog_quota", "institution_id", "program_id", "quota_type"),
+        Index("ix_enrolments_student_ay", "student_id", "academic_year"),
     )
 
 

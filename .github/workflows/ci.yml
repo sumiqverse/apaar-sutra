@@ -57,17 +57,17 @@ jobs:
         run: |
           mypy backend/app --ignore-missing-imports
 
-      - name: Run Pytest Test Suite
+      - name: Run Pytest Test Suite with Coverage
         env:
           DATABASE_URL: postgresql://apaar_user:apaar_secure_password_2026@localhost:5432/apaar_sutra_db
           DATABASE_ASYNC_URL: postgresql+asyncpg://apaar_user:apaar_secure_password_2026@localhost:5432/apaar_sutra_db
           REDIS_URL: redis://localhost:6379/0
         run: |
           cd backend
-          pytest -v
+          pytest -v --cov=app --cov-report=term-missing
 
   frontend-lint-and-test:
-    name: Frontend Vitest & Build
+    name: Frontend Vitest, Build & Playwright E2E
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -95,6 +95,11 @@ jobs:
       - name: Verify TypeScript & Production Build
         run: |
           npm run build
+
+      - name: Run Playwright E2E Tests (Headless)
+        run: |
+          npx playwright install --with-deps chromium
+          npx playwright test --project=chromium
 
   docker-compose-build:
     name: Multi-Stage Docker Build Verification

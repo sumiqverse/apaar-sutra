@@ -74,6 +74,14 @@ def create_application() -> FastAPI:
     from app.api.routers.v1.well_known import router as well_known_router
     app.include_router(well_known_router)
 
+    # 4.2 Mount Prometheus Metrics Endpoint
+    from fastapi import Response
+    from app.core.metrics import render_metrics
+
+    @app.get("/metrics", tags=["Observability & Telemetry"], include_in_schema=False)
+    def prometheus_metrics():
+        return Response(content=render_metrics(), media_type="text/plain; version=0.0.4; charset=utf-8")
+
     # 5. Mount Mock National APAAR Gateway for Dev/Test
     app.mount(f"{settings.API_V1_PREFIX}/mock-apaar", mock_apaar_app)
 

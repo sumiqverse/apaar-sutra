@@ -20,3 +20,10 @@ html.dark body {
   background-color: #090d16;
   color: #f1f5f9;
 }
+
+/* Universal Accessible Focus Ring */
+*:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
