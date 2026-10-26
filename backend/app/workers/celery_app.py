@@ -28,6 +28,10 @@ celery_app.conf.beat_schedule = {
         "task": "app.workers.tasks.run_nightly_anomaly_checks",
         "schedule": crontab(hour="2", minute="0"),  # 02:00 UTC daily
     },
+    "retry-pending-apaar-verifications": {
+        "task": "app.workers.tasks.retry_pending_apaar_verifications",
+        "schedule": crontab(minute="*/15"),  # Every 15 minutes
+    },
 }
 
 celery_app.autodiscover_tasks(["app.workers"])

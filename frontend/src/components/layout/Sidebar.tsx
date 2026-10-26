@@ -9,6 +9,7 @@ import {
   History,
   LogOut,
   Shield,
+  UploadCloud,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { apiClient, clearAuthTokens } from "@/lib/api";
@@ -43,11 +44,12 @@ export const Sidebar: React.FC = () => {
   };
 
   const navItems = [
-    { to: "/", label: t("nav.dashboard"), icon: LayoutDashboard, requiredPerm: null },
-    { to: "/students", label: t("nav.students"), icon: Users, requiredPerm: "students:read" },
-    { to: "/verification", label: t("nav.verification"), icon: CheckCircle2, requiredPerm: null },
+    { to: "/", label: t("nav.dashboard") || "Dashboard", icon: LayoutDashboard, requiredPerm: null },
+    { to: "/ingestion", label: t("nav.ingestion") || "Student Ingestion", icon: UploadCloud, requiredPerm: null },
+    { to: "/students", label: t("nav.students") || "Students", icon: Users, requiredPerm: "students:read" },
+    { to: "/verification", label: t("nav.verification") || "Verification", icon: CheckCircle2, requiredPerm: null },
     { to: "/audit", label: "Audit Trail", icon: History, requiredPerm: "audit:read" },
-    { to: "/health", label: t("nav.health"), icon: Activity, requiredPerm: null },
+    { to: "/health", label: t("nav.health") || "System Health", icon: Activity, requiredPerm: null },
   ];
 
   // Filter items based on permissions

@@ -6,11 +6,23 @@
   },
   "nav": {
     "dashboard": "Dashboard",
+    "ingestion": "Student Ingestion",
     "students": "Student Registry",
     "verification": "Instant Verification",
     "health": "System Health",
     "analytics": "AICTE Analytics",
     "docs": "API Docs"
+  },
+  "ingestion": {
+    "title": "Student Data Ingestion Portal",
+    "subtitle": "Bulk onboarding, single registration, and program capacity verification",
+    "bulk_upload": "Bulk Upload",
+    "single_entry": "Single Registration",
+    "batch_history": "Upload Batch Ledger",
+    "program_intake": "Program Intake & Quotas",
+    "download_template": "Download Template",
+    "upload_button": "Start Ingestion",
+    "check_apaar": "Verify APAAR"
   },
   "health": {
     "title": "System Operational Status",

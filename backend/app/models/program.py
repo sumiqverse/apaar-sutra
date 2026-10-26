@@ -1,6 +1,7 @@
 """Program entity representing academic degree offerings within institutions."""
 
 import uuid
+from typing import Optional
 from sqlalchemy import Float, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -22,7 +23,9 @@ class Program(Base, TimestampMixin, SoftDeleteMixin):
     branch: Mapped[str] = mapped_column(String(100), nullable=False)
     academic_year: Mapped[str] = mapped_column(String(20), nullable=False, index=True)  # e.g. "2025-26"
     approved_intake: Mapped[int] = mapped_column(Integer, nullable=False)
+    supernumerary_seats: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     supernumerary_cap_pct: Mapped[float] = mapped_column(Float, nullable=False, default=15.0)
+    declared_enrolment: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     duration_years: Mapped[int] = mapped_column(Integer, nullable=False, default=4)
 
     # Relationships

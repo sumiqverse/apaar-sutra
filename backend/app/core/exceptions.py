@@ -50,8 +50,16 @@ class ConflictException(AppException):
 
 
 class ValidationException(AppException):
-    def __init__(self, message: str = "Validation failed", details: Optional[Dict[str, Any]] = None):
-        super().__init__(code="VALIDATION_ERROR", message=message, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, details=details)
+    def __init__(
+        self,
+        message: str = "Validation failed",
+        details: Optional[Dict[str, Any]] = None,
+        error_code: Optional[str] = None,
+        code: Optional[str] = None,
+    ):
+        c = error_code or code or "VALIDATION_ERROR"
+        super().__init__(code=c, message=message, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, details=details)
+
 
 
 class TooManyRequestsException(AppException):

@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { Activity, Database, Server, RefreshCw, CheckCircle2, AlertTriangle, ShieldAlert } from "lucide-react";
+import { Activity, Database, Server, RefreshCw, CheckCircle2 } from "lucide-react";
 import { apiClient } from "@/lib/api";
 
 interface HealthData {
@@ -33,8 +33,6 @@ export const Health: React.FC = () => {
   // 1. Fetch liveness probe
   const {
     data: health,
-    isLoading: isHealthLoading,
-    isError: isHealthError,
     refetch: refetchHealth,
     isFetching: isHealthFetching,
   } = useQuery<HealthData>({
@@ -46,8 +44,6 @@ export const Health: React.FC = () => {
   // 2. Fetch readiness probe (PostgreSQL + Redis)
   const {
     data: ready,
-    isLoading: isReadyLoading,
-    isError: isReadyError,
     refetch: refetchReady,
     isFetching: isReadyFetching,
   } = useQuery<ReadyData>({

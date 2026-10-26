@@ -104,8 +104,9 @@ class Settings(BaseSettings):
     CELERY_RESULT_BACKEND: str = "redis://redis:6379/2"
 
     # Mock APAAR Gateway
-    APAAR_GATEWAY_URL: str = "http://backend:8000/api/v1/mock-apaar"
-    APAAR_API_KEY: str = "mock-government-apaar-api-key-test-2026"
+    APAAR_GATEWAY_URL: str = "http://localhost:8001"
+    APAAR_API_KEY: str = "mock-apaar-secret-key-2026"
+    APAAR_PROVIDER: str = "mock"
 
     # Observability
     LOG_LEVEL: str = "INFO"

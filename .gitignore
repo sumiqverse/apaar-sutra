@@ -58,3 +58,4 @@ postgres_data/
 redis_data/
 *.sqlite3
 *.db
+scratch/

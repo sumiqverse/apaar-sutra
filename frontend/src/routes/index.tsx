@@ -5,6 +5,7 @@ import { Dashboard } from "@/pages/Dashboard";
 import { Health } from "@/pages/Health";
 import { Login } from "@/pages/Login";
 import { MfaEnroll } from "@/pages/MfaEnroll";
+import { Ingestion } from "@/pages/Ingestion";
 import { NotFound } from "@/pages/NotFound";
 
 export const router = createBrowserRouter([
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Dashboard />,
+      },
+      {
+        path: "ingestion",
+        element: <Ingestion />,
       },
       {
         path: "health",
