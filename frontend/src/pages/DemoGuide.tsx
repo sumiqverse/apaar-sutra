@@ -233,120 +233,137 @@ export const DemoGuide: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 p-6">
-      {/* Top Banner & Control Header */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-indigo-500/30 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-          <Sparkles className="w-64 h-64 text-indigo-400" />
-        </div>
-
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+    <div className="space-y-16 pb-16">
+      {/* 1. LIME COLOR-BLOCK SECTION (Control Center & Sandbox Reset) */}
+      <section className="rounded-[24px] p-8 md:p-12 bg-[#D4FF5B] text-black relative overflow-hidden">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 relative z-10">
+          <div className="space-y-4 max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-[0.54px] bg-black text-white">
+              <span className="w-2 h-2 rounded-full bg-[#D4FF5B] animate-pulse" />
               DEMO MODE ACTIVE • 5-MINUTE LIVE EVALUATION
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
-              APAAR-Sutra Demonstration Control Center
+
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-medium tracking-[-1.72px] text-black leading-[1.02]">
+              Demonstration Control Center
             </h1>
-            <p className="text-slate-300 text-sm max-w-2xl">
-              1-Click role switching, instant database sandbox reset, prepared test files, and a timed 5-minute presentation script with exact spoken narration.
+
+            <p className="text-base md:text-xl font-[330] text-black/85 leading-[1.4] tracking-[-0.26px]">
+              One-click role switching, instant database sandbox reset, prepared test files, and a timed 5-minute presentation script with exact spoken narration.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
             <button
               onClick={handleResetDemoData}
               disabled={isResetting}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-semibold text-sm shadow-lg shadow-rose-900/40 transition-all disabled:opacity-50"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-black text-white text-[15px] font-medium tracking-[-0.1px] hover:bg-black/90 active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${isResetting ? "animate-spin" : ""}`} />
-              {isResetting ? "Resetting Sandbox..." : "Reset Demo Data (< 3s)"}
+              <span>{isResetting ? "Resetting Sandbox..." : "Reset Demo Data (< 3s)"}</span>
+            </button>
+            <button
+              onClick={() => navigate("/")}
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white text-black text-[15px] font-medium tracking-[-0.1px] hover:bg-white/90 border border-black/10 active:scale-[0.98] transition-all cursor-pointer"
+            >
+              <span>View AICTE Hub</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
 
         {resetMessage && (
-          <div className="mt-4 p-3 rounded-xl bg-white/10 backdrop-blur border border-white/20 text-sm text-emerald-200 font-medium">
+          <div className="mt-6 p-4 rounded-[16px] bg-white/90 backdrop-blur border border-black/10 text-sm text-black font-medium">
             {resetMessage}
           </div>
         )}
-      </div>
+      </section>
 
-      {/* TOTP 2FA Demo Bypass Notice */}
-      <div className="flex items-center gap-4 p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-900 dark:text-amber-200 text-sm">
-        <KeyRound className="w-6 h-6 text-amber-500 shrink-0" />
-        <div>
-          <span className="font-bold">MFA / TOTP Demo Bypass Code: </span>
-          When prompted for 6-digit TOTP verification on any account, enter{" "}
-          <code className="bg-amber-500/20 px-2 py-0.5 rounded font-mono font-bold text-amber-600 dark:text-amber-300">
-            000000
-          </code>{" "}
-          or{" "}
-          <code className="bg-amber-500/20 px-2 py-0.5 rounded font-mono font-bold text-amber-600 dark:text-amber-300">
-            123456
-          </code>{" "}
-          for instantaneous authentication without configuring Google Authenticator.
+      {/* 2. WHITE CANVAS RETURN: MFA / TOTP Notice */}
+      <section className="rounded-[20px] border border-[#E5E5E5] bg-[#F9F9F9] p-6 text-black flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-start gap-3">
+          <KeyRound className="w-5 h-5 text-black shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <div className="font-mono text-xs font-semibold uppercase tracking-[0.54px] text-black/60">
+              MFA / TOTP Sandbox Bypass
+            </div>
+            <p className="text-sm font-[330] text-black/80">
+              When prompted for 6-digit TOTP verification on any account, enter{" "}
+              <code className="font-mono font-semibold bg-white px-2 py-0.5 rounded-full border border-[#E5E5E5] text-black">
+                000000
+              </code>{" "}
+              or{" "}
+              <code className="font-mono font-semibold bg-white px-2 py-0.5 rounded-full border border-[#E5E5E5] text-black">
+                123456
+              </code>{" "}
+              for instantaneous authentication without configuring Google Authenticator.
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Role Cards Matrix */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-              Pre-Configured Demo Accounts (1-Click Switch)
+      {/* 3. NAVY COLOR-BLOCK SECTION (Pre-Configured Demo Accounts & Role Switcher) */}
+      <section className="rounded-[24px] p-8 md:p-12 bg-[#0C1033] text-white space-y-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="space-y-2">
+            <div className="font-mono text-xs font-semibold uppercase tracking-[0.54px] text-white/60">
+              Identity & Scope Matrix
+            </div>
+            <h2 className="text-2xl md:text-4xl font-medium tracking-[-0.96px] text-white leading-tight">
+              Pre-Configured Demo Personas
             </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-sm md:text-base font-[330] text-white/70 max-w-xl">
               Click "One-Click Login" to generate an immediate JWT session and jump directly to that role's interface.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {accounts.map((acc) => {
             const Icon = acc.icon;
             return (
               <div
                 key={acc.role}
-                className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+                className="p-6 rounded-[20px] bg-white text-black flex flex-col justify-between space-y-6 shadow-sm hover:shadow-md transition-all"
               >
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <div className={`p-2 rounded-lg ${acc.color}`}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-[#F5F5F5] border border-[#E5E5E5] flex items-center justify-center text-black">
                         <Icon className="w-5 h-5" />
                       </div>
                       <div>
-                        <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                        <h3 className="text-[15px] font-semibold text-black tracking-[-0.2px]">
                           {acc.label}
                         </h3>
-                        <span className="text-xs text-slate-500 font-mono">
+                        <span className="font-mono text-[11px] text-black/50 uppercase tracking-[0.54px]">
                           {acc.role}
                         </span>
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                  </div>
+
+                  <div className="inline-block">
+                    <span className="font-mono text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F5F5F5] text-black border border-[#E5E5E5]">
                       {acc.badge}
                     </span>
                   </div>
 
-                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                  <p className="text-[13px] font-[330] text-black/75 leading-relaxed">
                     {acc.description}
                   </p>
 
-                  <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+                  <div className="space-y-2 pt-3 border-t border-[#E5E5E5] text-xs">
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-400">Email:</span>
-                      <div className="flex items-center gap-1.5 font-mono text-slate-700 dark:text-slate-300 font-medium">
+                      <span className="text-black/50">Email:</span>
+                      <div className="flex items-center gap-1.5 font-mono text-black font-medium">
                         <span>{acc.email}</span>
                         <button
                           onClick={() => handleCopy(acc.email, acc.email)}
-                          className="hover:text-indigo-500 text-slate-400"
+                          className="hover:text-black text-black/40 cursor-pointer"
                           title="Copy email"
                         >
                           {copiedKey === acc.email ? (
-                            <Check className="w-3.5 h-3.5 text-emerald-500" />
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
                           ) : (
                             <Copy className="w-3.5 h-3.5" />
                           )}
@@ -354,16 +371,16 @@ export const DemoGuide: React.FC = () => {
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-400">Password:</span>
-                      <div className="flex items-center gap-1.5 font-mono text-slate-700 dark:text-slate-300 font-medium">
+                      <span className="text-black/50">Password:</span>
+                      <div className="flex items-center gap-1.5 font-mono text-black font-medium">
                         <span>{acc.pass}</span>
                         <button
                           onClick={() => handleCopy(acc.pass, acc.role + "_pass")}
-                          className="hover:text-indigo-500 text-slate-400"
+                          className="hover:text-black text-black/40 cursor-pointer"
                           title="Copy password"
                         >
                           {copiedKey === acc.role + "_pass" ? (
-                            <Check className="w-3.5 h-3.5 text-emerald-500" />
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
                           ) : (
                             <Copy className="w-3.5 h-3.5" />
                           )}
@@ -375,7 +392,7 @@ export const DemoGuide: React.FC = () => {
 
                 <button
                   onClick={() => handleQuickLogin(acc.role, acc.targetUrl)}
-                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow transition-all"
+                  className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-black text-white text-xs font-medium tracking-[-0.1px] hover:bg-black/80 transition-all cursor-pointer"
                 >
                   <span>One-Click Login</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -384,90 +401,95 @@ export const DemoGuide: React.FC = () => {
             );
           })}
         </div>
-      </div>
+      </section>
 
-      {/* Prepared Demo Assets in /demo-assets */}
-      <div className="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <FileSpreadsheet className="w-5 h-5 text-indigo-500" />
-              Prepared Demonstration Files (/demo-assets)
-            </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              Pre-crafted test datasets located in the project root ready for drag-and-drop live uploading.
-            </p>
+      {/* 4. CREAM COLOR-BLOCK SECTION (Prepared Demonstration Files) */}
+      <section className="rounded-[24px] p-8 md:p-12 bg-[#FFF5EA] text-black space-y-8">
+        <div className="space-y-2">
+          <div className="font-mono text-xs font-semibold uppercase tracking-[0.54px] text-black/60">
+            Ingestion Sandbox Assets
           </div>
+          <h2 className="text-2xl md:text-4xl font-medium tracking-[-0.96px] text-black">
+            Prepared Demonstration Files
+          </h2>
+          <p className="text-sm md:text-base font-[330] text-black/75 max-w-xl">
+            Pre-crafted test datasets located in the project root ready for drag-and-drop live uploading into the ingestion portal.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/40 space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-6 rounded-[20px] bg-white border border-[#E5E5E5] space-y-3 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-slate-900 dark:text-white font-mono">
-                clean.csv
-              </span>
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              <span className="text-sm font-bold text-black font-mono">clean.csv</span>
+              <span className="font-mono text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#D2F8E7] text-black">
                 100% Valid
               </span>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs font-[330] text-black/75 leading-relaxed">
               60 student records within approved intake 60. Clean Verhoeff check digits, zero quota overflows, and perfect category quotas.
             </p>
-            <div className="text-[11px] font-mono text-slate-400">
+            <div className="text-[11px] font-mono text-black/50 pt-2 border-t border-[#E5E5E5]">
               Path: /demo-assets/clean.csv
             </div>
           </div>
 
-          <div className="p-4 rounded-xl border border-rose-500/30 bg-rose-50/50 dark:bg-rose-950/20 space-y-2">
+          <div className="p-6 rounded-[20px] bg-white border border-[#E5E5E5] space-y-3 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-rose-900 dark:text-rose-300 font-mono">
-                violation.csv
-              </span>
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30">
+              <span className="text-sm font-bold text-black font-mono">violation.csv</span>
+              <span className="font-mono text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#FF8577] text-black">
                 Live Anomaly Trigger
               </span>
             </div>
-            <p className="text-xs text-rose-800 dark:text-rose-300">
+            <p className="text-xs font-[330] text-black/75 leading-relaxed">
               150 admissions uploaded against sanctioned intake 120 (30 overshoot) PLUS 2 cross-institution duplicates (already in DTU Delhi).
             </p>
-            <div className="text-[11px] font-mono text-rose-500">
+            <div className="text-[11px] font-mono text-black/50 pt-2 border-t border-[#E5E5E5]">
               Path: /demo-assets/violation.csv
             </div>
           </div>
 
-          <div className="p-4 rounded-xl border border-purple-500/30 bg-purple-50/50 dark:bg-purple-950/20 space-y-2">
+          <div className="p-6 rounded-[20px] bg-white border border-[#E5E5E5] space-y-3 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-purple-900 dark:text-purple-300 font-mono">
-                tamper_sample.json
-              </span>
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-purple-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/30">
+              <span className="text-sm font-bold text-black font-mono">tamper_sample.json</span>
+              <span className="font-mono text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#E5D4FF] text-black">
                 Cryptographic Test
               </span>
             </div>
-            <p className="text-xs text-purple-800 dark:text-purple-300">
-              Valid Ed25519-signed academic credential. Modify CGPA from 8.92 to 9.92 to see instant signature verification failure.
+            <p className="text-xs font-[330] text-black/75 leading-relaxed">
+              Valid Ed25519-signed academic credential. Modify CGPA from 8.92 to 9.92 to witness instant signature verification failure.
             </p>
-            <div className="text-[11px] font-mono text-purple-500">
+            <div className="text-[11px] font-mono text-black/50 pt-2 border-t border-[#E5E5E5]">
               Path: /demo-assets/tamper_sample.json
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* 5-Minute Timed Live Demo Script & Checklist */}
-      <div className="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Clock className="w-5 h-5 text-indigo-500" />
-              5-Minute Choreographed Demonstration Script
+      {/* 5. LILAC COLOR-BLOCK SECTION (5-Minute Choreographed Demonstration Script) */}
+      <section className="rounded-[24px] p-8 md:p-12 bg-[#E5D4FF] text-black space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="space-y-2">
+            <div className="font-mono text-xs font-semibold uppercase tracking-[0.54px] text-black/60">
+              Choreographed Pitch
+            </div>
+            <h2 className="text-2xl md:text-4xl font-medium tracking-[-0.96px] text-black">
+              5-Minute Demonstration Script
             </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-sm md:text-base font-[330] text-black/75 max-w-xl">
               Follow this timed click path and word-for-word spoken narration during the Grand Finale evaluation.
             </p>
           </div>
-          <div className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
-            Completed: {Object.values(completedSteps).filter(Boolean).length} / {demoSteps.length} Steps
+
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs font-semibold px-3 py-1.5 rounded-full bg-white text-black border border-black/10">
+              Completed: {Object.values(completedSteps).filter(Boolean).length} / {demoSteps.length} Steps
+            </span>
+            <button
+              onClick={() => setCompletedSteps({})}
+              className="px-4 py-1.5 rounded-full bg-[#FF2F7C] text-white text-xs font-medium tracking-[-0.1px] hover:bg-[#FF2F7C]/90 transition-all cursor-pointer"
+            >
+              Reset Steps
+            </button>
           </div>
         </div>
 
@@ -477,41 +499,37 @@ export const DemoGuide: React.FC = () => {
             return (
               <div
                 key={step.id}
-                className={`p-5 rounded-xl border transition-all ${
-                  isCompleted
-                    ? "border-emerald-500/30 bg-emerald-50/20 dark:bg-emerald-950/10"
-                    : "border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 hover:border-indigo-500/30"
+                className={`p-6 rounded-[20px] transition-all bg-white border ${
+                  isCompleted ? "border-emerald-500/40 bg-emerald-50/20" : "border-black/10 shadow-sm"
                 }`}
               >
                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-start gap-4">
                     <button
                       onClick={() => toggleStep(step.id)}
-                      className={`mt-1 p-1 rounded-md transition-colors ${
+                      className={`mt-1 w-6 h-6 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
                         isCompleted
-                          ? "bg-emerald-600 text-white"
-                          : "border border-slate-300 dark:border-slate-700 hover:border-indigo-500 text-transparent"
+                          ? "bg-black text-white"
+                          : "border-2 border-black/20 hover:border-black text-transparent"
                       }`}
                     >
                       <Check className="w-3.5 h-3.5" />
                     </button>
-                    <div className="space-y-1">
+                    <div className="space-y-1.5">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
+                        <span className="font-mono text-xs font-semibold px-2.5 py-0.5 rounded-full bg-black text-white">
                           {step.timestamp} ({step.duration})
                         </span>
                         <h3
-                          className={`text-sm font-bold ${
-                            isCompleted
-                              ? "text-slate-500 dark:text-slate-400 line-through"
-                              : "text-slate-900 dark:text-white"
+                          className={`text-[15px] font-semibold ${
+                            isCompleted ? "text-black/40 line-through" : "text-black"
                           }`}
                         >
                           Step {String.fromCharCode(65 + step.id)}: {step.title}
                         </h3>
                       </div>
-                      <div className="text-xs text-indigo-600 dark:text-indigo-400 font-medium flex items-center gap-1.5">
-                        <PlayCircle className="w-3.5 h-3.5" />
+                      <div className="text-xs text-black/70 font-medium flex items-center gap-1.5">
+                        <PlayCircle className="w-3.5 h-3.5 text-black" />
                         <span>Action: {step.action}</span>
                       </div>
                     </div>
@@ -519,7 +537,7 @@ export const DemoGuide: React.FC = () => {
 
                   <button
                     onClick={() => navigate(step.targetUrl)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors shrink-0"
+                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium bg-[#F5F5F5] hover:bg-black hover:text-white text-black transition-all shrink-0 cursor-pointer"
                   >
                     <span>Jump to Screen</span>
                     <ExternalLink className="w-3 h-3" />
@@ -527,9 +545,9 @@ export const DemoGuide: React.FC = () => {
                 </div>
 
                 {/* Spoken Narration Quote */}
-                <div className="mt-3 ml-7 p-3 rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed italic">
-                  <span className="font-semibold not-italic text-slate-900 dark:text-white">
-                    🎙️ Spoken Line:{" "}
+                <div className="mt-4 ml-10 p-4 rounded-[16px] bg-[#F9F9F9] border border-[#E5E5E5] text-xs text-black/85 leading-relaxed italic">
+                  <span className="font-semibold not-italic text-black font-mono uppercase text-[10px] tracking-[0.54px] block mb-1">
+                    🎙️ Spoken Line:
                   </span>
                   "{step.narration}"
                 </div>
@@ -537,7 +555,7 @@ export const DemoGuide: React.FC = () => {
             );
           })}
         </div>
-      </div>
+      </section>
     </div>
   );
 };

@@ -43,19 +43,19 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm space-y-3">
+    <div className="bg-white rounded-[20px] border border-[#E5E5E5] p-5 shadow-none space-y-4">
       {/* Top Filter Bar Controls */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3.5 top-3 h-4 w-4 text-black/40" />
           <input
             type="text"
             id="filter-search"
             value={filters.search}
             onChange={(e) => onChange({ search: e.target.value })}
             placeholder={t("dashboard.filter.search_placeholder", "Search college or AICTE ID...")}
-            className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full pl-10 pr-3.5 py-2.5 text-xs rounded-[10px] border border-[#E5E5E5] bg-white text-black placeholder-black/40 focus:outline-none focus:border-black transition-colors"
           />
         </div>
 
@@ -65,7 +65,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             id="filter-year"
             value={filters.academicYear}
             onChange={(e) => onChange({ academicYear: e.target.value })}
-            className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-3.5 py-2.5 text-xs rounded-[10px] border border-[#E5E5E5] bg-white text-black focus:outline-none focus:border-black transition-colors"
           >
             <option value="2025-26">AY 2025-26 (Current)</option>
             <option value="2024-25">AY 2024-25</option>
@@ -79,7 +79,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             id="filter-state"
             value={filters.stateCode}
             onChange={(e) => onChange({ stateCode: e.target.value })}
-            className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-3.5 py-2.5 text-xs rounded-[10px] border border-[#E5E5E5] bg-white text-black focus:outline-none focus:border-black transition-colors"
           >
             <option value="">{t("dashboard.filter.all_states", "All States & UTs")}</option>
             {statesList.map((st) => (
@@ -96,7 +96,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             id="filter-type"
             value={filters.institutionType}
             onChange={(e) => onChange({ institutionType: e.target.value })}
-            className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-3.5 py-2.5 text-xs rounded-[10px] border border-[#E5E5E5] bg-white text-black focus:outline-none focus:border-black transition-colors"
           >
             <option value="">{t("dashboard.filter.all_types", "All Institution Types")}</option>
             <option value="AUTONOMOUS">Autonomous</option>
@@ -112,7 +112,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             id="filter-level"
             value={filters.programLevel}
             onChange={(e) => onChange({ programLevel: e.target.value })}
-            className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-3.5 py-2.5 text-xs rounded-[10px] border border-[#E5E5E5] bg-white text-black focus:outline-none focus:border-black transition-colors"
           >
             <option value="">{t("dashboard.filter.all_levels", "All Degree Levels")}</option>
             <option value="UG">Undergraduate (UG)</option>
@@ -123,38 +123,50 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         </div>
       </div>
 
-      {/* Saved Views Strip */}
-      <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
-        <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1 font-medium mr-1">
-            <Bookmark className="h-3.5 w-3.5 text-brand-500" />
+      {/* Saved Views Pill Toggles Strip */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#E5E5E5] text-xs">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.54px] text-black/50 mr-1 flex items-center gap-1.5">
+            <Bookmark className="h-3.5 w-3.5 text-black" />
             {t("dashboard.filter.saved_views", "Saved Views:")}
           </span>
           <button
             type="button"
             onClick={() => handleSavedView("reset")}
-            className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-medium transition-colors"
+            className={`px-3.5 py-1.5 rounded-full font-medium transition-all cursor-pointer ${
+              !filters.institutionType && !filters.programLevel && !filters.search
+                ? "bg-black text-white"
+                : "bg-white text-black border border-[#E5E5E5] hover:bg-[#F5F5F5]"
+            }`}
           >
             All National
           </button>
           <button
             type="button"
             onClick={() => handleSavedView("critical")}
-            className="px-2.5 py-1 rounded-md bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900/40 font-medium hover:bg-rose-100 transition-colors"
+            className="px-3.5 py-1.5 rounded-full bg-white text-black border border-[#E5E5E5] hover:bg-[#F5F5F5] font-medium transition-all cursor-pointer"
           >
             Critical Risk Watchlist
           </button>
           <button
             type="button"
             onClick={() => handleSavedView("autonomous")}
-            className="px-2.5 py-1 rounded-md bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-900/40 font-medium hover:bg-indigo-100 transition-colors"
+            className={`px-3.5 py-1.5 rounded-full font-medium transition-all cursor-pointer ${
+              filters.institutionType === "AUTONOMOUS"
+                ? "bg-black text-white"
+                : "bg-white text-black border border-[#E5E5E5] hover:bg-[#F5F5F5]"
+            }`}
           >
             Autonomous Tier
           </button>
           <button
             type="button"
             onClick={() => handleSavedView("pg")}
-            className="px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900/40 font-medium hover:bg-emerald-100 transition-colors"
+            className={`px-3.5 py-1.5 rounded-full font-medium transition-all cursor-pointer ${
+              filters.programLevel === "PG"
+                ? "bg-black text-white"
+                : "bg-white text-black border border-[#E5E5E5] hover:bg-[#F5F5F5]"
+            }`}
           >
             PG & Masters
           </button>
@@ -163,10 +175,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         <button
           type="button"
           onClick={onReset}
-          className="flex items-center gap-1 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-black/60 hover:text-black hover:bg-[#F5F5F5] transition-colors cursor-pointer"
         >
           <RotateCcw className="h-3.5 w-3.5" />
-          {t("common.reset", "Reset Filters")}
+          <span className="font-medium">{t("common.reset", "Reset Filters")}</span>
         </button>
       </div>
     </div>

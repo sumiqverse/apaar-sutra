@@ -239,34 +239,44 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto" role="region" aria-label="AICTE National Directorate">
+    <div className="space-y-8 max-w-7xl mx-auto pb-12" role="region" aria-label="AICTE National Directorate">
       {/* Executive Page Title & Telemetry Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20">
-              <Shield className="h-3.5 w-3.5" />
+      <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 pt-2">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold uppercase tracking-[0.54px] bg-black text-white">
+              <Shield className="h-3 w-3 text-[#D4FF5B]" />
               AICTE National Directorate
             </span>
-            <span className="text-xs text-slate-400">• Academic Year {filters.academicYear}</span>
+            <span className="font-mono text-xs text-black/50 uppercase tracking-[0.54px]">
+              • Academic Year {filters.academicYear}
+            </span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <h1 className="text-3xl md:text-5xl font-medium tracking-[-1.2px] text-black leading-[1.05]">
             {t("dashboard.title", "APAAR National Verification & Capacity Registry")}
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Real-time enrollment telemetry, AI anomaly detection, and statutory quota compliance
+          <p className="text-sm md:text-base font-[330] text-black/70 max-w-2xl tracking-[-0.26px]">
+            Real-time enrollment telemetry, AI anomaly detection, and statutory quota compliance across institutions nationwide.
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={handleRefreshAll}
-          disabled={refreshing}
-          className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm transition-all"
-        >
-          <RefreshCw className={`h-3.5 w-3.5 text-brand-600 ${refreshing ? "animate-spin" : ""}`} />
-          {refreshing ? "Refreshing..." : "Refresh Telemetry"}
-        </button>
+        <div className="flex items-center gap-3 shrink-0">
+          <button
+            type="button"
+            onClick={handleRefreshAll}
+            disabled={refreshing}
+            className="flex items-center gap-2 px-5 py-2.5 text-xs font-medium rounded-full border border-[#E5E5E5] bg-white text-black hover:bg-[#F5F5F5] transition-all cursor-pointer"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 text-black ${refreshing ? "animate-spin" : ""}`} />
+            {refreshing ? "Refreshing..." : "Refresh Telemetry"}
+          </button>
+          <a
+            href="/demo-guide"
+            className="flex items-center gap-2 px-5 py-2.5 text-xs font-medium rounded-full bg-black text-white hover:bg-black/80 transition-all cursor-pointer"
+          >
+            <span>Demo Guide</span>
+          </a>
+        </div>
       </div>
 
       {/* 1. Executive KPI Strip */}

@@ -41,23 +41,28 @@ export const Ingestion: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-200">
-        <div>
+    <div className="space-y-8 max-w-7xl mx-auto" role="region" aria-label="Student Data Ingestion Portal">
+      {/* Top Banner (Cream Color-Block) */}
+      <div className="bg-[#FFF5EA] text-black rounded-[24px] p-8 md:p-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+        <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight">Student Data Ingestion Portal</h1>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-              Phase 3 Ingestion Engine
+            <span className="font-mono text-xs px-3 py-1 rounded-full bg-black text-white font-semibold uppercase tracking-[0.54px]">
+              AICTE Batch Engine
+            </span>
+            <span className="font-mono text-xs px-3 py-1 rounded-full bg-white text-black border border-black/10 font-semibold uppercase tracking-[0.54px]">
+              50k Bulk Pipeline
             </span>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
+          <h1 className="text-3xl md:text-5xl font-medium tracking-[-1.2px] text-black leading-[1.05]">
+            Student Data Ingestion Portal
+          </h1>
+          <p className="text-sm md:text-base font-[330] text-black/80 max-w-2xl tracking-[-0.26px]">
             Standardized onboarding of student academic cohorts with real-time APAAR verification, cryptographic encryption, and AICTE compliance.
           </p>
         </div>
 
-        {/* Tab Switcher */}
-        <div className="flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200 overflow-x-auto">
+        {/* Tab Switcher (Pill Toggles) */}
+        <div className="flex items-center bg-white p-1.5 rounded-full border border-black/10 overflow-x-auto shrink-0 max-w-full">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -65,18 +70,18 @@ export const Ingestion: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap cursor-pointer ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium transition-all whitespace-nowrap cursor-pointer ${
                   isActive
-                    ? "bg-white text-indigo-700 shadow-sm border border-slate-200/60"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
+                    ? "bg-black text-white shadow-sm"
+                    : "text-black/70 hover:text-black hover:bg-black/5"
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? "text-indigo-600" : "text-slate-500"}`} />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-black/60"}`} />
                 <span>{tab.label}</span>
                 {tab.badge && (
                   <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${
-                      isActive ? "bg-indigo-50 text-indigo-600" : "bg-slate-200 text-slate-600"
+                    className={`text-[9px] px-2 py-0.5 rounded-full font-mono uppercase tracking-[0.54px] font-semibold ${
+                      isActive ? "bg-white/20 text-white" : "bg-[#F5F5F5] text-black/70"
                     }`}
                   >
                     {tab.badge}

@@ -252,107 +252,62 @@ export const AdminConsole: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 p-6 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-rose-600/10 text-rose-600 dark:text-rose-400 rounded-xl">
-              <ShieldAlert className="w-7 h-7" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  Super Admin Control Console
-                </h1>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 uppercase tracking-wider">
-                  Super Admin Role Required
-                </span>
-              </div>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                Rule thresholds, institutional registry, user RBAC, API secrets, webhooks & real-time telemetry.
-              </p>
-            </div>
+    <div className="space-y-8 max-w-7xl mx-auto" role="region" aria-label="Super Admin Control Console">
+      {/* Header Banner */}
+      <div className="bg-[#FFF5EA] text-black rounded-[24px] p-8 md:p-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs px-3 py-1 rounded-full bg-black text-white font-semibold uppercase tracking-[0.54px]">
+              AICTE Master Governance
+            </span>
+            <span className="font-mono text-xs px-3 py-1 rounded-full bg-white text-black border border-black/10 font-semibold uppercase tracking-[0.54px]">
+              Super Admin Role
+            </span>
           </div>
+          <h1 className="text-3xl md:text-5xl font-medium tracking-[-1.2px] text-black leading-[1.05]">
+            Super Admin Control Console
+          </h1>
+          <p className="text-sm md:text-base font-[330] text-black/80 max-w-2xl tracking-[-0.26px]">
+            Rule thresholds, institutional registry, user RBAC, API secrets, webhooks & real-time telemetry.
+          </p>
         </div>
 
         <button
           onClick={() => loadTabData(activeTab)}
-          className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition"
+          className="flex items-center gap-2 px-5 py-2.5 text-xs font-medium text-black bg-white border border-black/10 rounded-full hover:bg-black/5 transition-all cursor-pointer shrink-0"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
-          Refresh Workspace
+          <span>Refresh Workspace</span>
         </button>
       </div>
 
-      {/* Tabs */}
-      <div className="flex border-b border-slate-200 dark:border-slate-800 space-x-6 text-sm font-medium overflow-x-auto pb-1">
-        <button
-          onClick={() => setActiveTab("rules")}
-          className={`pb-3 transition flex items-center gap-2 border-b-2 shrink-0 ${
-            activeTab === "rules"
-              ? "border-indigo-600 text-indigo-600 dark:text-indigo-400 font-semibold"
-              : "border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white"
-          }`}
-        >
-          <Sliders className="w-4 h-4" />
-          Validation Rules Engine
-        </button>
-        <button
-          onClick={() => setActiveTab("institutions")}
-          className={`pb-3 transition flex items-center gap-2 border-b-2 shrink-0 ${
-            activeTab === "institutions"
-              ? "border-indigo-600 text-indigo-600 dark:text-indigo-400 font-semibold"
-              : "border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white"
-          }`}
-        >
-          <Building2 className="w-4 h-4" />
-          Institutions Governance
-        </button>
-        <button
-          onClick={() => setActiveTab("users")}
-          className={`pb-3 transition flex items-center gap-2 border-b-2 shrink-0 ${
-            activeTab === "users"
-              ? "border-indigo-600 text-indigo-600 dark:text-indigo-400 font-semibold"
-              : "border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white"
-          }`}
-        >
-          <Users className="w-4 h-4" />
-          Users & RBAC
-        </button>
-        <button
-          onClick={() => setActiveTab("clients")}
-          className={`pb-3 transition flex items-center gap-2 border-b-2 shrink-0 ${
-            activeTab === "clients"
-              ? "border-indigo-600 text-indigo-600 dark:text-indigo-400 font-semibold"
-              : "border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white"
-          }`}
-        >
-          <Key className="w-4 h-4" />
-          API Clients & HMAC Secrets
-        </button>
-        <button
-          onClick={() => setActiveTab("webhooks")}
-          className={`pb-3 transition flex items-center gap-2 border-b-2 shrink-0 ${
-            activeTab === "webhooks"
-              ? "border-indigo-600 text-indigo-600 dark:text-indigo-400 font-semibold"
-              : "border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white"
-          }`}
-        >
-          <Radio className="w-4 h-4" />
-          Webhooks & DLQ
-        </button>
-        <button
-          onClick={() => setActiveTab("telemetry")}
-          className={`pb-3 transition flex items-center gap-2 border-b-2 shrink-0 ${
-            activeTab === "telemetry"
-              ? "border-indigo-600 text-indigo-600 dark:text-indigo-400 font-semibold"
-              : "border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white"
-          }`}
-        >
-          <Activity className="w-4 h-4" />
-          System Telemetry & Policies
-        </button>
+      {/* Pill Tabs Navigation */}
+      <div className="flex items-center bg-white p-1.5 rounded-full border border-[#E5E5E5] overflow-x-auto w-fit max-w-full">
+        {[
+          { id: "rules", label: "Validation Rules Engine", icon: Sliders },
+          { id: "institutions", label: "Institutions Governance", icon: Building2 },
+          { id: "users", label: "Users & RBAC", icon: Users },
+          { id: "clients", label: "API Clients & HMAC", icon: Key },
+          { id: "webhooks", label: "Webhooks & DLQ", icon: Radio },
+          { id: "telemetry", label: "Telemetry & Performance", icon: Activity },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          const active = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`flex items-center gap-2 px-4 py-2 text-xs font-medium rounded-full transition-all whitespace-nowrap cursor-pointer ${
+                active
+                  ? "bg-black text-white shadow-sm"
+                  : "text-black/70 hover:text-black hover:bg-black/5"
+              }`}
+            >
+              <Icon className={`w-3.5 h-3.5 ${active ? "text-white" : "text-black/60"}`} />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* WORKSPACE 1: RULES ENGINE */}

@@ -201,135 +201,143 @@ export const InstitutionDashboard: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto" role="region" aria-label="Institution Operational Dashboard">
-      {/* College Tenant Header Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white rounded-2xl p-6 shadow-lg border border-slate-700/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30 font-bold">
+      {/* College Tenant Header Banner (Block Lime) */}
+      <div className="bg-[#D4FF5B] text-black rounded-[24px] p-8 md:p-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs px-3 py-1 rounded-full bg-black text-white font-semibold uppercase tracking-[0.54px]">
               {data.aicte_id}
             </span>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-medium">
+            <span className="font-mono text-xs px-3 py-1 rounded-full bg-white text-black border border-black/10 font-semibold uppercase tracking-[0.54px]">
               Autonomous Technical Institution
             </span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">{data.institution_name}</h1>
-          <p className="text-xs text-slate-300 mt-1">
-            Institutional Operations, Academic Intake Quota & APAAR Verification Management
+          <h1 className="text-3xl md:text-5xl font-medium tracking-[-1.2px] text-black leading-[1.05]">
+            {data.institution_name}
+          </h1>
+          <p className="text-sm md:text-base font-[330] text-black/80 max-w-2xl tracking-[-0.26px]">
+            Institutional Operations, Academic Intake Quota & APAAR Verification Management Portal.
           </p>
         </div>
 
-        {/* Upload Action */}
+        {/* Upload Action (Black Pill Primary) */}
         <Link
           to="/ingestion"
           id="upload-data-btn"
-          className="flex items-center gap-2 px-4 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition-all shadow-md hover:shadow-brand-500/20 shrink-0"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-black hover:bg-black/85 text-white rounded-full text-xs font-medium tracking-[-0.1px] transition-all cursor-pointer shrink-0"
         >
           <UploadCloud className="h-4 w-4" />
-          Upload New Student Batch
+          <span>Upload Student Batch</span>
         </Link>
       </div>
 
-      {/* KPI Telemetry & Countdown Strip */}
+      {/* KPI Telemetry & Countdown Strip (White Canvas Return) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Data Completeness */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+        <div className="bg-white p-6 rounded-[20px] border border-[#E5E5E5] space-y-3 flex flex-col justify-between hover:border-black transition-colors">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[10px] font-semibold text-black/60 uppercase tracking-[0.54px]">
               Data Completeness
             </span>
-            <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400">
-              <FileCheck2 className="h-4 w-4" />
+            <div className="w-7 h-7 rounded-full bg-[#F5F5F5] border border-[#E5E5E5] flex items-center justify-center text-black">
+              <FileCheck2 className="h-3.5 w-3.5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-slate-900 dark:text-white tabular-nums mb-2">
-            {data.data_completeness_pct.toFixed(1)}%
+          <div>
+            <div className="text-3xl font-semibold tracking-[-0.96px] text-black tabular-nums mb-2">
+              {data.data_completeness_pct.toFixed(1)}%
+            </div>
+            <div className="w-full bg-[#F5F5F5] rounded-full h-1.5 overflow-hidden">
+              <div
+                className="bg-black h-1.5 rounded-full transition-all duration-500"
+                style={{ width: `${data.data_completeness_pct}%` }}
+              />
+            </div>
           </div>
-          <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
-            <div
-              className="bg-emerald-500 h-2 rounded-full transition-all duration-500"
-              style={{ width: `${data.data_completeness_pct}%` }}
-            />
-          </div>
-          <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-2 block">
+          <span className="text-[11px] font-[330] text-black/60 block">
             Validated against AICTE schema standards
           </span>
         </div>
 
         {/* Verification Pending */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+        <div className="bg-white p-6 rounded-[20px] border border-[#E5E5E5] space-y-3 flex flex-col justify-between hover:border-black transition-colors">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[10px] font-semibold text-black/60 uppercase tracking-[0.54px]">
               Verification Pending
             </span>
-            <div className="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400">
-              <Clock className="h-4 w-4" />
+            <div className="w-7 h-7 rounded-full bg-[#F5F5F5] border border-[#E5E5E5] flex items-center justify-center text-black">
+              <Clock className="h-3.5 w-3.5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-slate-900 dark:text-white tabular-nums mb-2">
+          <div className="text-3xl font-semibold tracking-[-0.96px] text-black tabular-nums">
             {data.verification_pending_count}
           </div>
-          <span className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold block">
-            Awaiting DigiLocker/APAAR sync
-          </span>
+          <div>
+            <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-[0.54px] font-semibold bg-[#FFD6E8] text-black">
+              Awaiting DigiLocker/APAAR sync
+            </span>
+          </div>
         </div>
 
         {/* Intake Utilisation */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+        <div className="bg-white p-6 rounded-[20px] border border-[#E5E5E5] space-y-3 flex flex-col justify-between hover:border-black transition-colors">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[10px] font-semibold text-black/60 uppercase tracking-[0.54px]">
               Intake Utilisation
             </span>
-            <div className="p-2 rounded-lg bg-brand-50 dark:bg-brand-950/40 text-brand-600 dark:text-brand-400">
-              <Percent className="h-4 w-4" />
+            <div className="w-7 h-7 rounded-full bg-[#F5F5F5] border border-[#E5E5E5] flex items-center justify-center text-black">
+              <Percent className="h-3.5 w-3.5" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-slate-900 dark:text-white tabular-nums mb-2">
+          <div className="text-3xl font-semibold tracking-[-0.96px] text-black tabular-nums">
             {data.overall_utilisation_pct.toFixed(1)}%
           </div>
-          <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
+          <span className="text-[11px] font-[330] text-black/60 block">
             {data.total_enrolments} enrolled of {data.approved_intake} approved
           </span>
         </div>
 
-        {/* Compliance Deadline Countdown */}
-        <div className="bg-gradient-to-br from-rose-900 to-slate-900 text-white p-5 rounded-xl border border-rose-800/50 shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-rose-300 uppercase tracking-wider">
+        {/* Statutory Deadline Countdown (Clean Cream/White Pill Card) */}
+        <div className="bg-[#FFF5EA] p-6 rounded-[20px] border border-[#E5E5E5] space-y-3 flex flex-col justify-between">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[10px] font-semibold text-black/70 uppercase tracking-[0.54px]">
               Statutory Deadline
             </span>
-            <span className="h-2 w-2 rounded-full bg-rose-400 animate-pulse" />
+            <span className="h-2 w-2 rounded-full bg-black animate-pulse" />
           </div>
-          <div className="text-xs text-slate-300 mb-2">AY 2025-26 Intake Submission Closing</div>
-          <div className="grid grid-cols-4 gap-1 text-center font-mono font-bold">
-            <div className="bg-white/10 rounded p-1">
-              <div className="text-lg tabular-nums">{countdown.days}</div>
-              <div className="text-[9px] uppercase text-slate-300">Days</div>
+          <div className="font-mono text-[11px] text-black/70">AY 2025-26 Intake Closing</div>
+          <div className="grid grid-cols-4 gap-1.5 text-center font-mono">
+            <div className="bg-white rounded-[10px] p-1.5 border border-[#E5E5E5]">
+              <div className="text-base font-bold text-black tabular-nums">{countdown.days}</div>
+              <div className="text-[9px] uppercase tracking-[0.54px] text-black/50">Days</div>
             </div>
-            <div className="bg-white/10 rounded p-1">
-              <div className="text-lg tabular-nums">{countdown.hours}</div>
-              <div className="text-[9px] uppercase text-slate-300">Hrs</div>
+            <div className="bg-white rounded-[10px] p-1.5 border border-[#E5E5E5]">
+              <div className="text-base font-bold text-black tabular-nums">{countdown.hours}</div>
+              <div className="text-[9px] uppercase tracking-[0.54px] text-black/50">Hrs</div>
             </div>
-            <div className="bg-white/10 rounded p-1">
-              <div className="text-lg tabular-nums">{countdown.minutes}</div>
-              <div className="text-[9px] uppercase text-slate-300">Min</div>
+            <div className="bg-white rounded-[10px] p-1.5 border border-[#E5E5E5]">
+              <div className="text-base font-bold text-black tabular-nums">{countdown.minutes}</div>
+              <div className="text-[9px] uppercase tracking-[0.54px] text-black/50">Min</div>
             </div>
-            <div className="bg-white/10 rounded p-1">
-              <div className="text-lg tabular-nums">{countdown.seconds}</div>
-              <div className="text-[9px] uppercase text-slate-300">Sec</div>
+            <div className="bg-white rounded-[10px] p-1.5 border border-[#E5E5E5]">
+              <div className="text-base font-bold text-black tabular-nums">{countdown.seconds}</div>
+              <div className="text-[9px] uppercase tracking-[0.54px] text-black/50">Sec</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Program Intake Utilisation Gauges */}
-      <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
-        <div>
-          <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Layers className="h-4 w-4 text-brand-600 dark:text-brand-400" />
+      {/* Program Intake Utilisation Gauges (Mint Color-Block Section) */}
+      <section className="bg-[#D2F8E7] text-black rounded-[24px] p-8 md:p-12 space-y-8">
+        <div className="space-y-2">
+          <div className="font-mono text-xs font-semibold uppercase tracking-[0.54px] text-black/60">
+            Capacity & Utilization Telemetry
+          </div>
+          <h2 className="text-2xl md:text-4xl font-medium tracking-[-0.96px] text-black">
             Program-wise Approved Intake Utilisation Gauges
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Real-time capacity monitors per academic department; red highlights unauthorized cap breaches
+          <p className="text-sm md:text-base font-[330] text-black/75 max-w-xl">
+            Real-time capacity monitors per academic department; flags statutory seat overshoots.
           </p>
         </div>
 
@@ -341,51 +349,46 @@ export const InstitutionDashboard: React.FC = () => {
             return (
               <div
                 key={prog.program_id}
-                className={`p-4 rounded-xl border transition-all ${
-                  isBreach
-                    ? "bg-rose-50/50 dark:bg-rose-950/20 border-rose-300 dark:border-rose-900"
-                    : isWarning
-                    ? "bg-amber-50/50 dark:bg-amber-950/20 border-amber-300 dark:border-amber-900"
-                    : "bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700/60"
-                }`}
+                className="bg-white p-6 rounded-[20px] border border-black/10 space-y-4 shadow-sm hover:border-black transition-all"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-[#F5F5F5] text-black border border-[#E5E5E5]">
                     {prog.level}
                   </span>
                   <span
-                    className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                    className={`text-[10px] font-mono font-bold uppercase tracking-[0.54px] px-3 py-1 rounded-full ${
                       isBreach
-                        ? "bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200"
+                        ? "bg-[#FF8577] text-black"
                         : isWarning
-                        ? "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200"
-                        : "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200"
+                        ? "bg-[#FFF5EA] text-black border border-[#E5E5E5]"
+                        : "bg-[#D4FF5B] text-black"
                     }`}
                   >
                     {isBreach ? "CAPACITY BREACH" : isWarning ? "NEAR CAP" : "COMPLIANT"}
                   </span>
                 </div>
 
-                <h3 className="text-xs font-bold text-slate-900 dark:text-white truncate" title={prog.name}>
+                <h3 className="text-sm font-semibold text-black tracking-[-0.2px] truncate" title={prog.name}>
                   {prog.branch}
                 </h3>
+
                 <div className="flex items-baseline justify-between mt-2 mb-1.5">
-                  <span className="text-xl font-bold font-mono text-slate-900 dark:text-white tabular-nums">
+                  <span className="text-2xl font-semibold font-mono tracking-[-0.96px] text-black tabular-nums">
                     {prog.current_enrolment} / {prog.approved_intake}
                   </span>
                   <span
-                    className={`text-xs font-bold font-mono tabular-nums ${
-                      isBreach ? "text-rose-600 dark:text-rose-400" : "text-slate-600 dark:text-slate-300"
+                    className={`text-xs font-mono font-semibold tabular-nums ${
+                      isBreach ? "text-rose-600" : "text-black/60"
                     }`}
                   >
                     {prog.utilisation_pct.toFixed(1)}%
                   </span>
                 </div>
 
-                <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-[#F5F5F5] rounded-full h-2 overflow-hidden">
                   <div
                     className={`h-2 rounded-full transition-all duration-500 ${
-                      isBreach ? "bg-rose-500" : isWarning ? "bg-amber-500" : "bg-brand-500"
+                      isBreach ? "bg-rose-500" : isWarning ? "bg-amber-500" : "bg-black"
                     }`}
                     style={{ width: `${Math.min(100, prog.utilisation_pct)}%` }}
                   />
@@ -394,46 +397,46 @@ export const InstitutionDashboard: React.FC = () => {
             );
           })}
         </div>
-      </div>
+      </section>
 
-      {/* Two Column Layout: Latest Batch Status & Actionable Open Issues */}
+      {/* Two Column Layout: Latest Batch Status & Actionable Open Issues (White Canvas) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Upload Status Card */}
-        <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
+        <div className="bg-white rounded-[24px] border border-[#E5E5E5] p-6 md:p-8 space-y-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <UploadCloud className="h-4 w-4 text-brand-600" />
+            <h2 className="text-base font-semibold text-black flex items-center gap-2">
+              <UploadCloud className="h-4 w-4 text-black" />
               Latest Ingestion Batch
             </h2>
-            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300">
+            <span className="px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-[0.54px] font-semibold bg-[#D4FF5B] text-black">
               {data.upload_summary.status}
             </span>
           </div>
 
-          <div className="p-3.5 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-100 dark:border-slate-800 space-y-2 text-xs">
-            <div className="font-semibold text-slate-900 dark:text-white truncate">
+          <div className="p-4 bg-[#F9F9F9] rounded-[16px] border border-[#E5E5E5] space-y-2 text-xs">
+            <div className="font-semibold text-black truncate">
               {data.upload_summary.file_name}
             </div>
-            <div className="text-[11px] text-slate-400 font-mono">
+            <div className="text-[11px] text-black/50 font-mono">
               Batch: {data.upload_summary.batch_id}
             </div>
 
-            <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-200 dark:border-slate-700 text-center font-mono">
+            <div className="grid grid-cols-3 gap-2 pt-3 border-t border-[#E5E5E5] text-center font-mono">
               <div>
-                <div className="text-slate-400 text-[10px]">TOTAL</div>
-                <div className="font-bold text-slate-800 dark:text-slate-200">
+                <div className="text-black/50 text-[10px]">TOTAL</div>
+                <div className="font-semibold text-black text-sm">
                   {data.upload_summary.total_rows}
                 </div>
               </div>
               <div>
-                <div className="text-emerald-600 text-[10px]">VALID</div>
-                <div className="font-bold text-emerald-600">
+                <div className="text-emerald-700 text-[10px]">VALID</div>
+                <div className="font-semibold text-emerald-700 text-sm">
                   {data.upload_summary.valid_rows}
                 </div>
               </div>
               <div>
                 <div className="text-rose-600 text-[10px]">FLAGGED</div>
-                <div className="font-bold text-rose-600">
+                <div className="font-semibold text-rose-600 text-sm">
                   {data.upload_summary.invalid_rows}
                 </div>
               </div>
@@ -442,22 +445,22 @@ export const InstitutionDashboard: React.FC = () => {
 
           <Link
             to="/ingestion"
-            className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-full border border-[#E5E5E5] bg-white hover:bg-[#F5F5F5] text-xs font-medium text-black transition-colors cursor-pointer"
           >
-            Open Batch History Ledger
+            <span>Open Batch History Ledger</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 
         {/* Actionable Open Issues with "Fix Now" Links */}
-        <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
+        <div className="lg:col-span-2 bg-white rounded-[24px] border border-[#E5E5E5] p-6 md:p-8 space-y-5">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4 text-rose-600" />
+              <h2 className="text-base font-semibold text-black flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 text-black" />
                 Actionable Open Compliance Issues ({data.fix_now_issues.length})
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs font-[330] text-black/60 mt-0.5">
                 Direct remediation links to resolve registry mismatches before deadline cutoff
               </p>
             </div>
@@ -467,33 +470,33 @@ export const InstitutionDashboard: React.FC = () => {
             {data.fix_now_issues.map((iss) => (
               <div
                 key={iss.issue_id}
-                className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                className="p-5 rounded-[18px] border border-[#E5E5E5] bg-[#F9F9F9] hover:border-black flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-colors"
               >
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <span className="font-mono text-xs font-semibold px-2.5 py-0.5 rounded-full bg-black text-white">
                       {iss.rule_code}
                     </span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300">
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.54px] px-2.5 py-0.5 rounded-full bg-[#FF8577] text-black">
                       {iss.severity}
                     </span>
-                    <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                    <span className="text-xs text-black/60 font-[330]">
                       {iss.affected_count} records affected
                     </span>
                   </div>
-                  <p className="text-xs text-slate-800 dark:text-slate-200 font-medium">
+                  <p className="text-xs text-black font-semibold">
                     {iss.message}
                   </p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                  <p className="text-[11px] font-[330] text-black/70">
                     Suggestion: {iss.fix_action}
                   </p>
                 </div>
 
                 <Link
                   to={iss.deep_link}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold shrink-0 shadow-sm transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-black hover:bg-black/85 text-white text-xs font-medium tracking-[-0.1px] shrink-0 transition-colors cursor-pointer"
                 >
-                  Fix Now
+                  <span>Fix Now</span>
                   <ExternalLink className="h-3.5 w-3.5" />
                 </Link>
               </div>

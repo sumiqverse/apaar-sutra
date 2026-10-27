@@ -178,85 +178,85 @@ export const StudentConsentPortal: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Sovereign Header */}
-      <div className="bg-gradient-to-r from-teal-900 via-slate-900 to-indigo-950 p-6 rounded-2xl border border-teal-800/40 shadow-xl text-white">
-        <div className="space-y-1">
+    <div className="space-y-8 max-w-7xl mx-auto" role="region" aria-label="Student Privacy & Consent Dashboard">
+      {/* Sovereign Header (Pink Color-Block Section) */}
+      <div className="bg-[#FFD6E8] text-black rounded-[24px] p-8 md:p-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+        <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+            <span className="font-mono text-xs px-3 py-1 rounded-full bg-black text-white font-semibold uppercase tracking-[0.54px]">
               DPDP Act 2023 Student Sovereignty
             </span>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+            <span className="font-mono text-xs px-3 py-1 rounded-full bg-white text-black border border-black/10 font-semibold uppercase tracking-[0.54px]">
               One Nation, One Student ID
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+          <h1 className="text-3xl md:text-5xl font-medium tracking-[-1.2px] text-black leading-[1.05]">
             Student Privacy & Consent Dashboard
           </h1>
-          <p className="text-sm text-slate-300 max-w-2xl">
+          <p className="text-sm md:text-base font-[330] text-black/80 max-w-2xl tracking-[-0.26px]">
             You maintain absolute sovereignty over your APAAR academic records. Review who is requesting your data, approve granular subsets of fields, withdraw consent at any time, and audit all access events.
           </p>
         </div>
+      </div>
 
-        {/* Tab Buttons */}
-        <div className="flex gap-2 mt-6 border-t border-slate-800/80 pt-4 overflow-x-auto">
-          {[
-            { id: "inbox", label: `Pending Requests (${inbox.length})`, icon: Clock },
-            { id: "active", label: `Active Consents (${activeConsents.length})`, icon: CheckCircle2 },
-            { id: "history", label: "Who Accessed My Data (Audit)", icon: History },
-          ].map((tab) => {
-            const Icon = tab.icon;
-            const active = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-                  active
-                    ? "bg-white text-slate-900 shadow-sm"
-                    : "text-slate-300 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                <Icon className="h-4 w-4" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
+      {/* Tab Navigation (Pill Switcher) */}
+      <div className="flex items-center bg-white p-1.5 rounded-full border border-[#E5E5E5] overflow-x-auto w-fit max-w-full">
+        {[
+          { id: "inbox", label: `Pending Requests (${inbox.length})`, icon: Clock },
+          { id: "active", label: `Active Consents (${activeConsents.length})`, icon: CheckCircle2 },
+          { id: "history", label: "Who Accessed My Data (Audit)", icon: History },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          const active = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`flex items-center gap-2 px-4 py-2 text-xs font-medium rounded-full transition-all whitespace-nowrap cursor-pointer ${
+                active
+                  ? "bg-black text-white shadow-sm"
+                  : "text-black/70 hover:text-black hover:bg-black/5"
+              }`}
+            >
+              <Icon className={`h-3.5 w-3.5 ${active ? "text-white" : "text-black/60"}`} />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Tab 1: Inbox */}
       {activeTab === "inbox" && (
         <div className="space-y-4">
           {inbox.length === 0 ? (
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-12 text-center text-slate-500 text-sm">
-              <ShieldCheck className="h-10 w-10 text-emerald-500 mx-auto mb-2 opacity-80" />
+            <div className="bg-white rounded-[20px] border border-[#E5E5E5] p-12 text-center text-black/60 text-xs font-mono uppercase tracking-[0.54px]">
+              <ShieldCheck className="h-8 w-8 text-black mx-auto mb-2" />
               You have no pending consent requisitions. Your academic records are secure.
             </div>
           ) : (
             inbox.map((req) => (
               <div
                 key={req.id}
-                className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4"
+                className="bg-white rounded-[20px] border border-[#E5E5E5] p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-black transition-all"
               >
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2.5">
-                    <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+                  <div className="flex items-center gap-2.5 flex-wrap">
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.54px] px-2.5 py-0.5 rounded-full bg-[#FFF5EA] text-black border border-[#E5E5E5]">
                       {req.purpose_category}
                     </span>
-                    <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                    <h3 className="font-semibold text-black text-base tracking-[-0.2px]">
                       {req.verifier_org_name}
                     </h3>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-300">
-                    <strong>Declared Purpose:</strong> {req.purpose}
+                  <p className="text-xs font-[330] text-black/75">
+                    <strong className="font-semibold text-black">Declared Purpose:</strong> {req.purpose}
                   </p>
                   <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                    <span className="text-xs text-slate-400 font-medium">Requested fields:</span>
+                    <span className="font-mono text-[10px] text-black/50 uppercase tracking-[0.54px]">Requested fields:</span>
                     {req.fields_requested.map((f: string) => (
                       <span
                         key={f}
-                        className="px-2 py-0.5 rounded-full text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono"
+                        className="px-2.5 py-0.5 rounded-full text-[11px] bg-[#F5F5F5] text-black border border-[#E5E5E5] font-mono"
                       >
                         {f}
                       </span>
@@ -267,16 +267,16 @@ export const StudentConsentPortal: React.FC = () => {
                 <div className="flex items-center gap-2.5 shrink-0">
                   <button
                     onClick={() => handleDeny(req.id)}
-                    className="px-4 py-2 text-xs font-semibold rounded-lg border border-rose-300 dark:border-rose-800 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950 transition-colors"
+                    className="px-4 py-2 text-xs font-medium rounded-full border border-[#E5E5E5] hover:border-rose-400 text-rose-600 bg-white hover:bg-rose-50 transition-colors cursor-pointer"
                   >
                     Deny
                   </button>
                   <button
                     onClick={() => openApprovalModal(req)}
-                    className="px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-colors flex items-center gap-1.5"
+                    className="px-5 py-2.5 text-xs font-medium rounded-full bg-black hover:bg-black/85 text-white transition-all flex items-center gap-2 cursor-pointer shadow-sm"
                   >
                     <CheckCircle2 className="h-3.5 w-3.5" />
-                    Review & Approve
+                    <span>Review & Approve</span>
                   </button>
                 </div>
               </div>
@@ -291,44 +291,44 @@ export const StudentConsentPortal: React.FC = () => {
           {activeConsents.map((consent) => (
             <div
               key={consent.id}
-              className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4"
+              className="bg-white rounded-[20px] border border-[#E5E5E5] p-6 space-y-4 hover:border-black transition-all"
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5E5E5] pb-4">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400">
+                  <div className="flex items-center gap-2.5">
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.54px] px-2.5 py-0.5 rounded-full bg-[#D2F8E7] text-black">
                       Active Authorization
                     </span>
-                    <h3 className="font-bold text-slate-900 dark:text-white">
+                    <h3 className="font-semibold text-black tracking-[-0.2px]">
                       {consent.verifier_org_name}
                     </h3>
                   </div>
-                  <p className="text-xs text-slate-500 mt-1">{consent.purpose}</p>
+                  <p className="text-xs font-[330] text-black/70 mt-1">{consent.purpose}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleRevoke(consent.id)}
-                    className="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 transition-colors"
+                    className="px-4 py-2 text-xs font-medium rounded-full bg-[#FFF5EA] hover:bg-[#FF8577] text-black border border-[#E5E5E5] transition-colors cursor-pointer"
                   >
                     Revoke Access (Withdraw)
                   </button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-600 dark:text-slate-300">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-[330]">
                 <div>
-                  <span className="text-slate-400 block text-[11px] uppercase font-bold">Approved Fields:</span>
-                  <div className="flex flex-wrap gap-1 mt-1">
+                  <span className="font-mono text-[10px] uppercase font-semibold text-black/50 block tracking-[0.54px]">Approved Fields:</span>
+                  <div className="flex flex-wrap gap-1.5 mt-1.5">
                     {consent.approved_fields?.map((f: string) => (
-                      <span key={f} className="px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-mono text-[11px]">
+                      <span key={f} className="px-2.5 py-0.5 rounded-full bg-[#F5F5F5] border border-[#E5E5E5] text-black font-mono text-[11px]">
                         {f}
                       </span>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <span className="text-slate-400 block text-[11px] uppercase font-bold">Cryptographic Receipt:</span>
-                  <div className="font-mono text-[11px] text-slate-700 dark:text-slate-300 truncate mt-1">
+                  <span className="font-mono text-[10px] uppercase font-semibold text-black/50 block tracking-[0.54px]">Cryptographic Receipt:</span>
+                  <div className="font-mono text-[11px] text-black/80 truncate mt-1.5">
                     {consent.receipt_signature || "Ed25519-Signed-Receipt-Verified"}
                   </div>
                 </div>
@@ -342,14 +342,16 @@ export const StudentConsentPortal: React.FC = () => {
       {activeTab === "history" && (
         <div className="space-y-6">
           {/* Statutory Regulatory Queries */}
-          <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
-            <div className="flex items-center gap-2">
-              <Scale className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+          <div className="bg-white rounded-[20px] border border-[#E5E5E5] p-6 md:p-8 space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-[#F5F5F5] border border-[#E5E5E5] flex items-center justify-center text-black">
+                <Scale className="h-4 w-4 text-black" />
+              </div>
               <div>
-                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                <h3 className="font-semibold text-black text-base tracking-[-0.2px]">
                   Statutory & Regulatory Audit Log
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs font-[330] text-black/60">
                   Government agencies and accredited councils accessing academic progress under lawful authority.
                 </p>
               </div>
@@ -357,22 +359,22 @@ export const StudentConsentPortal: React.FC = () => {
 
             <div className="space-y-3">
               {accessHistory.regulatory_accesses?.map((r: any) => (
-                <div key={r.id} className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-2">
-                  <div className="flex justify-between items-start">
-                    <div className="font-bold text-sm text-slate-900 dark:text-white">
+                <div key={r.id} className="p-5 rounded-[16px] bg-[#F9F9F9] border border-[#E5E5E5] space-y-2">
+                  <div className="flex justify-between items-start gap-4 flex-wrap">
+                    <div className="font-semibold text-sm text-black">
                       {r.agency_name}
                     </div>
-                    <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-white text-black border border-[#E5E5E5] uppercase tracking-[0.54px]">
                       Ref: {r.reference_number}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-300">
-                    <strong>Legal Statutory Basis:</strong> {r.legal_basis}
+                  <p className="text-xs font-[330] text-black/80">
+                    <strong className="font-semibold text-black">Legal Statutory Basis:</strong> {r.legal_basis}
                   </p>
-                  <p className="text-xs text-slate-500">
-                    <strong>Lawful Justification:</strong> {r.justification}
+                  <p className="text-xs font-[330] text-black/70">
+                    <strong className="font-semibold text-black">Lawful Justification:</strong> {r.justification}
                   </p>
-                  <div className="text-[11px] text-slate-400 pt-1">
+                  <div className="text-[11px] font-mono text-black/50 pt-1">
                     Recorded on {new Date(r.created_at).toLocaleString()} | Officer: {r.actor_name}
                   </div>
                 </div>
@@ -385,44 +387,44 @@ export const StudentConsentPortal: React.FC = () => {
       {/* Granular Approval Modal */}
       {selectedReq && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 max-w-lg w-full p-6 shadow-2xl space-y-5">
-            <div>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">
+          <div className="bg-white rounded-[24px] border border-[#E5E5E5] max-w-lg w-full p-8 shadow-2xl space-y-6">
+            <div className="space-y-1.5">
+              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.54px] px-2.5 py-0.5 rounded-full bg-[#E5D4FF] text-black">
                 DPDP Granular Consent Review
               </span>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-1">
+              <h3 className="text-lg font-medium tracking-[-0.3px] text-black">
                 Authorize Access for {selectedReq.verifier_org_name}
               </h3>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs font-[330] text-black/60">
                 You have the right under Section 6 of the DPDP Act 2023 to uncheck any non-mandatory fields.
               </p>
             </div>
 
             {/* Checkbox selector for requested fields */}
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              <label className="font-mono text-[10px] uppercase font-semibold tracking-[0.54px] text-black/60">
                 Select Fields to Authorize:
               </label>
-              <div className="grid grid-cols-2 gap-2 bg-slate-50 dark:bg-slate-800/40 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+              <div className="grid grid-cols-2 gap-2 bg-[#F9F9F9] p-3.5 rounded-[16px] border border-[#E5E5E5]">
                 {selectedReq.fields_requested.map((f: string) => {
                   const isChecked = chosenFields.includes(f);
                   return (
                     <label
                       key={f}
                       onClick={() => toggleFieldChoice(f)}
-                      className={`flex items-center gap-2.5 p-2 rounded-lg cursor-pointer text-xs font-medium border ${
+                      className={`flex items-center gap-2.5 p-2 rounded-full cursor-pointer text-xs font-medium border transition-all ${
                         isChecked
-                          ? "bg-indigo-50 dark:bg-indigo-950/60 border-indigo-300 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200"
-                          : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500"
+                          ? "bg-black text-white border-black"
+                          : "bg-white text-black/70 border-[#E5E5E5]"
                       }`}
                     >
                       <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => {}}
-                        className="rounded text-indigo-600"
+                        className="rounded accent-black sr-only"
                       />
-                      <span>{f.replace(/_/g, " ")}</span>
+                      <span className="truncate">{f.replace(/_/g, " ")}</span>
                     </label>
                   );
                 })}
@@ -430,8 +432,8 @@ export const StudentConsentPortal: React.FC = () => {
             </div>
 
             {/* Simulated OTP Challenge */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">
+            <div className="space-y-1.5">
+              <label className="font-mono text-[10px] uppercase font-semibold tracking-[0.54px] text-black/60">
                 Simulated OTP Challenge (DPDP Explicit Verification)
               </label>
               <div className="relative">
@@ -439,9 +441,9 @@ export const StudentConsentPortal: React.FC = () => {
                   type="text"
                   value={otpInput}
                   onChange={(e) => setOtpInput(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm font-mono tracking-widest rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
+                  className="w-full px-4 py-2.5 text-sm font-mono tracking-widest rounded-full border border-[#E5E5E5] bg-white text-black focus:border-black focus:outline-none"
                 />
-                <span className="absolute right-3 top-2 text-[11px] text-slate-400 font-medium">
+                <span className="absolute right-4 top-2.5 text-[11px] text-black/40 font-mono">
                   Default: 123456
                 </span>
               </div>
@@ -450,17 +452,17 @@ export const StudentConsentPortal: React.FC = () => {
             <div className="flex justify-end gap-3 pt-2">
               <button
                 onClick={() => setSelectedReq(null)}
-                className="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200"
+                className="px-5 py-2.5 text-xs font-medium rounded-full bg-white border border-[#E5E5E5] text-black hover:bg-[#F5F5F5] transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleApprove}
                 disabled={isProcessing}
-                className="px-5 py-2 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-md flex items-center gap-1.5"
+                className="px-6 py-2.5 text-xs font-medium rounded-full bg-black hover:bg-black/85 text-white transition-all flex items-center gap-2 cursor-pointer shadow-sm"
               >
-                <CheckCircle2 className="h-4 w-4" />
-                Sign & Authorize
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                <span>Sign & Authorize</span>
               </button>
             </div>
           </div>

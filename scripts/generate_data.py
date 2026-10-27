@@ -737,4 +737,8 @@ def generate_synthetic_dataset(dry_run: bool = False) -> None:
 
 if __name__ == "__main__":
     is_dry = "--dry-run" in sys.argv
-    generate_synthetic_dataset(dry_run=is_dry)
+    if is_dry:
+        generate_synthetic_dataset(dry_run=True)
+    else:
+        from app.services.seed_pipeline import run_full_seed_pipeline
+        run_full_seed_pipeline()

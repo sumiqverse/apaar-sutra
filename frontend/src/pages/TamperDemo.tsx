@@ -131,62 +131,61 @@ export const TamperDemo: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Hero Explainer Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-6 rounded-2xl border border-indigo-800/40 shadow-xl text-white">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/40">
-                Live Zero-Trust Sandbox
-              </span>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
-                RFC 8785 Canonical Digest
-              </span>
-            </div>
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-              Cryptographic Tamper Demonstration Studio
-            </h1>
-            <p className="text-sm text-slate-300 max-w-2xl">
-              Evaluate the zero-trust mathematical integrity of Ed25519 verifiable credentials. Edit any field below to trigger an immediate cryptographic failure, or test live registry revocation.
-            </p>
+    <div className="space-y-8 max-w-7xl mx-auto" role="region" aria-label="Cryptographic Tamper Demonstration Studio">
+      {/* Hero Explainer Banner (Coral Color-Block Section) */}
+      <div className="bg-[#FF8577] text-black rounded-[24px] p-8 md:p-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs px-3 py-1 rounded-full bg-black text-white font-semibold uppercase tracking-[0.54px]">
+              Live Zero-Trust Sandbox
+            </span>
+            <span className="font-mono text-xs px-3 py-1 rounded-full bg-white text-black border border-black/10 font-semibold uppercase tracking-[0.54px]">
+              RFC 8785 Canonical Digest
+            </span>
           </div>
-          <button
-            onClick={handleLoadPristine}
-            className="px-4 py-2 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white shadow-md flex items-center gap-2 self-start md:self-center"
-          >
-            <RefreshCw className="h-3.5 w-3.5" />
-            Reset to Pristine
-          </button>
+          <h1 className="text-3xl md:text-5xl font-medium tracking-[-1.2px] text-black leading-[1.05]">
+            Cryptographic Tamper Studio
+          </h1>
+          <p className="text-sm md:text-base font-[330] text-black/85 max-w-2xl tracking-[-0.26px]">
+            Evaluate the zero-trust mathematical integrity of Ed25519 verifiable credentials. Edit any field below to trigger an immediate cryptographic failure, or test live registry revocation.
+          </p>
         </div>
+
+        <button
+          onClick={handleLoadPristine}
+          className="px-5 py-2.5 text-xs font-medium rounded-full bg-black hover:bg-black/85 text-white shadow-sm flex items-center gap-2 cursor-pointer shrink-0 transition-all"
+        >
+          <RefreshCw className="h-3.5 w-3.5" />
+          <span>Reset to Pristine</span>
+        </button>
       </div>
 
-      {/* Preset Action Bar */}
-      <div className="flex flex-wrap items-center gap-2 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-xs">
-        <span className="font-semibold text-slate-500 uppercase tracking-wider mr-2">
+      {/* Preset Action Bar (Pill Buttons) */}
+      <div className="flex flex-wrap items-center gap-2 p-4 bg-white rounded-full border border-[#E5E5E5] text-xs">
+        <span className="font-mono text-[10px] font-semibold text-black/60 uppercase tracking-[0.54px] mr-2 ml-2">
           Tamper Presets:
         </span>
         <button
           onClick={() => handleApplyTamper("program")}
-          className="px-3 py-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition-colors font-medium"
+          className="px-4 py-2 rounded-full bg-[#FFF5EA] text-black border border-[#E5E5E5] hover:bg-[#FFE0B2] transition-colors font-medium text-xs cursor-pointer"
         >
           Tamper: Alter Degree (B.Tech → M.Tech)
         </button>
         <button
           onClick={() => handleApplyTamper("roll")}
-          className="px-3 py-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition-colors font-medium"
+          className="px-4 py-2 rounded-full bg-[#FFF5EA] text-black border border-[#E5E5E5] hover:bg-[#FFE0B2] transition-colors font-medium text-xs cursor-pointer"
         >
           Tamper: Modify Student Roll ID
         </button>
         <button
           onClick={() => handleApplyTamper("year")}
-          className="px-3 py-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition-colors font-medium"
+          className="px-4 py-2 rounded-full bg-[#FFF5EA] text-black border border-[#E5E5E5] hover:bg-[#FFE0B2] transition-colors font-medium text-xs cursor-pointer"
         >
           Tamper: Modify Year / Forged Grad
         </button>
         <button
           onClick={() => handleApplyTamper("bitflip")}
-          className="px-3 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800 hover:bg-rose-100 transition-colors font-medium"
+          className="px-4 py-2 rounded-full bg-[#FFD6E8] text-black border border-[#E5E5E5] hover:bg-[#FFB2D2] transition-colors font-medium text-xs cursor-pointer"
         >
           Tamper: 1-Bit Signature Bitflip
         </button>
@@ -195,46 +194,46 @@ export const TamperDemo: React.FC = () => {
       {/* Main Studio Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Column: Live Editable Payload */}
-        <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
+        <div className="bg-white rounded-[24px] border border-[#E5E5E5] p-6 md:p-8 space-y-5 hover:border-black transition-all">
           <div className="flex justify-between items-center">
-            <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <FileCode2 className="h-4 w-4 text-indigo-600" />
-              Live Canonical Credential Payload (RFC 8785)
+            <h2 className="text-base font-semibold text-black flex items-center gap-2">
+              <FileCode2 className="h-4 w-4 text-black" />
+              <span>Live Canonical Payload (RFC 8785)</span>
             </h2>
-            <span className="text-[11px] text-slate-400 font-mono">Directly Editable</span>
+            <span className="font-mono text-[10px] text-black/50 uppercase tracking-[0.54px]">Directly Editable</span>
           </div>
 
           <textarea
             rows={14}
             value={jsonInput}
             onChange={(e) => setJsonInput(e.target.value)}
-            className="w-full p-3 font-mono text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 leading-relaxed"
+            className="w-full p-4 font-mono text-xs rounded-[16px] border border-[#E5E5E5] bg-[#F9F9F9] text-black focus:border-black focus:outline-none leading-relaxed"
           />
 
-          <div className="space-y-2">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">
+          <div className="space-y-1.5">
+            <label className="font-mono text-[10px] font-semibold uppercase tracking-[0.54px] text-black/60 block">
               Ed25519 Detached Digital Signature (Base64url):
             </label>
             <input
               type="text"
               value={signatureInput}
               onChange={(e) => setSignatureInput(e.target.value)}
-              className="w-full px-3 py-2 font-mono text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white truncate"
+              className="w-full px-4 py-2.5 font-mono text-xs rounded-full border border-[#E5E5E5] bg-[#F9F9F9] text-black truncate focus:border-black focus:outline-none"
             />
           </div>
 
           <div className="pt-2 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
             <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">
+              <span className="text-xs text-black/70 font-medium">
                 Simulate Registry Revocation:
               </span>
               <button
                 type="button"
                 onClick={() => setRegistryRevoked(!registryRevoked)}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-[0.54px] font-semibold transition-all cursor-pointer ${
                   registryRevoked
-                    ? "bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-300"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+                    ? "bg-[#FF8577] text-black border border-black/10"
+                    : "bg-[#F5F5F5] text-black border border-[#E5E5E5]"
                 }`}
               >
                 {registryRevoked ? "State: REVOKED" : "State: VALID"}
@@ -244,17 +243,17 @@ export const TamperDemo: React.FC = () => {
             <button
               onClick={handleRunVerification}
               disabled={isVerifying}
-              className="px-6 py-2.5 text-xs font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow-md transition-all flex items-center justify-center gap-2"
+              className="px-6 py-3 text-xs font-medium rounded-full bg-black hover:bg-black/85 text-white shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
             >
               {isVerifying ? (
                 <>
-                  <RefreshCw className="h-4 w-4 animate-spin" />
-                  Verifying...
+                  <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                  <span>Verifying Proof...</span>
                 </>
               ) : (
                 <>
-                  <Cpu className="h-4 w-4" />
-                  Verify Cryptographic Proof
+                  <Cpu className="h-3.5 w-3.5" />
+                  <span>Verify Cryptographic Proof</span>
                 </>
               )}
             </button>
@@ -262,44 +261,44 @@ export const TamperDemo: React.FC = () => {
         </div>
 
         {/* Right Column: Mathematical Verification Report */}
-        <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col justify-between space-y-6">
+        <div className="bg-white rounded-[24px] border border-[#E5E5E5] p-6 md:p-8 flex flex-col justify-between space-y-6 hover:border-black transition-all">
           <div className="space-y-4">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-indigo-600" />
-              Cryptographic Attestation Report
+            <h3 className="text-base font-semibold text-black flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-black" />
+              <span>Cryptographic Attestation Report</span>
             </h3>
 
             {verificationResult && (
               <div
-                className={`p-5 rounded-2xl border transition-all ${
+                className={`p-6 rounded-[20px] border transition-all ${
                   verificationResult.status === "VALID"
-                    ? "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-100"
+                    ? "bg-[#D2F8E7] text-black border-black/10"
                     : verificationResult.status === "REVOKED"
-                    ? "bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800 text-amber-950 dark:text-amber-100"
-                    : "bg-rose-50 dark:bg-rose-950/40 border-rose-300 dark:border-rose-800 text-rose-950 dark:text-rose-100"
+                    ? "bg-[#FFF5EA] text-black border-black/10"
+                    : "bg-[#FF8577] text-black border-black/10"
                 }`}
               >
-                <div className="flex items-start gap-3.5">
+                <div className="flex items-start gap-4">
                   {verificationResult.status === "VALID" ? (
-                    <CheckCircle2 className="h-8 w-8 text-emerald-600 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="h-7 w-7 text-emerald-800 shrink-0 mt-0.5" />
                   ) : verificationResult.status === "REVOKED" ? (
-                    <AlertOctagon className="h-8 w-8 text-amber-600 shrink-0 mt-0.5" />
+                    <AlertOctagon className="h-7 w-7 text-amber-800 shrink-0 mt-0.5" />
                   ) : (
-                    <XCircle className="h-8 w-8 text-rose-600 shrink-0 mt-0.5" />
+                    <XCircle className="h-7 w-7 text-rose-900 shrink-0 mt-0.5" />
                   )}
 
                   <div className="space-y-1.5">
-                    <span className="text-[10px] uppercase font-bold tracking-widest opacity-75">
+                    <span className="font-mono text-[10px] uppercase font-semibold tracking-[0.54px] text-black/60 block">
                       Verification Outcome
                     </span>
-                    <h4 className="text-lg font-bold">
+                    <h4 className="text-lg font-semibold tracking-[-0.3px]">
                       {verificationResult.status === "VALID"
                         ? "AUTHENTIC & UNTAMPERED"
                         : verificationResult.status === "REVOKED"
                         ? "REVOKED BY REGISTRY"
                         : "TAMPER DETECTED / INVALID SIGNATURE"}
                     </h4>
-                    <p className="text-xs leading-relaxed opacity-90">
+                    <p className="text-xs font-[330] leading-relaxed">
                       {verificationResult.reason}
                     </p>
                   </div>
@@ -308,40 +307,40 @@ export const TamperDemo: React.FC = () => {
             )}
 
             {/* Cryptographic Parameters Inspector */}
-            <div className="bg-slate-50 dark:bg-slate-800/40 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2.5 text-xs">
-              <div className="font-bold text-slate-800 dark:text-slate-200 mb-1">
+            <div className="bg-[#F9F9F9] p-5 rounded-[18px] border border-[#E5E5E5] space-y-2.5 text-xs font-mono">
+              <div className="font-semibold text-black mb-1 uppercase tracking-[0.54px] text-[10px]">
                 Zero-Trust Audit Parameters:
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-200 dark:border-slate-700/60">
-                <span className="text-slate-500">Asymmetric Curve:</span>
-                <span className="font-mono font-semibold text-slate-800 dark:text-slate-200">
+              <div className="flex justify-between py-1.5 border-b border-[#E5E5E5]">
+                <span className="text-black/50">Asymmetric Curve:</span>
+                <span className="font-semibold text-black">
                   Ed25519 (RFC 8032)
                 </span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-200 dark:border-slate-700/60">
-                <span className="text-slate-500">Sovereign Key ID (kid):</span>
-                <span className="font-mono font-semibold text-indigo-600 dark:text-indigo-400">
+              <div className="flex justify-between py-1.5 border-b border-[#E5E5E5]">
+                <span className="text-black/50">Sovereign Key ID (kid):</span>
+                <span className="font-semibold text-black">
                   {kidInput}
                 </span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-200 dark:border-slate-700/60">
-                <span className="text-slate-500">Canonical Serialization:</span>
-                <span className="font-mono text-slate-800 dark:text-slate-200">
-                  RFC 8785 (UTF-8, Lexicographic Key Order)
+              <div className="flex justify-between py-1.5 border-b border-[#E5E5E5]">
+                <span className="text-black/50">Canonical Serialization:</span>
+                <span className="text-black">
+                  RFC 8785 (UTF-8, Lexicographic)
                 </span>
               </div>
-              <div className="flex justify-between py-1">
-                <span className="text-slate-500">Registry Lifecycle State:</span>
-                <span className="font-semibold text-slate-800 dark:text-slate-200">
+              <div className="flex justify-between py-1.5">
+                <span className="text-black/50">Registry Lifecycle State:</span>
+                <span className="font-semibold text-black">
                   {registryRevoked ? "REVOKED (Superseded by updated marks)" : "ACTIVE"}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="p-3.5 bg-indigo-50 dark:bg-indigo-950/40 rounded-xl border border-indigo-200 dark:border-indigo-800/60 text-xs text-indigo-900 dark:text-indigo-200 space-y-1">
-            <strong>Evaluator Takeaway:</strong>
-            <p className="text-[11px] opacity-90 leading-relaxed">
+          <div className="p-4 bg-[#E5D4FF] rounded-[18px] text-xs text-black space-y-1">
+            <strong className="font-semibold">Evaluator Takeaway:</strong>
+            <p className="text-[11px] font-[330] text-black/85 leading-relaxed">
               Any change to a student's degree, roll number, or grade produces a completely different SHA-256 canonical hash. Since the attacker does not possess the AICTE private key, forging a valid signature is mathematically impossible (128-bit quantum-resistant security level).
             </p>
           </div>
@@ -350,3 +349,4 @@ export const TamperDemo: React.FC = () => {
     </div>
   );
 };
+export default TamperDemo;

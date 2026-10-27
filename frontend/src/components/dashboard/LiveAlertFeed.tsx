@@ -129,35 +129,32 @@ export const LiveAlertFeed: React.FC = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
+    <div className="bg-white rounded-[20px] border border-[#E5E5E5] p-5 space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400">
+          <div className="w-8 h-8 rounded-full bg-[#F5F5F5] border border-[#E5E5E5] flex items-center justify-center text-black">
             <Bell className="h-4 w-4" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <h2 className="text-sm font-semibold text-black tracking-[-0.2px]">
               {t("dashboard.alerts.title", "Live Telemetry Alert Feed")}
             </h2>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+            <span className="font-mono text-[10px] text-black/50 uppercase tracking-[0.54px]">
               Real-time Server-Sent Events stream from validation engine
-            </p>
+            </span>
           </div>
         </div>
 
-        {/* Live Indicator */}
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 text-[10px] font-bold">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
+        {/* Live Indicator (Pill) */}
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black text-white text-[10px] font-mono uppercase tracking-[0.54px] font-semibold">
+          <span className="w-2 h-2 rounded-full bg-[#D4FF5B] animate-pulse" />
           {isLive ? "LIVE STREAM" : "CONNECTING"}
         </div>
       </div>
 
       {/* Alert Items List */}
-      <div className="space-y-2.5 max-h-[360px] overflow-y-auto pr-1">
+      <div className="space-y-3 max-h-[380px] overflow-y-auto pr-1">
         {alerts.map((alert) => {
           const isCritical = alert.severity === "CRITICAL";
           const isResolved = alert.status === "RESOLVED";
@@ -165,51 +162,51 @@ export const LiveAlertFeed: React.FC = () => {
           return (
             <div
               key={alert.id}
-              className={`p-3.5 rounded-xl border transition-all text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 ${
+              className={`p-4 rounded-[16px] border transition-all text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 ${
                 isResolved
-                  ? "bg-slate-50 dark:bg-slate-800/20 border-slate-200 dark:border-slate-800 opacity-60"
+                  ? "bg-[#F9F9F9] border-[#E5E5E5] opacity-60"
                   : isCritical
-                  ? "bg-rose-50/40 dark:bg-rose-950/20 border-rose-200 dark:border-rose-900/40"
-                  : "bg-amber-50/40 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/40"
+                  ? "bg-[#FFF5F5] border-rose-200"
+                  : "bg-[#FFFBF0] border-amber-200"
               }`}
             >
               <div className="flex items-start gap-3">
                 <div
-                  className={`p-1.5 rounded-lg shrink-0 mt-0.5 ${
+                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
                     isResolved
-                      ? "bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                      ? "bg-[#E5E5E5] text-black"
                       : isCritical
-                      ? "bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-300"
-                      : "bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300"
+                      ? "bg-[#FF8577] text-black"
+                      : "bg-[#D4FF5B] text-black"
                   }`}
                 >
                   {isResolved ? (
-                    <CheckCircle2 className="h-4 w-4" />
+                    <CheckCircle2 className="h-3.5 w-3.5" />
                   ) : (
-                    <AlertTriangle className="h-4 w-4" />
+                    <AlertTriangle className="h-3.5 w-3.5" />
                   )}
                 </div>
 
-                <div>
-                  <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <span className="font-bold text-slate-900 dark:text-white">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-semibold text-black">
                       {alert.institution_name || "National Scope"}
                     </span>
                     <span
-                      className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
+                      className={`text-[9px] font-mono font-semibold uppercase tracking-[0.54px] px-2 py-0.5 rounded-full ${
                         isCritical
-                          ? "bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200"
-                          : "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200"
+                          ? "bg-black text-white"
+                          : "bg-white text-black border border-[#E5E5E5]"
                       }`}
                     >
                       {alert.severity}
                     </span>
-                    <span className="text-[10px] text-slate-400 font-mono">
+                    <span className="text-[10px] text-black/50 font-mono">
                       {new Date(alert.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </span>
                   </div>
 
-                  <p className="text-slate-700 dark:text-slate-300 leading-snug">
+                  <p className="text-black/80 font-[330] leading-snug">
                     {alert.message}
                   </p>
                 </div>
@@ -217,7 +214,7 @@ export const LiveAlertFeed: React.FC = () => {
 
               {/* Action Button */}
               <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold">
+                <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-white border border-[#E5E5E5] text-black font-semibold">
                   {alert.status}
                 </span>
 
@@ -225,7 +222,7 @@ export const LiveAlertFeed: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setActiveAlert(alert)}
-                    className="px-2.5 py-1 text-[11px] font-semibold rounded-lg bg-brand-600 hover:bg-brand-700 text-white shadow-sm transition-colors"
+                    className="px-3.5 py-1 text-xs font-medium rounded-full bg-black hover:bg-black/80 text-white transition-all cursor-pointer"
                   >
                     Resolve
                   </button>
@@ -239,45 +236,43 @@ export const LiveAlertFeed: React.FC = () => {
       {/* Workflow Modal Dialog */}
       {activeAlert && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl max-w-md w-full p-5 space-y-4 animate-in fade-in zoom-in-95 duration-100">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <UserCheck className="h-4 w-4 text-brand-600" />
+          <div className="bg-white rounded-[24px] border border-[#E5E5E5] shadow-2xl max-w-md w-full p-6 space-y-5 animate-in fade-in zoom-in-95 duration-100">
+            <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-3">
+              <h3 className="text-sm font-semibold text-black flex items-center gap-2">
+                <UserCheck className="h-4 w-4 text-black" />
                 Alert Compliance Workflow
               </h3>
               <button
                 type="button"
                 onClick={() => setActiveAlert(null)}
-                className="p-1 rounded text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                className="text-black/40 hover:text-black transition-colors cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg text-xs space-y-1">
-              <div className="font-semibold text-slate-900 dark:text-white">
-                {activeAlert.institution_name}
-              </div>
-              <div className="text-slate-600 dark:text-slate-300">{activeAlert.message}</div>
+            <div className="text-xs bg-[#F5F5F5] p-3.5 rounded-[14px] border border-[#E5E5E5] space-y-1">
+              <div className="font-semibold text-black">{activeAlert.institution_name}</div>
+              <div className="text-black/75">{activeAlert.message}</div>
             </div>
 
-            <form onSubmit={handleActionSubmit} className="space-y-3 text-xs">
+            <form onSubmit={handleActionSubmit} className="space-y-4 text-xs">
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block font-mono text-[11px] uppercase tracking-[0.54px] font-semibold text-black/60 mb-1.5">
                   Transition Action
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   <button
                     type="button"
                     onClick={() => setWorkflowAction("ACKNOWLEDGE")}
-                    className={`p-2 rounded-lg border font-medium text-center ${
+                    className={`py-2 px-3 rounded-full font-medium text-center transition-all cursor-pointer ${
                       workflowAction === "ACKNOWLEDGE"
-                        ? "border-brand-500 bg-brand-50 dark:bg-brand-950/40 text-brand-700 dark:text-brand-300"
-                        : "border-slate-200 dark:border-slate-700"
+                        ? "bg-black text-white"
+                        : "border border-[#E5E5E5] text-black hover:bg-[#F5F5F5]"
                     }`}
                   >
                     Acknowledge
@@ -285,10 +280,10 @@ export const LiveAlertFeed: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setWorkflowAction("ASSIGN")}
-                    className={`p-2 rounded-lg border font-medium text-center ${
+                    className={`py-2 px-3 rounded-full font-medium text-center transition-all cursor-pointer ${
                       workflowAction === "ASSIGN"
-                        ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300"
-                        : "border-slate-200 dark:border-slate-700"
+                        ? "bg-black text-white"
+                        : "border border-[#E5E5E5] text-black hover:bg-[#F5F5F5]"
                     }`}
                   >
                     Assign
@@ -296,10 +291,10 @@ export const LiveAlertFeed: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setWorkflowAction("RESOLVE")}
-                    className={`p-2 rounded-lg border font-medium text-center ${
+                    className={`py-2 px-3 rounded-full font-medium text-center transition-all cursor-pointer ${
                       workflowAction === "RESOLVE"
-                        ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300"
-                        : "border-slate-200 dark:border-slate-700"
+                        ? "bg-black text-white"
+                        : "border border-[#E5E5E5] text-black hover:bg-[#F5F5F5]"
                     }`}
                   >
                     Resolve
@@ -308,7 +303,7 @@ export const LiveAlertFeed: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block font-mono text-[11px] uppercase tracking-[0.54px] font-semibold text-black/60 mb-1.5">
                   Auditor Notes & Justification (SHA-256 Chained)
                 </label>
                 <textarea
@@ -316,12 +311,12 @@ export const LiveAlertFeed: React.FC = () => {
                   value={auditorNotes}
                   onChange={(e) => setAuditorNotes(e.target.value)}
                   placeholder="Record explanation for statutory audit review..."
-                  className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full p-3 rounded-[12px] border border-[#E5E5E5] bg-white text-black placeholder-black/40 focus:outline-none focus:border-black"
                 />
               </div>
 
               {actionSuccess && (
-                <div className="p-2.5 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 rounded-lg text-xs font-semibold">
+                <div className="p-3 bg-[#D2F8E7] border border-[#A0E8C7] text-black rounded-[12px] text-xs font-semibold">
                   {actionSuccess}
                 </div>
               )}
@@ -330,14 +325,14 @@ export const LiveAlertFeed: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveAlert(null)}
-                  className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300"
+                  className="px-4 py-2 rounded-full border border-[#E5E5E5] text-black hover:bg-[#F5F5F5] font-medium transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold transition-colors disabled:opacity-50"
+                  className="px-5 py-2 rounded-full bg-black hover:bg-black/80 text-white font-medium transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   {isSubmitting ? "Submitting..." : "Apply Action"}
                 </button>

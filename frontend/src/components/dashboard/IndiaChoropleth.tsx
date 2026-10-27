@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { INDIA_STATES_PATHS } from "@/assets/india_map_data";
+import { INDIA_STATES_PATHS, INDIA_VIEW_BOX } from "@/assets/india_map_data";
 import { Layers } from "lucide-react";
 
 export type ChoroplethMetric = "utilisation" | "violations" | "risk";
@@ -100,35 +100,36 @@ export const IndiaChoropleth: React.FC<IndiaChoroplethProps> = ({
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm relative">
+    <div className="bg-white rounded-[20px] border border-[#E5E5E5] p-5 space-y-4 relative">
       {/* Header with Title and Metric Switcher */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Layers className="h-4 w-4 text-brand-600 dark:text-brand-400" />
-            {t("dashboard.map.title", "Pan-India Institutional Telemetry")}
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            {t("dashboard.map.subtitle", "Interactive state choropleth (offline vector asset)")}
-            {selectedStateCode && (
-              <span className="ml-2 font-semibold text-brand-600 dark:text-brand-400">
-                • Filtered: {selectedStateCode}
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-[#F5F5F5] border border-[#E5E5E5] flex items-center justify-center text-black">
+              <Layers className="h-4 w-4" />
+            </div>
+            <div>
+              <h2 className="text-sm font-semibold text-black tracking-[-0.2px]">
+                {t("dashboard.map.title", "Pan-India Institutional Telemetry")}
+              </h2>
+              <span className="font-mono text-[10px] text-black/50 uppercase tracking-[0.54px]">
+                {selectedStateCode ? `Filtered: ${selectedStateCode}` : "Interactive state vector heatmap"}
               </span>
-            )}
-          </p>
+            </div>
+          </div>
         </div>
 
-        {/* Metric Toggle Tabs */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg text-xs" role="tablist">
+        {/* Metric Toggle Tabs (Pills) */}
+        <div className="flex items-center gap-1.5 p-1 rounded-full border border-[#E5E5E5] bg-white text-xs" role="tablist">
           <button
             type="button"
             role="tab"
             aria-selected={activeMetric === "risk"}
             onClick={() => setActiveMetric("risk")}
-            className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+            className={`px-3.5 py-1.5 rounded-full font-medium transition-all cursor-pointer ${
               activeMetric === "risk"
-                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-black text-white"
+                : "text-black hover:bg-[#F5F5F5]"
             }`}
           >
             {t("dashboard.map.metric_risk", "Risk Score")}
@@ -138,10 +139,10 @@ export const IndiaChoropleth: React.FC<IndiaChoroplethProps> = ({
             role="tab"
             aria-selected={activeMetric === "violations"}
             onClick={() => setActiveMetric("violations")}
-            className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+            className={`px-3.5 py-1.5 rounded-full font-medium transition-all cursor-pointer ${
               activeMetric === "violations"
-                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-black text-white"
+                : "text-black hover:bg-[#F5F5F5]"
             }`}
           >
             {t("dashboard.map.metric_violations", "Violations")}
@@ -151,10 +152,10 @@ export const IndiaChoropleth: React.FC<IndiaChoroplethProps> = ({
             role="tab"
             aria-selected={activeMetric === "utilisation"}
             onClick={() => setActiveMetric("utilisation")}
-            className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
+            className={`px-3.5 py-1.5 rounded-full font-medium transition-all cursor-pointer ${
               activeMetric === "utilisation"
-                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-black text-white"
+                : "text-black hover:bg-[#F5F5F5]"
             }`}
           >
             {t("dashboard.map.metric_utilisation", "Intake Utilisation")}
@@ -163,14 +164,15 @@ export const IndiaChoropleth: React.FC<IndiaChoroplethProps> = ({
       </div>
 
       {/* SVG Map Container */}
-      <div className="relative w-full h-[380px] flex items-center justify-center bg-slate-50 dark:bg-slate-950/60 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-800/80">
+      <div className="relative w-full h-[480px] flex items-center justify-center bg-[#F9F9F9] rounded-[16px] overflow-hidden border border-[#E5E5E5] p-2">
         <svg
-          viewBox="0 0 620 660"
-          className="w-full h-full max-h-[370px]"
+          viewBox={INDIA_VIEW_BOX}
+          className="w-full h-full max-h-[460px] drop-shadow-md select-none"
           aria-label="Map of India state telemetry"
         >
           {INDIA_STATES_PATHS.map((item) => {
             const isSelected = selectedStateCode === item.code;
+            const hasData = stateDataMap.has(item.code);
             const fillColor = getStateColor(item.code);
 
             return (
@@ -178,29 +180,33 @@ export const IndiaChoropleth: React.FC<IndiaChoroplethProps> = ({
                 <path
                   d={item.path}
                   fill={fillColor}
-                  fillOpacity={isSelected ? 1.0 : 0.85}
-                  stroke={isSelected ? "#0284c7" : "#ffffff"}
-                  strokeWidth={isSelected ? 3 : 1.2}
-                  className="hover:opacity-100 hover:stroke-slate-900 dark:hover:stroke-white transition-opacity"
+                  fillOpacity={isSelected ? 1.0 : (hasData ? 0.9 : 0.3)}
+                  stroke={isSelected ? "#38bdf8" : "#334155"}
+                  strokeWidth={isSelected ? 2.5 : 0.75}
+                  className="hover:fill-opacity-100 hover:stroke-white transition-all"
                   onClick={() => onSelectState && onSelectState(isSelected ? null : item.code)}
                   onMouseEnter={(e) => handleMouseMove(e, item.code, item.name)}
                   onMouseMove={(e) => handleMouseMove(e, item.code, item.name)}
                   onMouseLeave={() => setHoveredState(null)}
                 />
-                {/* State Code Label */}
-                <text
-                  x={item.centroid[0]}
-                  y={item.centroid[1]}
-                  textAnchor="middle"
-                  alignmentBaseline="central"
-                  fontSize="9"
-                  fontWeight="600"
-                  fill="#ffffff"
-                  pointerEvents="none"
-                  className="drop-shadow-sm select-none"
-                >
-                  {item.code}
-                </text>
+                {/* State Code Label for active reporting states */}
+                {hasData && item.centroid && (
+                  <text
+                    x={item.centroid[0]}
+                    y={item.centroid[1]}
+                    textAnchor="middle"
+                    alignmentBaseline="central"
+                    fontSize="9.5"
+                    fontWeight="700"
+                    fill="#ffffff"
+                    stroke="#0f172a"
+                    strokeWidth="0.4"
+                    pointerEvents="none"
+                    className="select-none"
+                  >
+                    {item.code}
+                  </text>
+                )}
               </g>
             );
           })}
